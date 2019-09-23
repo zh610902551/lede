@@ -3,7 +3,7 @@ pppd: add support for MPPE and MPPC encryption and compression protocols
 This is a forward ported version of ppp-2.4.3-mppe-mppc-1.1.patch.gz found on
 http://mppe-mppc.alphacron.de/ .
 
-Signed-off-by: Jo-Philipp Wich <jo@mein.io>
+Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
 
 --- a/include/linux/ppp-comp.h
 +++ b/include/linux/ppp-comp.h
@@ -1473,7 +1473,7 @@ Signed-off-by: Jo-Philipp Wich <jo@mein.io>
  
 --- a/pppd/chap_ms.c
 +++ b/pppd/chap_ms.c
-@@ -963,13 +963,17 @@ set_mppe_enc_types(int policy, int types
+@@ -898,13 +898,17 @@ set_mppe_enc_types(int policy, int types
      /*
       * Disable undesirable encryption types.  Note that we don't ENABLE
       * any encryption types, to avoid overriding manual configuration.

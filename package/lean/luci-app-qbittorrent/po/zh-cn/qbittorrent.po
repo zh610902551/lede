@@ -1,5 +1,5 @@
 msgid "qbittorrent"
-msgstr "BT下载器-qb"
+msgstr "QBittorrent 下载"
 
 msgid "Running"
 msgstr "运行中"
@@ -8,7 +8,7 @@ msgid "Not running"
 msgstr "未运行"
 
 msgid "qbittorrent Run Status"
-msgstr "qbittorrent运行状态"
+msgstr "qBittorrent运行状态"
 
 msgid "Basic Settings"
 msgstr "基本设置"
@@ -44,10 +44,11 @@ msgid "download_dir"
 msgstr "下载目录"
 
 msgid "Store download files in the Path"
-msgstr "下载文件存放目录"
+msgstr "下载文件存放目录路径"
 
 msgid "WEBUI Settings"
-msgstr "WEBUI设置"
+msgstr "WebUI设置"
 
 msgid "WEBUI listening port"
-msgstr "WEBUI监听端口"
+msgstr "WebUI监听端口。默认登录用户名：admin 密码：adminadmin 。"
+
