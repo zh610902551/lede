@@ -1,6 +1,6 @@
 local m,s,o
 local SYS  = require "luci.sys"
-local trport = 3000
+local trport = 3001
 local button = ""
 if luci.sys.call("pidof AdGuardHome >/dev/null") == 0 then
 	button = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"button\" value=\" " .. translate("Open Web Interface") .. " \" onclick=\"window.open('http://'+window.location.hostname+':" .. trport .. "')\"/>"
@@ -26,24 +26,8 @@ hw.rmempty = true
 hw.description = translate("Enable Hardware NAT (depends on hw capability like MTK 762x)")
 hw:depends("flow_offloading", 1)
 
-bbr = s:option(ListValue, "bbr", translate("TCP Congestion Control Algorithm"))
-bbr:value("default", translate("default"))
-bbr:value("bbr", translate("BBR"))
-bbr:value("tcp_bbr_mod", translate("BBR_mod"))
---bbr:value("tcp_bbr_bbrplus", translate("bbr_bbrplus"))
---bbr:value("tcp_bbr_tsunami", translate("bbr_tsunami"))
-bbr:value("nanqinlang", translate("bbr_nanqinlang"))
-bbr:value("bic", translate("bic"))
-bbr:value("highspeed", translate("hstcp"))
-bbr:value("htcp", translate("htcp"))
-bbr:value("hybla", translate("hybla"))
-bbr:value("illinois", translate("illinois"))
-bbr:value("lp", translate("lp"))
-bbr:value("scalable", translate("scalable"))
-bbr:value("vegas", translate("vegas"))
-bbr:value("westwood", translate("westwood"))
-bbr:value("yeah", translate("yeah"))
-bbr.default = "cubic"
+bbr = s:option(Flag, "bbr", translate("Enable BBR"))
+bbr.default = 0
 bbr.rmempty = false
 bbr.description = translate("Bottleneck Bandwidth and Round-trip propagation time (BBR)")
 
@@ -57,7 +41,7 @@ dns.default = 0
 dns.rmempty = false
 dns.description = translate("Enable DNS Cache Acceleration and anti ISP DNS pollution")
 
-o = s:option(ListValue, "dnscache_enable", translate("Resolve Dns Mode"), translate("AdGuardHome After setting up, shut down DNS acceleration normally and save configuration file") .. button)
+o = s:option(ListValue, "dnscache_enable", translate("Resolve Dns Mode"), translate("AdGuardHome's login username/passwd: AdGuardHome, web console addr: IP:3001") .. button)
 o:value("1", translate("Use Pdnsd query and cache"))
 if nixio.fs.access("/usr/bin/dnsforwarder") then
 o:value("2", translate("Use dnsforwarder query and cache"))
