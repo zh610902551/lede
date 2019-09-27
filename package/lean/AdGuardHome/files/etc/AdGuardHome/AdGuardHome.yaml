@@ -1,5 +1,5 @@
 bind_host: 0.0.0.0 
-bind_port: 3000
+bind_port: 3001
 auth_name: AdGuardHome
 auth_pass: AdGuardHome
 language: zh-cn
@@ -10,11 +10,11 @@ dns:
   protection_enabled: true
   filtering_enabled: true
   blocking_mode: nxdomain
-  blocked_response_ttl: 10
+  blocked_response_ttl: 3000
   querylog_enabled: true
-  ratelimit: 20
+  ratelimit: 0
   ratelimit_whitelist: []
-  refuse_any: true
+  refuse_any: false
   bootstrap_dns:
   - 1.0.0.1:53
   - 2606:4700:4700::1001:53
@@ -30,18 +30,31 @@ dns:
   safebrowsing_enabled: false
   resolveraddress: ""
   upstream_dns:
-  - https://dns.nextdns.io/26a5c6
-  - tls://26a5c6.dns.nextdns.io
-  - sdns://AgEAAAAAAAAACjQ1LjkwLjI4LjAADmRucy5uZXh0ZG5zLmlvBy8yNmE1YzY
+  - 202.141.178.13:5353
+  - 202.38.93.153:5353
+  - 202.141.162.123:5353
+  - https://https://neatdns.ustclug.org/resolve
+  - https://dns.rubyfish.cn/dns-query
+  - https://ndns.233py.com/dns-query
+  - https://edns.233py.com/dns-query
+  - https://wdns.233py.com/dns-query
+  - https://sdns.233py.com/dns-query
+  - 1.1.1.1
+  - 9.9.9.9
   - 117.50.10.10
   - 119.29.29.29
+  - 114.114.114.114
   - 223.5.5.5
+  - 208.67.222.222:5353
+  - 2606:4700:4700::1111
+  - 2606:4700:4700::1001
   - tcp://8.8.8.8
-  - tcp://208.67.222.222
-  - tcp://1.1.1.1
-  - https://cloudflare-dns.com/dns-query
-  - 2a07:a8c0::26:a5c6
-  - 2a07:a8c1::26:a5c6
+  - tcp://8.8.4.4
+  - tcp://2001:4860:4860::8888
+  - tcp://2001:4860:4860::8844
+  - tls://dns.google
+  - tls://1dot1dot1dot1.cloudflare-dns.com
+  - https://dns9.quad9.net/dns-query
 tls:
   enabled: false
   server_name: ""

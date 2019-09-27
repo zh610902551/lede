@@ -36,8 +36,6 @@ entware_set(){
 		wget -O - http://bin.entware.net/mipssf-k3.4/installer/generic.sh | /bin/sh
 	elif [ "$1" == "armv7" ]; then
 		wget -O - http://bin.entware.net/armv7sf-k3.2/installer/generic.sh | /bin/sh
-             elif [ "$1" == "x64" ]; then
-		wget -O - http://bin.entware.net/x64-k3.2/installer/generic.sh | /bin/sh
 	else
 		echo "未输入安装的架构！"
 		exit 1

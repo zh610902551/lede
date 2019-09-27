@@ -12,15 +12,14 @@ PKG_NAME:=luci-app-serverchan
 PKG_VERSION:=1.0
 PKG_RELEASE:=40
 
+include $(TOPDIR)/feeds/luci/luci.mk
+
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
-chmod 755 $${IPKG_INSTROOT}/etc/init.d/serverchan >/dev/null 2>&1
-chmod 755 $${IPKG_INSTROOT}/usr/bin/serverchan/serverchan >/dev/null 2>&1
+chmod 755 /etc/init.d/serverchan >/dev/null 2>&1
+chmod 755 /usr/bin/serverchan/serverchan >/dev/null 2>&1
 /etc/init.d/serverchan enable >/dev/null 2>&1
 exit 0
 endef
 
-include $(TOPDIR)/feeds/luci/luci.mk
-
 # call BuildPackage - OpenWrt buildroot signature
-

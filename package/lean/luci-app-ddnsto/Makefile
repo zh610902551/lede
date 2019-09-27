@@ -55,8 +55,8 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DATA) ./luasrc/model/cbi/ddnsto/global.lua $(1)/usr/lib/lua/luci/model/cbi/ddnsto/
 	$(INSTALL_DIR) $(1)/etc $(1)/etc/config
 	$(INSTALL_DIR) $(1)/etc/init.d
-#	$(INSTALL_BIN) ./root/etc/init.d/ddnsto $(1)/etc/init.d
-#	$(INSTALL_CONF) ./files/config/ddnsto $(1)/etc/config/
+	$(INSTALL_BIN) ./root/etc/init.d/ddnsto $(1)/etc/init.d
+	$(INSTALL_CONF) ./files/config/ddnsto $(1)/etc/config/
 	$(INSTALL_DIR)	$(1)/usr/bin/
 	$(INSTALL_BIN) ./files/arm/ddnsto $(1)/usr/bin/
 endef
