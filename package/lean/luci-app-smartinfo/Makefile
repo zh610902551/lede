@@ -1,9 +1,15 @@
+# Copyright (C) 2016 Openwrt.org
+#
+# This is free software, licensed under the Apache License, Version 2.0 .
+#
+
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI page for IPK smartinfo
-LUCI_DEPENDS:=+luci-lib-fs
-PKG_VERSION:=1
-PKG_RELEASE:=2
+LUCI_TITLE:=LuCI support for Smartinfo
+LUCI_DEPENDS:=+smartmontools 
+LUCI_PKGARCH:=all
+PKG_VERSION:=3.2
+PKG_RELEASE:=1
 
 include $(TOPDIR)/feeds/luci/luci.mk
 

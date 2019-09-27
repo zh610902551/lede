@@ -20,7 +20,7 @@ s_basic = m:section(TypedSection, "basic", translate("Basic Settings"))
 s_basic.anonymous = true
 enable = s_basic:option(Flag, "enable", translate("Enable"))
 profile_dir = s_basic:option(Value,"profile_dir",translate("profile_dir"),translate("Store configuration files in the Path"))
-profile_dir.default = "/tmp"
+profile_dir.default = "/etc/config"
 program_dir = s_basic:option(Value,"program_dir",translate("program_dir"),translate("Store Program files in the Path"))
 program_dir.default = "/usr/bin"
 library_dir = s_basic:option(Value,"library_dir",translate("library_dir"),translate("Store Library in the Path"))
@@ -29,7 +29,7 @@ library_dir.default = "/usr/lib"
 s_download = m:section(TypedSection, "Preferences", translate("Download Settings"))
 s_download.anonymous = true
 download_dir = s_download:option(Value,"download_dir",translate("download_dir"),translate("Store download files in the Path"))
-download_dir.default = "/tmp/download"
+download_dir.default = "/mnt/sda"
 
 s_webui = m:section(TypedSection, "Preferences", translate("WEBUI Settings"))
 s_webui.anonymous = true
