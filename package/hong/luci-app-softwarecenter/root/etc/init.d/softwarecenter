@@ -1,0 +1,204 @@
+#!/bin/sh /etc/rc.common
+START=52
+STOP=10
+
+#
+# Copyright (C) 2019 Jianpeng Xiang (1505020109@mail.hnust.edu.cn)
+#
+# This is free software, licensed under the GNU General Public License v3.
+#
+
+
+# 导入函数库
+. /usr/bin/softwarecenter/website_manager.sh
+. /usr/bin/softwarecenter/mysql_install.sh
+. /usr/bin/softwarecenter/nginx_install.sh
+
+website_config_list=""
+
+####### 网站清理 ########
+##本函数负责清理未写入配置的网站
+clean_vhost_config(){
+	local_config_list="`ls /opt/etc/nginx/vhost | sed "s/.conf//g"`"
+	local_no_use_config_list="`ls /opt/etc/nginx/no_use | sed "s/.conf//g"`"
+	delete_config_list=""
+	
+	# 获取要删除的网站
+	for i in $local_config_list; do
+		flag=""
+		for j in $website_config_list; do
+			if [ "$i" == "$j" ]; then
+				flag="1"
+				break
+			fi
+		done
+		if [ -z $flag ]; then
+			delete_config_list="$delete_config_list /opt/etc/nginx/vhost/$i.conf"
+		fi
+	done
+	for i in $local_no_use_config_list; do
+		flag=""
+		for j in $website_config_list; do
+			if [ "$i" == "$j" ]; then
+				flag="1"
+				break
+			fi
+		done
+		if [ -z $flag ]; then
+			delete_config_list="$delete_config_list /opt/etc/nginx/no_use/$i.conf"
+		fi
+	done
+	
+	for conf in $delete_config_list; do
+		webdir=`vhost_config_list $conf | awk '{print $1}'`
+		delete_website $conf $webdir
+	done
+}
+
+####### 网站迭代处理 ########
+##本函数迭代的配置网站（处理逻辑也许可以更好的优化？）
+handle_website(){
+	local website_enabled autodeploy_enable website_select port customdeploy_enabled website_dir
+
+	config_get_bool website_enabled $1 website_enabled
+	config_get_bool autodeploy_enable $1 autodeploy_enable
+	config_get_bool customdeploy_enabled $1 customdeploy_enabled
+	config_get_bool redis_enabled $1 redis_enabled
+	
+	config_get website_select $1 website_select
+	config_get website_dir $1 website_dir
+	config_get port $1 port
+
+	if [ "$enabled" != "1" ]; then
+		echo "softwarecenter disabled!"
+		exit 0
+	fi
+
+	# 获取网站配置文件名
+	if [ -n "$autodeploy_enable" ]; then
+		#install_website $website_select $port
+		website_name=`website_name_mapping $website_select`
+	elif [ -n "$customdeploy_enabled" ]; then
+		website_name="`echo $website_dir |awk -F"[/]" '{print $NF}'`"
+	else
+		return
+	fi
+	
+	if [ -z "$website_enabled" ]; then
+		# 网站未启用
+		if [ -f /opt/etc/nginx/vhost/$website_name.conf ]; then
+			mv /opt/etc/nginx/vhost/$website_name.conf /opt/etc/nginx/no_use/$website_name.conf
+		fi
+	else
+		if [ -f /opt/etc/nginx/no_use/$website_name.conf ]; then
+			# 网站已安装但被禁用了
+			mv /opt/etc/nginx/no_use/$website_name.conf /opt/etc/nginx/vhost/$website_name.conf
+		elif [ ! -f /opt/etc/nginx/vhost/$website_name.conf ]; then
+			# 网站没有安装，执行初始化部署
+			if [ -n "$autodeploy_enable" ]; then
+				install_website $website_select $port
+			elif [ -n "$customdeploy_enabled" ]; then
+				##TODO check custom website is work normally?
+				install_custom $website_dir $port
+			fi
+		fi
+		if [ -n "$autodeploy_enable" ] && [ -n "$redis_enabled" ] && [ -d /opt/wwwroot/$website_name ] && [ ! -f /opt/wwwroot/$website_name/redis_enabled ] && [ "$website_name" == "Nextcloud" ] || [ "$website_name" == "Owncloud" ]; then
+			redis /opt/wwwroot/$website_name/
+			/bin/touch /opt/wwwroot/$website_name/redis_enabled
+		fi
+	fi
+	
+	website_config_list="$website_config_list $website_name"
+}
+
+start(){
+	local deploy_entware entware_enable entware_disk_mount deploy_nginx deploy_mysql nginx_enabled mysql_enabled
+	
+	config_load softwarecenter
+	
+	config_get_bool deploy_entware 	main deploy_entware
+	config_get_bool entware_enable	main entware_enable
+	config_get_bool deploy_nginx	main deploy_nginx
+	config_get_bool deploy_mysql	main deploy_mysql
+	config_get_bool	nginx_enabled	main nginx_enabled
+	config_get_bool mysql_enabled	main mysql_enabled
+	
+	config_get entware_disk_mount	main entware_disk_mount
+	config_get cpu_architecture		main cpu_architecture
+
+	### entware ###
+	if [ -z "$deploy_entware" ]; then
+		if [ -x /etc/init.d/entware ]; then
+			entware_unset
+		fi
+		return
+	fi
+	
+	# 检查entware是否被安装（通过检查启动项来判断）
+	if [ ! -x /etc/init.d/entware ]; then
+		# entware未安装
+		entware_set $cpu_architecture $entware_disk_mount
+		source /etc/profile
+	fi
+	
+	if [ -z "$entware_enable" ]; then
+		return
+	fi
+	
+	### Nginx ###
+	if [ -n "$deploy_nginx" ];then
+		# 检查Nginx部署情况
+		if [ ! -x /opt/etc/init.d/S80nginx ]; then
+			##Nginx未安装
+			init_nginx
+		fi
+		if [ -z $nginx_enabled ]; then
+			# 未启用Nginx服务器
+			nginx_manage stop
+		else
+			# 启用Nginx服务器
+			if [ -z "`pgrep nginx`" ]; then
+				nginx_manage start
+			fi
+			# 迭代配置website
+			config_foreach handle_website website test
+			# 清理多余的配置
+			clean_vhost_config
+			/opt/etc/init.d/S80nginx reload
+		fi
+	else
+		if [ -x /opt/etc/init.d/S80nginx ]; then
+			# Nginx已安装
+			del_nginx
+		fi
+	fi
+	
+	### MySQL ###
+	if [ -n "$deploy_mysql" ]; then
+		# 检查MySQL部署情况
+		if [ ! -x /opt/etc/init.d/S70mysqld ]; then
+			# MySQL未安装
+			init_mysql
+		fi
+		if [ -z $mysql_enabled ]; then
+			/opt/etc/init.d/S70mysqld stop
+		else
+			if [ -z "`pgrep mysqld`" ]; then
+				/opt/etc/init.d/S70mysqld start
+			fi
+		fi
+	else
+		if [ -x /opt/etc/init.d/S70mysqld ]; then
+			# MySQL已安装
+			del_mysql
+		fi
+	fi
+}
+
+stop(){
+	:
+}
+
+restart(){
+stop;start
+}

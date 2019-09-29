@@ -1,0 +1,7 @@
+#!/bin/sh
+uci batch <<-EOF
+	set luci.themes.advancedtomato=/luci-static/advancedtomato
+	set luci.main.mediaurlbase=/luci-static/advancedtomato
+	commit luci
+EOF
+exit 0
