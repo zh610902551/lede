@@ -1,0 +1,19 @@
+#
+# Copyright (C) 2019 Jianpeng Xiang (1505020109@mail.hnust.edu.cn)
+#
+# This is free software, licensed under the GNU General Public License v3.
+#
+
+#!/bin/sh
+
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@softwarecenter[-1]
+	add ucitrack softwarecenter
+	set ucitrack.@softwarecenter[-1].init=softwarecenter
+	commit ucitrack
+EOF
+
+/etc/init.d/softwarecenter enable
+
+rm -f /tmp/luci-indexcache
+exit 0
