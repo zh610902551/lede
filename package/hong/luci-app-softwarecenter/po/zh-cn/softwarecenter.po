@@ -23,7 +23,7 @@ msgid "Address"
 msgstr "访问地址"
 
 msgid "The software center is designed for the automated and unified configuration of software applications. It provides us with a simple and friendly interactive interface, which aims to make the configuration process easier and simpler!"
-msgstr "软件中心负责软件和应用的自动化统一配置部署，提供一个简单友好的交互页面，旨在使应用的配置流程更轻松、更简单！"
+msgstr "软件中心负责软件和应用的自动化统一配置部署，提供一个简单友好的交互页面，旨在使应用的配置流程更轻松、更简单！<br>项目地址：https://github.com/jsp1256/openwrt-package"
 
 msgid "NOT RUNNING"
 msgstr "未运行"
@@ -53,7 +53,7 @@ msgid "CPU architecture"
 msgstr "CPU架构"
 
 msgid "You must select a right cpu architecture!<br>wrong cpu architecture will cause the installation failed"
-msgstr "您必须选择正确的CPU架构<br>选择错误的CPU架构将会导致Entware软件仓库的部署失败"
+msgstr "您必须选择正确的CPU架构，注意ar系列基本都是mips，mtk的都是mipsel。<br>可用cat /proc/cpuinfo查询。选择错误的会导致Entware软件仓库的部署失败。"
 
 msgid "Entware install path"
 msgstr "Entware软件仓库安装路径"
