@@ -74,9 +74,9 @@ chmod 755 /usr/lib/smartinfo/smart_status.sh   >/dev/null 2>&1
 chmod 755 /etc/init.d/smartinfo enable >/dev/null 2>&1
 #chmod 755 /usr/bin/cpulimit  >/dev/null 2>&1
 #chmod 755 /etc/init.d/cpulimit >/dev/null 2>&1
-#chmod 755 /etc/init.d/serverchan >/dev/null 2>&1
-#chmod 755 /usr/bin/serverchan/serverchan >/dev/null 2>&1
-#/etc/init.d/serverchan enable >/dev/null 2>&1
+chmod 755 /etc/init.d/serverchan >/dev/null 2>&1
+chmod 755 /usr/bin/serverchan/serverchan >/dev/null 2>&1
+/etc/init.d/serverchan enable >/dev/null 2>&1
 
 exit 0
 
