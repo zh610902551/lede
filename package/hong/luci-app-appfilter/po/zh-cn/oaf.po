@@ -33,7 +33,7 @@ msgid "employee"
 msgstr "招聘"
 
 msgid "Basic Settings"
-msgstr "基本设置<br>项目地址：https://github.com/https://github.com/destan19/OpenAppFilter"
+msgstr "基本设置"
 
 msgid "App Filter Rules"
 msgstr "应用过滤规则"
