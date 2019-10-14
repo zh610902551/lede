@@ -1086,8 +1086,8 @@ msgstr "安全关机，某些机器不能完全断电，关机后只能通过手
 msgid "Perform PowerOff"
 msgstr "执行关机"
 
-msgid ""
-msgstr ""
+msgid "RAM Size"
+msgstr "内存容量"
 
 msgid ""
 msgstr ""
