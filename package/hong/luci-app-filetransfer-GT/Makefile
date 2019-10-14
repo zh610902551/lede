@@ -7,7 +7,7 @@
 include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI page for IPK upload
-LUCI_DEPENDS:=+luci-lib-fs +block-mount +kmod-usb-storage +kmod-usb-storage-extras +kmod-fs-vfat +kmod-fs-ext4 +kmod-fs-exfat +ntfs-3g +luci-app-samba
+LUCI_DEPENDS:=+luci-lib-fs
 PKG_VERSION:=1
 PKG_RELEASE:=2
 
