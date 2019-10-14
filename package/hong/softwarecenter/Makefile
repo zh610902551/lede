@@ -15,7 +15,7 @@ PKG_LICENSE:=GPLv3
 include $(INCLUDE_DIR)/package.mk
 
 define Package/softwarecenter
-  CATEGORY:=Packages
+  CATEGORY:=Derry Apps
   TITLE:=Software Center
   PKGARCH:=all
 endef
