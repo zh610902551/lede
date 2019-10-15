@@ -1,11 +1,4 @@
 #!/bin/sh
-#
-# Copyright (C) 2019 Jianpeng Xiang (1505020109@mail.hnust.edu.cn)
-#
-# This is free software, licensed under the GNU General Public License v3.
-#
-
-
 
 uci -q batch <<-EOF >/dev/null
 	delete ucitrack.@qbittorrent[-1]
