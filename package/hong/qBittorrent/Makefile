@@ -27,7 +27,8 @@ define Package/qBittorrent
   CATEGORY:=Network
   TITLE:=bittorrent client programmed in C++ / Qt
   URL:=https://www.qbittorrent.org/
-  DEPENDS:=+qt5-network +qt5-xml +rblibtorrent
+  DEPENDS:=+qt5-network +qt5-xml +qt5-core +rblibtorrent
+  PROVIDES:=qBittorrent
 endef
 
 define Package/qBittorrent/description
@@ -50,8 +51,8 @@ MAKE_VARS += \
 	INSTALL_ROOT="$(PKG_INSTALL_DIR)"
 
 define Package/qBittorrent/install
-	$(INSTALL_DIR) $(1)/usr/man/man1
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/man/man1/qbittorrent-nox.1 $(1)/usr/man/man1/qbittorrent-nox.1
+#	$(INSTALL_DIR) $(1)/usr/man/man1
+#	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/man/man1/qbittorrent-nox.1 $(1)/usr/man/man1/qbittorrent-nox.1
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/qbittorrent-nox $(1)/usr/bin
 endef
