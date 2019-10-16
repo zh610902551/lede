@@ -1089,8 +1089,8 @@ msgstr "执行关机"
 msgid "RAM Size"
 msgstr "内存容量"
 
-msgid ""
-msgstr ""
+msgid "CPU usage"
+msgstr "CPU使用率"
 
 msgid ""
 msgstr ""

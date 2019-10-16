@@ -11,7 +11,7 @@ msgid "CPU Info"
 msgstr "CPU信息"
 
 msgid "CPU Model"
-msgstr "处理器型号"
+msgstr "CPU型号"
 
 msgid "CPU frequency"
 msgstr "CPU频率"
