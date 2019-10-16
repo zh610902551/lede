@@ -8,13 +8,13 @@ s.anonymous=true
 s:tab("base",translate("Basic Settings"))
 o=s:taboption("base",Flag, "usb3_disable", translate("关闭USB3.0"), translate("勾选以关闭USB3.0，降低2.4G无线干扰。"))
 o.default = 0
-if(luci.sys.call("cat /etc/openwrt_release | grep DISTRIB_TARGET | grep -w bcm53xx >/dev/null")==0)then
-o=s:taboption("base",ListValue, "lan2wan", translate("LAN2WAN"), translate("Choose which lan port to be setted to another WAN port for Multi-ISP"))
-o:value("none",translate("Current Mode"))
+if(luci.sys.call("cat /etc/openwrt_release | grep DISTRIB_TARGET | grep -w ramips/mt7621 >/dev/null")==0)then
+o=s:taboption("base",ListValue, "lan2wan", translate("LAN改WAN"), translate("选择将其中一个LAN口改设为WAN口，以使用多线接入。"))
+o:value("none",translate("当前模式"))
 o:value("1",translate("LAN1"))
 o:value("0",translate("LAN2"))
 o:value("2",translate("LAN3"))
-o:value("factory",translate("Back to Default"))
+o:value("factory",translate("默认状态"))
 o.default = "none"
 end
 rollbacktime = uci:get("luci", "apply", "rollback")
@@ -32,6 +32,12 @@ o:value("apmode",translate("AP模式"))
 o:value("dhcpmode",translate("路由模式"))
 if nixio.fs.access("/etc/config/network")then
 s:tab("netwrokconf",translate("配置网络"),translate("本页是配置/etc/config/network的文档内容。应用保存后自动重启生效"))
+o=s:taboption("netwrokconf",Button,"_nrestart")
+o.inputtitle=translate("重启网络")
+o.inputstyle="apply"
+function o.write(e,e)
+luci.sys.exec("/etc/init.d/network restart >/dev/null")
+end
 conf=s:taboption("netwrokconf",Value,"netwrokconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=50
@@ -73,6 +79,12 @@ end
 end
 if nixio.fs.access("/etc/config/dhcp")then
 s:tab("dhcpconf",translate("配置DHCP"),translate("本页是配置/etc/config/DHCP的文档内容。应用保存后自动重启生效"))
+o=s:taboption("dhcpconf",Button,"_dhrestart")
+o.inputtitle=translate("重启网络")
+o.inputstyle="apply"
+function o.write(e,e)
+luci.sys.exec("/etc/init.d/network restart >/dev/null")
+end
 conf=s:taboption("dhcpconf",Value,"dhcpconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=50
@@ -92,8 +104,40 @@ e.remove("/tmp/dhcp")
 end
 end
 end
+if nixio.fs.access("/etc/config/mwan3")then
+s:tab("mwan3conf",translate("配置mwan3"),translate("本页是配置/etc/config/mwan3的文档内容。编辑后点击重启按钮后生效"))
+o=s:taboption("mwan3conf",Button,"_mwan3restart")
+o.inputtitle=translate("重启mwan3")
+o.inputstyle="apply"
+function o.write(e,e)
+luci.sys.exec("/etc/init.d/mwan3 restart >/dev/null")
+end
+conf=s:taboption("mwan3conf",Value,"mwan3conf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+conf.template="cbi/tvalue"
+conf.rows=50
+conf.wrap="off"
+conf.cfgvalue=function(t,t)
+return e.readfile("/etc/config/mwan3")or""
+end
+conf.write=function(a,a,t)
+if t then
+t=t:gsub("\r\n?","\n")
+e.writefile("/tmp/mwan3",t)
+if(luci.sys.call("cmp -s /tmp/mwan3 /etc/config/mwan3")==1)then
+e.writefile("/etc/config/mwan3",t)
+end
+e.remove("/tmp/mwan3")
+end
+end
+end
 if nixio.fs.access("/etc/hosts")then
 s:tab("hostsconf",translate("配置hosts"),translate("本页是配置/etc/hosts的文档内容。应用保存后自动重启生效"))
+o=s:taboption("hostsconf",Button,"_hrestart")
+o.inputtitle=translate("重启dnsmasq")
+o.inputstyle="apply"
+function o.write(e,e)
+luci.sys.exec("/etc/init.d/dnsmasq restart >/dev/null")
+end
 conf=s:taboption("hostsconf",Value,"hostsconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=50
@@ -115,6 +159,12 @@ end
 end
 if nixio.fs.access("/etc/config/firewall")then
 s:tab("firewallconf",translate("配置防火墙"),translate("本页是配置/etc/config/firewall的文档内容。应用保存后自动重启生效"))
+o=s:taboption("firewallconf",Button,"_frestart")
+o.inputtitle=translate("重启防火墙")
+o.inputstyle="apply"
+function o.write(e,e)
+luci.sys.exec("/etc/init.d/firewall restart >/dev/null")
+end
 conf=s:taboption("firewallconf",Value,"firewallconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=50
@@ -134,8 +184,40 @@ e.remove("/tmp/firewall")
 end
 end
 end
+if nixio.fs.access("/etc/config/shadowsocksr")then
+s:tab("pcapconf",translate("配置ShadowSocksR Plus+"),translate("本页是配置/etc/config/shadowsocksr的文档内容。编辑后点击重启按钮后生效"))
+o=s:taboption("pcapconf",Button,"_mrestart")
+o.inputtitle=translate("重启ShadowSocksR Plus+")
+o.inputstyle="apply"
+function o.write(e,e)
+luci.sys.exec("/etc/init.d/shadowsocks restart >/dev/null")
+end
+end
+conf=s:taboption("pcapconf",Value,"pcapconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+conf.template="cbi/tvalue"
+conf.rows=50
+conf.wrap="off"
+conf.cfgvalue=function(t,t)
+return e.readfile("/etc/config/shadowsocksr")or""
+end
+conf.write=function(a,a,t)
+if t then
+t=t:gsub("\r\n?","\n")
+e.writefile("/tmp/shadowsocksr",t)
+if(luci.sys.call("cmp -s /tmp/shadowsocksr /etc/config/shadowsocksr")==1)then
+e.writefile("/etc/config/shadowsocksr",t)
+end
+e.remove("/tmp/shadowsocksr")
+end
+end
 if nixio.fs.access("/etc/firewall.user")then
 s:tab("firewall",translate("配置防火墙-自定义规则"),translate("本页是配置/etc/firewall.user的文档内容。应用保存后自动重启生效"))
+o=s:taboption("firewall",Button,"_frestart")
+o.inputtitle=translate("重启防火墙")
+o.inputstyle="apply"
+function o.write(e,e)
+luci.sys.exec("/etc/init.d/firewall restart >/dev/null")
+end
 conf=s:taboption("firewall",Value,"firewall",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=50
@@ -197,6 +279,12 @@ end
 end
 if nixio.fs.access("/etc/dnsmasq.conf")then
 s:tab("dnsmasqconf",translate("配置dnsmasq"),translate("本页是配置/etc/dnsmasq.conf的文档内容。应用保存后自动重启生效"))
+o=s:taboption("dnsmasqconf",Button,"_drestart")
+o.inputtitle=translate("重启dnsmasq")
+o.inputstyle="apply"
+function o.write(e,e)
+luci.sys.exec("/etc/init.d/dnsmasq restart >/dev/null")
+end
 conf=s:taboption("dnsmasqconf",Value,"dnsmasqeditconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=50
