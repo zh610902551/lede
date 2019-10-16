@@ -1,8 +1,35 @@
 local e=require"nixio.fs"
 local t=require"luci.sys"
+local uci=luci.model.uci.cursor()
 m=Map("advanced",translate("高级设置"),translate("<br /><font color=\"Red\"><strong>配置文档是直接编辑的！除非你知道自己在干什么，否则请不要轻易修改这些配置文档。配置不正确可能会导致不能开机等错误。</strong></font><br/>"))
+m.apply_on_parse=true
 s=m:section(TypedSection,"advanced")
 s.anonymous=true
+s:tab("base",translate("Basic Settings"))
+o=s:taboption("base",Flag, "usb3_disable", translate("关闭USB3.0"), translate("勾选以关闭USB3.0，降低2.4G无线干扰。"))
+o.default = 0
+if(luci.sys.call("cat /etc/openwrt_release | grep DISTRIB_TARGET | grep -w bcm53xx >/dev/null")==0)then
+o=s:taboption("base",ListValue, "lan2wan", translate("LAN2WAN"), translate("Choose which lan port to be setted to another WAN port for Multi-ISP"))
+o:value("none",translate("Current Mode"))
+o:value("1",translate("LAN1"))
+o:value("0",translate("LAN2"))
+o:value("2",translate("LAN3"))
+o:value("factory",translate("Back to Default"))
+o.default = "none"
+end
+rollbacktime = uci:get("luci", "apply", "rollback")
+o=s:taboption("base",Value, "rollback", translate("超时时间"), translate("设置LUCI超时回滚时间，默认30秒。"))
+o.datatypes="and(uinteger,min(20))"
+o.default = rollbacktime
+o=s:taboption("base",ListValue, "webshell", translate("WebShell"), translate("Choose Which WebShell Service to Use"))
+o:value("ttyd",translate("ttyd"))
+o:value("shellinabox",translate("shellinabox"))
+o.default = "shellinabox"
+o=s:taboption("base",ListValue, "route_mode", translate("运行模式"), translate("AP模式：请通过WAN网口连接，AP自身管理地址由上级路由DHCP分配，如需固定请修改LAN口地址。<br>并闭AP模式请选回“路由模式”。两种模式均为一次性动作，切换完成之后运行模式将自动显示为“当前模式。"))
+o.default="none"
+o:value("none",translate("当前模式"))
+o:value("apmode",translate("AP模式"))
+o:value("dhcpmode",translate("路由模式"))
 if nixio.fs.access("/etc/config/network")then
 s:tab("netwrokconf",translate("配置网络"),translate("本页是配置/etc/config/network的文档内容。应用保存后自动重启生效"))
 conf=s:taboption("netwrokconf",Value,"netwrokconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
