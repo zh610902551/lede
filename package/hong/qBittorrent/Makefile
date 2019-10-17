@@ -1,15 +1,15 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qBittorrent
-#PKG_VERSION:=4.1.7
-PKG_VERSION:=4.1.8
+#PKG_VERSION:=4.1.3
+PKG_VERSION:=4.1.5
 PKG_RELEASE=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/qbittorrent/qBittorrent.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-#PKG_SOURCE_VERSION:=05a82afeb6c927bfc0cda4fe8fb25ecc3faecd86
-PKG_SOURCE_VERSION:=359b4649583564407628ebdac234a71c2f25e4dc
+#PKG_SOURCE_VERSION:=a574c4a70a5a3293d2f6135952c301d930d23627
+PKG_SOURCE_VERSION:=3f0e0a319a6f4833b238842744ed1f37104fcd4c
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 
 PKG_LICENSE:=GPL-2.0+
@@ -27,8 +27,7 @@ define Package/qBittorrent
   CATEGORY:=Network
   TITLE:=bittorrent client programmed in C++ / Qt
   URL:=https://www.qbittorrent.org/
-  DEPENDS:=+qt5-network +qt5-xml +qt5-core +rblibtorrent
-  PROVIDES:=qBittorrent
+  DEPENDS:=+qt5-core +qt5-network +qt5-xml +rblibtorrent
 endef
 
 define Package/qBittorrent/description
@@ -51,8 +50,8 @@ MAKE_VARS += \
 	INSTALL_ROOT="$(PKG_INSTALL_DIR)"
 
 define Package/qBittorrent/install
-#	$(INSTALL_DIR) $(1)/usr/man/man1
-#	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/man/man1/qbittorrent-nox.1 $(1)/usr/man/man1/qbittorrent-nox.1
+	$(INSTALL_DIR) $(1)/usr/man/man1
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/man/man1/qbittorrent-nox.1 $(1)/usr/man/man1/qbittorrent-nox.1
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/qbittorrent-nox $(1)/usr/bin
 endef
