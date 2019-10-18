@@ -1,132 +1,98 @@
---[[
-LuCI - Lua Configuration Interface - smartctl support
-
-Script by animefans_xj @ nvacg.org (af_xj@hotmail.com , xujun@smm.cn)
-
-Licensed under the GNU GPL License, Version 3 (the "license");
-you may not use this file except in compliance with the License.
-you may obtain a copy of the License at
-
-	http://www.gnu.org/licenses/gpl.txt
-
-$Id$
-]]--
-
-
 module("luci.controller.smartinfo",package.seeall)
-
 function index()
-	require("luci.i18n")
-	luci.i18n.loadc("smartinfo")
-	if not nixio.fs.access("/etc/config/smartinfo") then
-		return
-	end
-	
-	local page = entry({"admin","services","smartinfo"},cbi("smartinfo"),_("S.M.A.R.T Info"))
-	page.i18n="smartinfo"
-	page.dependent=true
-	entry({"admin","services","smartinfo","smartdetail"},call("smart_detail")).leaf = true
-
-	entry({"admin","services","smartinfo","status"}, call("smart_status")).leaf = true
-	entry({"admin","services","smartinfo","run"},call("run_smart")).leaf=true
-	entry({"admin","services","smartinfo","smartattr"},call("smart_attr")).leaf=true
-
+require("luci.i18n")
+if not nixio.fs.access("/etc/config/smartinfo")then
+return
 end
-
-
+local e=entry({"admin","nas","smartinfo"},cbi("smartinfo"),_("S.M.A.R.T Info"))
+e.i18n="smartinfo"
+e.dependent=true
+entry({"admin","nas","smartinfo","smartdetail"},call("smart_detail")).leaf=true
+entry({"admin","nas","smartinfo","status"},call("smart_status")).leaf=true
+entry({"admin","nas","smartinfo","run"},call("run_smart")).leaf=true
+entry({"admin","nas","smartinfo","smartattr"},call("smart_attr")).leaf=true
+end
 function smart_status()
-  local cmd = io.popen("/usr/lib/smartinfo/smart_status.sh")
-  if cmd then
-    local dev = { }
-    while true do
-      local ln = cmd:read("*l")
-      if not ln then
-        break
-      elseif ln:match("^/%l+/%l+:%a+") then
-        local name,status = ln:match("^/%l+/(%l+):(%a+)")
-        local model,size
-        
-        if (status=="OK" or status=="Failed" or status=="Unsupported") then
-          model="%s %s" % {nixio.fs.readfile("/sys/class/block/%s/device/vendor" % name), nixio.fs.readfile("/sys/class/block/%s/device/model" % name)}
-          local s = tonumber((nixio.fs.readfile("/sys/class/block/%s/size" % name)))
-          size = "%s MB" % {s and math.floor(s / 2048)}
-        else
-          model="Unavailabled"
-          size="Unavailabled"
-        end
-        
-        if name and status then
-            dev[#dev+1]= {
-              name = name,
-              model = model,
-              size  = size,
-              status  = status
-            }
-        end
-      else
-      
-      end
-    end
-  
-  cmd:close()
-  luci.http.prepare_content("application/json")
-  luci.http.write_json(dev)
-  end
+local o=io.popen("/usr/lib/smartinfo/smart_status.sh")
+if o then
+local i={}
+while true do
+local e=o:read("*l")
+if not e then
+break
+elseif e:match("^/%l+/%l+:%a+")then
+local e,t=e:match("^/%l+/(%l+):(%a+)")
+local o,a
+if(t=="OK"or t=="Failed"or t=="Unsupported")then
+o="%s %s"%{nixio.fs.readfile("/sys/class/block/%s/device/vendor"%e),nixio.fs.readfile("/sys/class/block/%s/device/model"%e)}
+local e=tonumber((nixio.fs.readfile("/sys/class/block/%s/size"%e)))
+a="%s MB"%{e and math.floor(e/2048)}
+else
+o="Unavailabled"
+a="Unavailabled"
 end
-
-function run_smart(dev)
-  local cmd = io.popen("smartctl --attributes -d sat /dev/%s" % dev)
-  if cmd then
-    local report = {}
-    local ln = cmd:read("*all")
-    report = {
-                out = ln
-              }
-    cmd:close()
-    luci.http.prepare_content("application/json")
-    luci.http.write_json(report)
-  end
+if e and t then
+i[#i+1]={
+name=e,
+model=o,
+size=a,
+status=t
+}
 end
-
-function smart_detail(dev)
-  luci.template.render("smartinfo/smart_detail", {dev=dev})
+else
 end
-
-function smart_attr(dev)
-  local cmd = io.popen("smartctl --attributes -d sat /dev/%s" % dev)
-  if cmd then
-    local attr = { }
-    while true do
-      local ln = cmd:read("*l")
-      if not ln then
-        break
-      elseif ln:match("^.*%d+%s+.+%s+.+%s+.+%s+.+%s+.+%s+.+%s+.+%s+.+%s+.+") then
-        local id,attrbute,flag,value,worst,thresh,type,updated,raw = ln:match("^%s*(%d+)%s+([%a%p]+)%s+(%w+)%s+(%d+)%s+(%d+)%s+(%d+)%s+([%a%p]+)%s+(%a+)%s+[%w%p]+%s+(.+)")
-
-        id= "%x" % id
-        if not id:match("^%w%w") then
-          id = "0%s" % id
-        end
-
-        attr[#attr+1]= {
-            id = id:upper(),
-            attrbute = attrbute,
-            flag  = flag,
-            value = value,
-            worst = worst,
-            thresh  = thresh,
-            type = type,
-            updated = updated,
-            raw  = raw
-          }
-      else
-      
-      end
-    end
-  
-  cmd:close()
-  luci.http.prepare_content("application/json")
-  luci.http.write_json(attr)
-  end
-
+end
+o:close()
+luci.http.prepare_content("application/json")
+luci.http.write_json(i)
+end
+end
+function run_smart(e)
+local e=io.popen("smartctl --attributes -d sat /dev/%s"%e)
+if e then
+local t={}
+local a=e:read("*all")
+t={
+out=a
+}
+e:close()
+luci.http.prepare_content("application/json")
+luci.http.write_json(t)
+end
+end
+function smart_detail(e)
+luci.template.render("smartinfo/smart_detail",{dev=e})
+end
+function smart_attr(e)
+local t=io.popen("smartctl --attributes -d sat /dev/%s"%e)
+if t then
+local a={}
+while true do
+local e=t:read("*l")
+if not e then
+break
+elseif e:match("^.*%d+%s+.+%s+.+%s+.+%s+.+%s+.+%s+.+%s+.+%s+.+%s+.+")then
+local e,h,s,i,o,n,t,r,d=e:match("^%s*(%d+)%s+([%a%p]+)%s+(%w+)%s+(%d+)%s+(%d+)%s+(%d+)%s+([%a%p]+)%s+(%a+)%s+[%w%p]+%s+(.+)")
+e="%x"%e
+if not e:match("^%w%w")then
+e="0%s"%e
+end
+a[#a+1]={
+id=e:upper(),
+attrbute=h,
+flag=s,
+value=i,
+worst=o,
+thresh=n,
+type=t,
+updated=r,
+raw=d
+}
+else
+end
+end
+t:close()
+luci.http.prepare_content("application/json")
+luci.http.write_json(a)
+end
 end

@@ -1,12 +1,12 @@
 <html>
   <head>
     <title>S.M.A.R.T detail of <%=dev%></title>
-    <link rel="stylesheet" type="text/css" media="screen" href="<%=media%>/cascade.css?v=git-18.179.06085-ed1da1f" />
-    <script type="text/javascript" src="<%=resource%>/xhr.js?v=git-18.179.06085-ed1da1f"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="<%=media%>/cascade.css" />
+    <script type="text/javascript" src="<%=resource%>/xhr.js"></script>
 
     <script type="text/javascript">//<![CDATA[
 
-      XHR.get('<%=luci.dispatcher.build_url("admin", "services", "smartinfo", "smartattr", dev)%>', null,
+      XHR.get('<%=luci.dispatcher.build_url("admin", "nas", "smartinfo", "smartattr", dev)%>', null,
         function(x, st)
         {
           var tb = document.getElementById('smart_attr_table');
@@ -57,8 +57,8 @@
   <body>
     <div id="maincontainer">
       <div id="maincontent">
-        <div class="cbi-section">
-          <h3><%:S.M.A.R.T Attrbutes%>: /dev/<%=dev%></h3>
+        <fieldset class="cbi-section">
+          <legend><%:S.M.A.R.T Attrbutes%>: /dev/<%=dev%></legend>
           <table class="cbi-section-table" id="smart_attr_table">
             <tr class="cbi-section-table-titles">
               <th class="cbi-section-table-cell"><%:ID%></th>
@@ -75,7 +75,7 @@
               <td colspan="4"><em><br /><%:Collecting data...%></em></td>
             </tr>
           </table>
-        </div>
+        </fieldset>
       </div>
     </div>
   </body>
