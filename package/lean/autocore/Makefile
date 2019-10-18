@@ -30,8 +30,8 @@ endef
 define Package/autocore/install
 #	$(INSTALL_DIR) $(1)/etc/init.d
 #	$(INSTALL_BIN) ./files/autocore $(1)/etc/init.d/autocore
-	$(INSTALL_DIR) $(1)/etc
-	$(INSTALL_DATA) ./files/index.htm $(1)/etc/index.htm
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/admin_status
+	$(INSTALL_DATA) ./files/index.htm $(1)/usr/lib/lua/luci/view/admin_status/index.htm
 endef
 
 $(eval $(call BuildPackage,autocore))
