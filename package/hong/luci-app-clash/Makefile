@@ -27,9 +27,9 @@ define Package/$(PKG_NAME)/postinst
 rm -rf /tmp/luci*
 endef
 
-define Build/Prepare
-	${CURDIR}/tools/po2lmo/src/po2lmo ${CURDIR}/po/zh-cn/clash.po ${CURDIR}/po/zh-cn/clash.zh-cn.lmo
-endef
+#define Build/Prepare
+#	${CURDIR}/tools/po2lmo/src/po2lmo ${CURDIR}/po/zh-cn/clash.po ${CURDIR}/po/zh-cn/clash.zh-cn.lmo
+#endef
 
 define Build/Configure
 endef
