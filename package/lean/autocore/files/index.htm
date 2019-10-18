@@ -23,6 +23,8 @@
 		buffered = 0,
 		shared = 0
 	}
+	
+	local mem_cached = luci.sys.exec("sed -e '/^Cached: /!d; s#Cached: *##; s# kB##g' /proc/meminfo")
 
 	local swapinfo = sysinfo.swap or {
 		total = 0,
@@ -471,7 +473,7 @@
 								'<strong><%:Bitrate%>:</strong> %s <%:Mbit/s%><br />',
 								icon, net.signal, net.noise,
 								net.quality,
-								net.link, net.ssid,
+								net.link, net.ssid || '?',
 								net.mode,
 								net.channel, net.frequency,
 								net.bitrate || '?'
@@ -482,7 +484,7 @@
 							s += String.format(
 								'<strong><%:BSSID%>:</strong> %s<br />' +
 								'<strong><%:Encryption%>:</strong> %s',
-									net.bssid,
+									net.bssid || '?',
 									net.encryption
 							);
 						}
@@ -656,6 +658,7 @@
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or boardinfo.system or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
 		<tr><td width="33%"><%:CPU Model%></td><td><%=pcdata(boardinfo.system or "?")%> x <%=luci.sys.exec("cat /proc/cpuinfo | grep 'processor' | wc -l") or "1"%></td></tr>
+		<tr><td width="33%"><%:CPU Temperature%></td><td><%=luci.sys.exec("cat /etc/bench.log") or " "%> <%=luci.sys.exec("sensors | grep 'Core 0' | cut -c10-24")%></td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>) 
