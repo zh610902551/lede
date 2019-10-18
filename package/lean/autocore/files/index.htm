@@ -48,8 +48,8 @@
 
 		local rv = {
 			uptime     = sysinfo.uptime or 0,
-			localtime  = os.date("%YÄê%mÔÂ%dÈÕ") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X"),
-			cpuusage   = luci.sys.exec("echo $( echo $(cat /proc/stat | grep \"^cpu \" | awk '{print $1+$2+$3+$4+$5+$6+$7 \" \" $1+$2+$3+$6+$7}') $(sleep 1 && cat /proc/stat | grep \"^cpu \" | awk '{print $1+$2+$3+$4+$5+$6+$7 \" \" $1+$2+$3+$6+$7}') | awk '{print (($4-$2)/($3-$1))*100}' )"),
+			localtime  = os.date("%Yå¹´%mæœˆ%dæ—¥") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X"),
+			cpuusage   = luci.sys.exec,
 			loadavg    = sysinfo.load or { 0, 0, 0 },
 			memory     = meminfo,
 			swap       = swapinfo,
@@ -655,17 +655,17 @@
 	<table width="100%" cellspacing="10">
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or boardinfo.system or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
-		<tr><td width="33%"><%:Architecture%></td><td><%=pcdata(boardinfo.system or "?")%> x <%=luci.sys.exec("cat /proc/cpuinfo | grep 'processor' | wc -l") or "1"%></td></tr>
-		<tr><td width="33%"><%:CPU Info%></td><td><%=luci.sys.exec("grep 'MHz' /proc/cpuinfo | cut -c11- |sed -n '1p'")%> MHz <%=luci.sys.exec("sensors | grep 'Core 0' | cut -c10-24")%></td></tr>
+		<tr><td width="33%"><%:CPU Model%></td><td><%=pcdata(boardinfo.system or "?")%> x <%=luci.sys.exec("cat /proc/cpuinfo | grep 'processor' | wc -l") or "1"%></td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>) 
-		</td></tr>		
+		</td></tr>
 		<tr><td width="33%"><%:Kernel Version%></td><td><%=unameinfo.release or "?"%></td></tr>
+    <tr><td width="33%"><%:RAM Size%></td><td><%=luci.sys.exec("dmesg | awk -F 'Memory: |K/|K available' '/Memory:.*available/{print $3/1024}'") or "?"%>MB</td></tr>
 		<tr><td width="33%"><%:Local Time%></td><td id="localtime">-</td></tr>
 		<tr><td width="33%"><%:Uptime%></td><td id="uptime">-</td></tr>
 		<tr><td width="33%"><%:Load Average%></td><td id="loadavg">-</td></tr>
-		<tr><td width="33%"><%:CPU usage (%)%></td><td id="cpuusage">-</td></tr>
+		<tr><td width="33%"><%:CPU usage%></td><td id="cpuusage">-</td></tr>
 	</table>
 </fieldset>
 
