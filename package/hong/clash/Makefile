@@ -59,4 +59,6 @@ define Package/$(PKG_NAME)/install
 endef
 
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+include $(TOPDIR)/feeds/luci/luci.mk
+
+# call BuildPackage - OpenWrt buildroot signature
