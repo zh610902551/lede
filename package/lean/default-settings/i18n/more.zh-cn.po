@@ -1092,6 +1092,27 @@ msgstr "内存容量"
 msgid "CPU usage"
 msgstr "CPU使用率"
 
+msgid "Unsupported"
+msgstr "不支持"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
 msgid ""
 msgstr ""
 
