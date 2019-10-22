@@ -57,14 +57,14 @@ start()
 	[ $enable -eq "0" ] && exit 0
 	
 	if [ $TYPE = "default" ]; then
-			node /usr/share/UnblockNeteaseMusic/app.js -p 5200:5201 >/tmp/unblockmusic.log 2>&1 &
+			node /usr/share/unblockNeteaseMusic/app.js -p 5200:5201 >/tmp/unblockmusic.log 2>&1 &
 	else
-			node /usr/share/UnblockNeteaseMusic/app.js -p 5200:5201 -o $TYPE >/tmp/unblockmusic.log 2>&1 &
+			node /usr/share/unblockNeteaseMusic/app.js -p 5200:5201 -o $TYPE >/tmp/unblockmusic.log 2>&1 &
 	fi
 	
 	set_firewall
 	
-	/usr/share/UnblockNeteaseMusic/logcheck.sh >/dev/null 2>&1 &
+	/usr/share/unblockNeteaseMusic/logcheck.sh >/dev/null 2>&1 &
 }
 
 stop()
