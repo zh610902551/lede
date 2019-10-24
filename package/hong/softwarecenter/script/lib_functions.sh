@@ -148,7 +148,7 @@ remove_soft(){
 tz_check(){
     cd /tmp
     # 如果探针下载失败，采用备用地址下载修复
-    if [ -f "/opt/wwwroot/default/tz.php" ]; then
+    if [ -f "/opt/wwwroot/tz/tz.php" ]; then
         echo 探针正常
     else
         echo 检测到探针异常，采用备用地址下载

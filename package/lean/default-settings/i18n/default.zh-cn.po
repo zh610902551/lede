@@ -11,7 +11,7 @@ msgid "CPU Info"
 msgstr "CPU信息"
 
 msgid "CPU Model"
-msgstr "CPU型号"
+msgstr "处理器型号"
 
 msgid "CPU frequency"
 msgstr "CPU频率"
@@ -65,3 +65,87 @@ msgstr "弱信号剔除"
 
 msgid "Allow AP mode to disconnect STAs based on low ACK condition"
 msgstr "允许AP模式基于低ACK条件判断剔除弱信号的客户端"
+
+msgid "Disks"
+msgstr "磁盘信息"
+
+msgid "Disks Model"
+msgstr "磁盘型号"
+
+msgid "Serial number"
+msgstr "磁盘序列号"
+
+msgid "Firmware"
+msgstr "固件版本"
+
+msgid "Capacity"
+msgstr "容量"
+
+msgid "Sector size"
+msgstr "扇区大小"
+
+msgid "Temperature"
+msgstr "温度"
+
+msgid "Power state"
+msgstr "电源状态"
+
+msgid "Startup Delay"
+msgstr "启动延迟"
+
+msgid "MWAN Interfaces"
+msgstr "MWAN接口信息"
+
+msgid "untagged"
+msgstr "无标记"
+
+msgid "tagged"
+msgstr "已标记"
+
+msgid "Custom WEB UI directory"
+msgstr "自定义Web UI目录"
+
+msgid "Successful safe shutdown!"
+msgstr "已经关机！"
+
+msgid "Power Off"
+msgstr "关机"
+
+msgid "PowerOff the operating system of your device"
+msgstr "安全关机，某些机器不能完全断电，关机后只能通过手工重新启动。"
+
+msgid "Perform PowerOff"
+msgstr "执行关机"
+
+msgid "RAM Size"
+msgstr "内存容量"
+
+msgid "CPU usage"
+msgstr "CPU使用率"
+
+msgid "Unsupported"
+msgstr "不支持"
+
+msgid "CPU Model"
+msgstr "CPU型号"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
