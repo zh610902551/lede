@@ -1,22 +1,21 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rblibtorrent
-#PKG_VERSION:=1.1.11
-PKG_VERSION:=1.1.13
+PKG_VERSION:=1.1.11
+#PKG_VERSION:=1.1.13
 PKG_RELEASE=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/arvidn/libtorrent.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-#PKG_SOURCE_VERSION:=25a1f12991b4af1e133b966fae963168116306e9
-PKG_SOURCE_VERSION:=6f1250c6535730897909240ea0f4f2a81937d21a
+PKG_SOURCE_VERSION:=25a1f12991b4af1e133b966fae963168116306e9
+#PKG_SOURCE_VERSION:=6f1250c6535730897909240ea0f4f2a81937d21a
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 
 PKG_LICENSE:=BSD
 PKG_LICENSE_FILES:=COPYING
 
 PKG_USE_MIPS16:=0
-PKG_FIXUP:=autoreconf libtool
 PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
 
@@ -27,7 +26,7 @@ define Package/rblibtorrent
   CATEGORY:=Libraries
   TITLE:=Rasterbar BitTorrent library
   URL:=https://www.libtorrent.org/
-  DEPENDS:=+libstdcpp +libopenssl +boost +boost-system +boost-chrono +boost-random +zlib
+  DEPENDS:=+libstdcpp +libopenssl +boost +boost-system +boost-chrono +boost-random
   MAINTAINER:=Arvid Norberg <arvid@libtorrent.org>
 endef
 
@@ -49,8 +48,7 @@ CONFIGURE_ARGS += \
 	--enable-static \
 	--disable-debug \
 	--enable-encryption \
-	--with-boost=$(STAGING_DIR)/usr \
-	--with-boost-libdir=$(STAGING_DIR)/usr/lib 
+	--with-boost=$(STAGING_DIR)/usr
 
 define Build/Configure
 	cd $(PKG_BUILD_DIR) ; \
@@ -62,14 +60,14 @@ define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/libtorrent $(1)/usr/include/
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/*.so* $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libtorrent-rasterbar.{a,so*} $(1)/usr/lib/
 	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/libtorrent-rasterbar.pc $(1)/usr/lib/pkgconfig/
 endef
 
 define Package/rblibtorrent/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/*.so* $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libtorrent-rasterbar.so.* $(1)/usr/lib/
 endef
 
 $(eval $(call BuildPackage,rblibtorrent))
