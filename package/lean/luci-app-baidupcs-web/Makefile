@@ -5,8 +5,8 @@
 
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI Support for BaiduPCS-Web
-LUCI_DEPENDS:=+BaiduPCS-Web +wget +openssl-util
+LUCI_TITLE:=LuCI Support for baiduPCS-Web
+LUCI_DEPENDS:=+baiduPCS-Web +wget +openssl-util
 LUCI_PKGARCH:=all
 PKG_VERSION:=1.0
 PKG_RELEASE:=1
