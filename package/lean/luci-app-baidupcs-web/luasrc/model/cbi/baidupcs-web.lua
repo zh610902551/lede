@@ -13,17 +13,17 @@ local button = ""
 local state_msg = ""
 local trport = uci:get("baidupcs-web", "config", "port")
 if running  then
-	button = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"button\" value=\" " .. translate("打开baiduPCS-Web管理界面") .. " \" onclick=\"window.open('http://'+window.location.hostname+':" .. trport .. "')\"/>"
+	button = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"button\" value=\" " .. translate("打开BaiduPCS-Web管理界面") .. " \" onclick=\"window.open('http://'+window.location.hostname+':" .. trport .. "')\"/>"
 end
 
 if running then
-        state_msg = "<b><font color=\"green\">" .. translate("baiduPCS-Web 运行中") .. "</font></b>"
+        state_msg = "<b><font color=\"green\">" .. translate("BaiduPCS-Web 运行中") .. "</font></b>"
 else
-        state_msg = "<b><font color=\"red\">" .. translate("baiduPCS-Web 未运行") .. "</font></b>"
+        state_msg = "<b><font color=\"red\">" .. translate("BaiduPCS-Web 未运行") .. "</font></b>"
 end
 
-m = Map("baidupcs-web", translate("百度网盘管理"), translate("基于baiduPCS-Web，让你高效的使用百度云。") .. button
-        .. "<br/><br/>" .. translate("baiduPCS-Web运行状态").. " : "  .. state_msg .. "<br/>")
+m = Map("baidupcs-web", translate("百度网盘管理"), translate("基于BaiduPCS-Web，让你高效的使用百度云。") .. button
+        .. "<br/><br/>" .. translate("BaiduPCS-Web运行状态").. " : "  .. state_msg .. "<br/>")
 
 s = m:section(TypedSection, "baidupcs-web", "")
 s.addremove = false
