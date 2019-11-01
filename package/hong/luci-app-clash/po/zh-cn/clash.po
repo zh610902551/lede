@@ -1,5 +1,3 @@
-msgid "Do not edit Policy Group with Group Name Proxy or proxy and or 🔑Proxy and it's other policy group"
-msgstr "不要编辑策略组别名Proxy或proxy或🔑proxy和它的其他策略组"
 
 msgid "Obfs"
 msgstr "混淆"
@@ -134,7 +132,7 @@ msgid "App Name"
 msgstr "应用程序名称"
 
 msgid "Rule-based Custom Proxy Client"
-msgstr "基于规则的自定义代理客户端。项目地址：https://github.com/frainzy1477/luci-app-clash"
+msgstr "基于规则的自定义代理客户端"
 
 msgid "Error Occured | Return"
 msgstr "检查错误 | 返回"
@@ -523,4 +521,11 @@ msgstr "从哪读取自定义节点"
 msgid "Select from which configuration custom server should be loaded from"
 msgstr "选择从哪个配置文件读取自定义节点"
 
+msgid "All Servers"
+msgstr "所有节点"
 
+msgid "Core"
+msgstr "内核"
+
+msgid "Select core, clashr support ssr while clash does not."
+msgstr "选择内核clash不支持ssr, clashr支持ssr"

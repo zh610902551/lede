@@ -61,6 +61,10 @@ local function check_core()
 	return luci.sys.exec("sh /usr/share/clash/check_core_version.sh")
 end
 
+local function check_clashr_core()
+	return luci.sys.exec("sh /usr/share/clash/check_clashr_core_version.sh")
+end
+
 local function current_version()
 	return luci.sys.exec("sed -n 1p /usr/share/clash/luci_version")
 end
@@ -71,6 +75,10 @@ end
 
 local function new_core_version()
 	return luci.sys.exec("sed -n 1p /usr/share/clash/new_core_version")
+end
+
+local function new_clashr_core_version()
+	return luci.sys.exec("sed -n 1p /usr/share/clash/new_clashr_core_version")
 end
 
 local function e_mode()
@@ -86,14 +94,26 @@ local function clash_core()
 	end
 end
 
+local function clashr_core()
+	if nixio.fs.access("/usr/share/clash/corer_version") then
+		return luci.sys.exec("sed -n 1p /usr/share/clash/corer_version")
+	else
+		return "0"
+	end
+end
+
+
 function check_status()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
 		check_version = check_version(),
 		check_core = check_core(),
 		current_version = current_version(),
+		check_clashr_core = check_clashr_core(),
 		new_version = new_version(),
+		new_clashr_core_version = new_clashr_core_version(),
 		clash_core = clash_core(),
+		clashr_core = clashr_core(),
 		new_core_version = new_core_version()
 		
 
@@ -108,6 +128,7 @@ function action_status()
 		dash_port = dash_port(),
 		current_version = current_version(),
 		clash_core = clash_core(),
+		clashr_core = clashr_core(),
 		dash_pass = dash_pass(),
 		e_mode = e_mode()
 
