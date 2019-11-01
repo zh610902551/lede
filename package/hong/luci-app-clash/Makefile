@@ -22,6 +22,13 @@ define Package/luci-app-clash/description
 	Luci Interface for clash.
 endef
 
+
+define Build/Prepare
+	chmod 777 -R ${CURDIR}/tools/po2lmo
+	${CURDIR}/tools/po2lmo/src/po2lmo ${CURDIR}/po/zh-cn/clash.po ${CURDIR}/po/zh-cn/clash.zh-cn.lmo
+
+endef
+
 define Build/Configure
 endef
 
@@ -169,6 +176,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DATA) ./luasrc/controller/*.lua $(1)/usr/lib/lua/luci/controller/
 	$(INSTALL_DATA) ./luasrc/model/cbi/clash/*.lua $(1)/usr/lib/lua/luci/model/cbi/clash/
 	$(INSTALL_DATA) ./luasrc/view/clash/* $(1)/usr/lib/lua/luci/view/clash/
+	$(INSTALL_DATA) ./po/zh-cn/clash.zh-cn.lmo $(1)/usr/lib/lua/luci/i18n/
 	
 endef
 
