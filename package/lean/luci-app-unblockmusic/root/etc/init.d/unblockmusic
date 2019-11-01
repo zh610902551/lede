@@ -58,7 +58,7 @@ add_cron()
 {
 	if [ $AUTOUPDATE -eq 1 ]; then
     sed -i '/update_core.sh/d' $CRON_FILE
-		echo '0 2 * * * /usr/share/unblockNeteaseMusic/update_core.sh 2>&1' >> $CRON_FILE
+		echo '0 2 * * * /usr/share/UnblockNeteaseMusic/update_core.sh 2>&1' >> $CRON_FILE
 		crontab $CRON_FILE
 	fi
 }
@@ -82,17 +82,17 @@ start()
 	fi
 	
 	if [ $TYPE = "default" ]; then
-			node /usr/share/unblockNeteaseMusic/app.js $endponintset -p 5200:5201 >/tmp/unblockmusic.log 2>&1 &
-			node /usr/share/unblockNeteaseMusic/app.js -p 5202 >>/tmp/unblockmusic.log 2>&1 &
+			node /usr/share/UnblockNeteaseMusic/app.js $endponintset -p 5200:5201 >/tmp/unblockmusic.log 2>&1 &
+			node /usr/share/UnblockNeteaseMusic/app.js -p 5202 >>/tmp/unblockmusic.log 2>&1 &
 	else
-			node /usr/share/unblockNeteaseMusic/app.js $endponintset -p 5200:5201 -o $TYPE >/tmp/unblockmusic.log 2>&1 &
-			node /usr/share/unblockNeteaseMusic/app.js -p 5202 -o $TYPE >>/tmp/unblockmusic.log 2>&1 &
+			node /usr/share/UnblockNeteaseMusic/app.js $endponintset -p 5200:5201 -o $TYPE >/tmp/unblockmusic.log 2>&1 &
+			node /usr/share/UnblockNeteaseMusic/app.js -p 5202 -o $TYPE >>/tmp/unblockmusic.log 2>&1 &
 	fi
 	
 	set_firewall
 	add_cron
 	
-	/usr/share/unblockNeteaseMusic/logcheck.sh >/dev/null 2>&1 &
+	/usr/share/UnblockNeteaseMusic/logcheck.sh >/dev/null 2>&1 &
 }
 
 stop()
