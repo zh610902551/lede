@@ -10,7 +10,7 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=UnblockNeteaseMusic
+PKG_NAME:=unblockNeteaseMusic
 PKG_VERSION:=0.20.4
 PKG_RELEASE:=1
 
