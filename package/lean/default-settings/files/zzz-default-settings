@@ -79,6 +79,7 @@ chmod 755 /usr/bin/cpulimit
 chmod 755 /etc/init.d/serverchan
 chmod 755 /usr/bin/serverchan/serverchan
 chmod 755 /etc/init.d/qbittorrent
+chmod 755 /etc/init.d/unblockmusic
 
 exit 0
 
