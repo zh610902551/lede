@@ -12,10 +12,10 @@ start() {
 	stop
 	[ "$enabled" == "1" ] || exit 0
 	mkdir -p "${dl_dir}"
-	baiduPCS-Web config set -savedir="${dl_dir}" >/dev/null 2>&1
-	baiduPCS-Web web --port "${port}" --access >/dev/null 2>&1 &
+	BaiduPCS-Web config set -savedir="${dl_dir}" >/dev/null 2>&1
+	BaiduPCS-Web web --port "${port}" --access >/dev/null 2>&1 &
 }
 
 stop() {
-	killall baiduPCS-Web >/dev/null 2>&1
+	killall BaiduPCS-Web >/dev/null 2>&1
 }
