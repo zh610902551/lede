@@ -13,7 +13,7 @@ local button = ""
 local state_msg = ""
 local trport = uci:get("baidupcs-web", "config", "port")
 if running  then
-	button = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"button\" value=\" " .. translate("打开BaiduPCS-Web管理界面") .. " \" onclick=\"window.open('http://'+window.location.hostname+':" .. trport .. "')\"/>"
+	button = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"cbi-button cbi-button-apply\" type=\"submit\" value=\" "..translate("打开BaiduPCS-Web管理界面") .. " \" onclick=\"window.open('http://'+window.location.hostname+':" .. trport .. "')\"/>"
 end
 
 if running then
