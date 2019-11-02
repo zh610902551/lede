@@ -16,7 +16,7 @@ DEVICE_TYPE?=router
 DEFAULT_PACKAGES:=base-files libc libgcc busybox dropbear mtd uci opkg netifd fstools uclient-fetch logd block-mount coremark \
 kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw wget libustream-openssl ca-certificates \
 default-settings luci luci-app-ddns luci-app-sqm luci-app-upnp luci-app-adbyby-plus luci-app-autoreboot luci-app-guest-wifi \
-luci-app-filetransfer-GT luci-app-vsftpd ddns-scripts_aliyun luci-app-ssr-plus luci-app-cpulimit luci-app-ttyd luci-app-smartinfo \
+luci-app-filetransfer luci-app-vsftpd ddns-scripts_aliyun luci-app-ssr-plus luci-app-cpulimit luci-app-ttyd luci-app-smartinfo \
 luci-app-pptp-server luci-app-arpbind luci-app-vlmcsd luci-app-wifischedule luci-app-wol luci-app-ramfree luci-app-appfilter  luci-app-serverchan luci-app-softwarecenter\
 luci-app-sfe luci-app-flowoffload luci-app-nlbwmon luci-app-usb-printer luci-app-accesscontrol luci-app-zerotier luci-app-syncdial
 # For nas targets
