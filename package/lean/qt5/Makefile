@@ -106,7 +106,6 @@ define Build/Configure
 			-no-iconv \
 			-no-pch \
 			-no-rpath \
-			-no-qml-debug \
 			-no-strip \
 			-no-cups \
 			-no-dbus \
@@ -115,7 +114,7 @@ define Build/Configure
 			-no-opengl \
 			-no-directfb \
 			-no-xcb \
-			-no-ssl \
+			-openssl-runtime \
 			-qt-zlib \
 			-qt-pcre \
 			-qt-freetype \
