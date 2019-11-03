@@ -11,7 +11,7 @@ PKG_VERSION:=4.1.9.1
 PKG_RELEASE=1
 
 PKG_SOURCE_PROTO:=git
-#qBittorrent-Enhanced-Edition-4.1.9.1
+#qBittorrent-Enhanced-Edition-4.18.4
 PKG_SOURCE_URL:=https://github.com/c0re100/qBittorrent-Enhanced-Edition.git
 #PKG_SOURCE_URL:=https://github.com/qbittorrent/qBittorrent.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
