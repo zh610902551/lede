@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI Support for Software Center
 LUCI_DEPENDS:=+softwarecenter
-PKG_VERSION:=1.0.6
+PKG_VERSION:=1.0.7
 
 PKG_MAINTAINER:=Jianpeng Xiang <1505020109@mail.hnust.edu.cn>
 PKG_LICENSE:=GPLv3
