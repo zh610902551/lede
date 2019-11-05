@@ -16,9 +16,7 @@ local ds = require "luci.dispatcher"
 
 local m, s
 
-m = Map("appfilter",
-	translate("appfilter"),
-	translate(""))
+m = Map("appfilter",translate("appfilter"),translate("OpenAppFilter"))
 	
 s = m:section(TypedSection, "global", translate("Basic Settings"))
 s:option(Flag, "enable", translate("Enable App Filter"),translate(""))
