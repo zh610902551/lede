@@ -1,5 +1,5 @@
 msgid "qbittorrent"
-msgstr "QBittorrent 下载"
+msgstr "qBittorrent 下载"
 
 msgid "Running"
 msgstr "运行中"
@@ -52,7 +52,6 @@ msgstr "WebUI设置"
 msgid "WEBUI listening port"
 msgstr "WebUI监听端口。默认登录用户名：admin 密码：adminadmin 。"
 
-msgid "Open Web Interface"
-msgstr "打开 Web 管理界面"
+
 
 

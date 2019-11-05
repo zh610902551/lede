@@ -17,6 +17,12 @@ config_qbittorrent()
 enabled=false
 program=
 
+[LegalNotice]
+Accepted=true
+
+[Network]
+Cookies=@Invalid()
+
 [Preferences]
 Bittorrent\DHT=false
 Bittorrent\LSD=false

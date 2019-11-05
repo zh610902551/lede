@@ -8,6 +8,8 @@ include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=cpulimit configuration module
 LUCI_DEPENDS:=+cpulimit
+PKG_VERSION:=1.0
+PKG_RELEASE:=2
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
