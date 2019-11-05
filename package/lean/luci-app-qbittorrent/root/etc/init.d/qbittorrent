@@ -10,21 +10,21 @@ config_qbittorrent()
 	if [ -f $2/qBittorrent/config/qBittorrent.conf ]; then
 		sed -i  's/WebUI\\Port=[0-9]*/WebUI\\Port='"$port"'/g' $2/qBittorrent/config/qBittorrent.conf
 		sed -i  's/Downloads\\SavePath=[a-z,/]*//g' $2/qBittorrent/config/qBittorrent.conf
-		echo "Downloads\SavePath=$down" >> $2/qBittorrent/config/qBittorrent.conf
+		echo "Downloads\SavePath=$download_dir" >> $2/qBittorrent/config/qBittorrent.conf
 	else
 	cat>$2/qBittorrent/config/qBittorrent.conf<<EOF
 [AutoRun]
 enabled=false
 program=
 
-[LegalNotice]
-Accepted=true
-
-[Network]
-Cookies=@Invalid()
-
 [Preferences]
+Bittorrent\DHT=false
+Bittorrent\LSD=false
+Bittorrent\PeX=false
+Downloads\UseIncompleteExtension=true
 Downloads\SavePath=$download_dir
+Queueing\QueueingEnabled=false
+WebUI\CSRFProtection=false
 General\Locale=zh
 WebUI\Port=$port
 EOF

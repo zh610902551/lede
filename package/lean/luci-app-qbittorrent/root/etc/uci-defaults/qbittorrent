@@ -1,0 +1,11 @@
+#!/bin/sh
+
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@qBittorrent[-1]
+	add ucitrack qBittorrent
+	set ucitrack.@qBittorrent[-1].init=qBittorrent
+	commit ucitrack
+EOF
+
+rm -f /tmp/luci-indexcache /tmp/luci-modulecache
+exit 0
