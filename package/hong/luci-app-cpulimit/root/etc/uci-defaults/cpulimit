@@ -3,11 +3,11 @@
 uci -q batch <<-EOF >/dev/null
           delete ucitrack.@cpulimit[-1]
           add ucitrack cpulimit
-          set ucitrack.@cpulimit[-1].init=cpulimit
+          set ucitrack.@cpulimit[-1].exec='/etc/init.d/cpulimit restart'
           commit ucitrack
 EOF
 
 /etc/init.d/cpulimit enable
 
-rm -f /tmp/luci-indexcache
+rm -f /tmp/luci*
 exit 0
