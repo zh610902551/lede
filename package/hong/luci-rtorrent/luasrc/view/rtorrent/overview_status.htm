@@ -1,0 +1,63 @@
+<script type="text/javascript">//<![CDATA[
+XHR.poll(5, '<%=luci.dispatcher.build_url("admin/nas/rtorrent_status")%>', null,
+	function(x, data) {
+		var tb = document.getElementById('rtorrent_status');
+		var btn = document.getElementById("rtorrent_startstop");
+		var btn_tmpl = '<input class="cbi-button cbi-button-apply" id="btn_startstop" style="font-size: 100%;" value="PID: NUMBER"type="button" onclick="onclick_startstop(this.id)">'
+		if (data && tb) {
+			if (data.rtorrent) {
+				var links = '<em><%:rTorrent is running.%></em>';
+				if (data.rtorrent_web) {
+					links += '<input class="cbi-button mar-10" type="button" value="<%:Open Web Interface%>" onclick="openWebUI();" />';
+				}
+				tb.innerHTML = links;
+			} else {
+				tb.innerHTML = '<em><%:rTorrent is not running.%></em>';
+			}
+			
+			if (data.rtorrent_pid == "0") {
+				btn.innerHTML = btn_tmpl.replace("PID: NUMBER", "<%:Start rTorrent%>"); 
+			} else {
+				btn.innerHTML = btn_tmpl.replace("NUMBER", data.rtorrent_pid); 
+			}
+		}
+		
+	}
+);
+function _data2elements(x, data) {
+		var btn = document.getElementById("btn_startstop");
+		if ( ! btn ) { return; }	// security check
+		if (data.rtorrent_pid == "0") {
+			btn.value = "<%:Start rTorrent%>";
+			btn.className = "cbi-button cbi-button-apply";
+			btn.disabled = false;
+		} else {
+			btn.value = "PID: " + data.rtorrent_pid;
+			btn.className = "cbi-button cbi-button-reset";
+			btn.disabled = false;
+		}
+}
+// event handler for start/stop button
+function onclick_startstop(id) {
+	// do start/stop
+	var btnXHR = new XHR();
+	btnXHR.post('<%=url('admin/nas/rtorrent_startstop')%>', { token: '<%=token%>' },
+		function(x, data) { _data2elements(x, data); }
+	);
+}
+
+function openWebUI() {
+	window.open("../rtorrent/main")
+};
+//]]>
+</script>
+<style>.mar-10 {margin-left: 10px; margin-right: 10px;}</style>
+<fieldset class="cbi-section">
+	<legend><%:rTorrent Status%></legend>
+	<p id="rtorrent_status">
+		<em><%:Collecting data...%></em>
+	</p>
+	<p id="rtorrent_startstop">
+		<em><%:Collecting data...%></em>
+	</p>
+</fieldset>

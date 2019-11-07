@@ -1,0 +1,21 @@
+#!/bin/sh
+
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@rtorrent[-1]
+	add ucitrack rtorrent
+	set ucitrack.@rtorrent[-1].init=rtorrent
+	commit ucitrack
+EOF
+
+while [ ! $(grep -e "rtorrent" ${IPKG_INSTROOT}/etc/passwd) ]
+do 
+    gid=$(awk -v min=1000 -v max=1500 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
+    echo rtorrent:x:0:0:99999:7::: >> ${IPKG_INSTROOT}/etc/shadow
+    grep -e ":$gid:" ${IPKG_INSTROOT}/etc/passwd || ( \
+	echo "rtorrent:x:$gid:rtorrent" >> ${IPKG_INSTROOT}/etc/group ; \
+	echo "rtorrent:x:$gid:$gid:rtorrent:/var/run/rtorrent:/bin/false" >> ${IPKG_INSTROOT}/etc/passwd )
+    sleep 1
+done
+
+rm -f /tmp/luci-indexcache
+exit 0

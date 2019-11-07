@@ -513,10 +513,10 @@ msgid "Ping Latency"
 msgstr "Ping延迟"
 
 msgid "Bypass Domain List"
-msgstr "域名白名单"
+msgstr "域名白名单（直连）"
 
 msgid "Black Domain List"
-msgstr "域名黑名单"
+msgstr "域名黑名单（代理）"
 
 msgid "Update Subscribe List"
 msgstr "更新订阅URL列表"
