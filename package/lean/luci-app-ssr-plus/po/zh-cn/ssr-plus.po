@@ -38,7 +38,7 @@ msgid "Servers Setting"
 msgstr "服务器配置"
 
 msgid "Alias(optional)"
-msgstr "别名（可选）"
+msgstr "别名(可选)"
 
 msgid "Onetime Authentication"
 msgstr "一次验证"
@@ -65,22 +65,22 @@ msgid "Protocol"
 msgstr "传输协议"
 
 msgid "Protocol param(optional)"
-msgstr "传输协议参数（可选）"
+msgstr "传输协议参数(可选)"
 
 msgid "Obfs"
 msgstr "混淆插件"
 
 msgid "Obfs param(optional)"
-msgstr "混淆参数（可选）"
+msgstr "混淆参数(可选)"
 
 msgid "Enable Tunnel(DNS)"
-msgstr "启用隧道（DNS）转发"
+msgstr "启用隧道(DNS)转发"
 
 msgid "Tunnel Port"
-msgstr "隧道（DNS）本地端口"
+msgstr "隧道(DNS)本地端口"
 
 msgid "Forwarding Tunnel"
-msgstr "隧道（DNS）转发地址"
+msgstr "隧道(DNS)转发地址"
 
 msgid "Access Control"
 msgstr "访问控制"
@@ -315,10 +315,10 @@ msgid "Enable Auto Switch"
 msgstr "启用自动切换"
 
 msgid "Switch check cycly(second)"
-msgstr "自动切换检查周期（秒）"
+msgstr "自动切换检查周期(秒)"
 
 msgid "Check timout(second)"
-msgstr "切换检查超时时间（秒）"
+msgstr "切换检查超时时间(秒)"
 
 msgid "Enable Process Deamon"
 msgstr "启用进程自动守护"
@@ -378,7 +378,7 @@ msgid "GFW List"
 msgstr "GFW列表"
 
 msgid "ShadowSocksR Plus+ Settings"
-msgstr "ShadowSocksR Plus+ 设置（支持SS/SSR/V2RAY）"
+msgstr "ShadowSocksR Plus+ 设置(支持SS/SSR/V2RAY)"
 
 msgid "Main Server"
 msgstr "主服务器"
@@ -447,7 +447,7 @@ msgid "Please refer to the following writing"
 msgstr "每行一个域名，无需写前面的 HTTP(S):// ，提交后即时生效"
 
 msgid "Servers subscription and manage"
-msgstr "服务器节点订阅与管理（支持订阅和手动导入SSR链接）"
+msgstr "服务器节点订阅与管理(支持订阅和手动导入SSR链接)"
 
 msgid "Through proxy update list, Not Recommended"
 msgstr "通过路由器自身代理更新订阅"
@@ -486,7 +486,7 @@ msgid "Multi Threads Option"
 msgstr "多线程并发转发"
 
 msgid "Auto Threads"
-msgstr "自动（CPU线程数）"
+msgstr "自动(CPU线程数)"
 
 msgid "1 Thread"
 msgstr "单线程"
@@ -504,10 +504,10 @@ msgid "Proxy Ports"
 msgstr "需要代理的端口"
 
 msgid "All Ports"
-msgstr "所有端口（默认）"
+msgstr "所有端口(默认)"
 
 msgid "Only Common Ports"
-msgstr "仅常用端口（不走P2P流量到代理）"
+msgstr "仅常用端口(不走P2P流量到代理)"
 
 msgid "Ping Latency"
 msgstr "Ping延迟"
@@ -516,7 +516,7 @@ msgid "Bypass Domain"
 msgstr "域名白名单(直连)"
 
 msgid "Black Domain"
-msgstr "域名黑名单（代理）"
+msgstr "域名黑名单(代理)"
 
 msgid "Update Subscribe List"
 msgstr "更新订阅URL列表"
@@ -526,3 +526,12 @@ msgstr "订阅服务器节点前，请先更新订阅URL列表"
 
 msgid "Update All Subscribe Severs"
 msgstr "更新所有订阅服务器节点"
+
+msgid "Direct connection to the domain name in the list"
+msgstr "名单内的域名直连"
+
+msgid "Domain name agent in the list"
+msgstr "名单内的域名代理"
+
+msgid ""
+msgstr ""

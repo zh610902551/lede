@@ -54,6 +54,7 @@ s:tab("esc",  translate("Bypass Domain"))
 
 local escconf = "/etc/config/white.list"
 o = s:taboption("esc", TextValue, "escconf")
+o.description = translate("Direct connection to the domain name in the list")
 o.rows = 13
 o.wrap = "off"
 o.rmempty = true
@@ -72,6 +73,7 @@ s:tab("block",  translate("Black Domain"))
 
 local blockconf = "/etc/config/black.list"
 o = s:taboption("block", TextValue, "blockconf")
+o.description = translate("Domain name agent in the list")
 o.rows = 13
 o.wrap = "off"
 o.rmempty = true
