@@ -6,6 +6,6 @@ config basic
 	option enable '0'
 
 config Preferences
-	option download_dir '/root/download'
+	option download_dir '/mnt/sda'
 	option port '8080'
 

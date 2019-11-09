@@ -22,7 +22,7 @@ profile_dir.default = "/root"
 s_download = m:section(TypedSection, "Preferences", translate("Download Settings"))
 s_download.anonymous = true
 download_dir = s_download:option(Value,"download_dir",translate("download_dir"),translate("Store download files in the Path"))
-download_dir.default = "/root/download"
+download_dir.default = "/mnt/sda"
 
 s_webui = m:section(TypedSection, "Preferences", translate("WEBUI Settings"))
 s_webui.anonymous = true
