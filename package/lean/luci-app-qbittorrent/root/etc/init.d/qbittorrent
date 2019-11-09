@@ -1,6 +1,11 @@
 #!/bin/sh /etc/rc.common
 START=99
 
+get_config()
+{
+	config_get_bool enable $1 enable 0
+}
+
 config_qbittorrent()
 {
 	local download_dir
@@ -10,7 +15,7 @@ config_qbittorrent()
 	if [ -f $2/qBittorrent/config/qBittorrent.conf ]; then
 		sed -i  's/WebUI\\Port=[0-9]*/WebUI\\Port='"$port"'/g' $2/qBittorrent/config/qBittorrent.conf
 		sed -i  's/Downloads\\SavePath=[a-z,/]*//g' $2/qBittorrent/config/qBittorrent.conf
-		echo "Downloads\SavePath=$download_dir" >> $2/qBittorrent/config/qBittorrent.conf
+		echo "Downloads\SavePath=$down" >> $2/qBittorrent/config/qBittorrent.conf
 	else
 	cat>$2/qBittorrent/config/qBittorrent.conf<<EOF
 [AutoRun]
@@ -24,15 +29,11 @@ Accepted=true
 Cookies=@Invalid()
 
 [Preferences]
-Bittorrent\DHT=false
-Bittorrent\LSD=false
-Bittorrent\PeX=false
-Downloads\UseIncompleteExtension=true
+General\Locale=zh
 Downloads\SavePath=$download_dir
-Queueing\QueueingEnabled=false
-WebUI\CSRFProtection=false
 General\Locale=zh
 WebUI\Port=$port
+WebUI\CSRFProtection=false
 EOF
 	fi
 }
@@ -45,7 +46,7 @@ run_qbittorrent()
     if [ $enable ]; then
         local profile_dir
         config_get profile_dir $1 profile_dir
-	config_foreach config_qbittorrent 'Preferences' $profile_dir        
+        config_foreach config_qbittorrent 'Preferences' $profile_dir        
         if [ "$profile_dir" != "" ]; then
         	config_get library_dir $1 library_dir
         	config_get program_dir $1 program_dir
@@ -61,13 +62,16 @@ run_qbittorrent()
 
 start()
 {
+  stop
 	local profile_path
-	config_load 'qbittorrent'
+	config_load 'qbittorrent' 
+	config_foreach get_config basic
+	[ $enable -eq 0 ] && exit 0
 	config_foreach run_qbittorrent 'basic'
 }
 
 stop()
 {
-    killall qbittorrent-nox
+    killall qbittorrent-nox >/dev/null 2>&1 
     return 0
 }

@@ -1,14 +1,14 @@
 msgid "qbittorrent"
-msgstr "qBittorrent 下载"
+msgstr "qbittorrent"
 
 msgid "Running"
-msgstr "qBittorrent 运行中"
+msgstr "运行中"
 
 msgid "Not running"
-msgstr "qBittorrent 未运行"
+msgstr "未运行"
 
 msgid "qbittorrent Run Status"
-msgstr "qBittorrent运行状态"
+msgstr "qbittorrent运行状态"
 
 msgid "Basic Settings"
 msgstr "基本设置"
@@ -16,8 +16,8 @@ msgstr "基本设置"
 msgid "Enable"
 msgstr "启用"
 
-msgid "A BT/PT downloader base on Qt"
-msgstr "一个基于QT的BT/PT下载器"
+msgid "qBittorrent is a cross-platform free and open-source BitTorrent client"
+msgstr "qBittorrent是一个基于 QT 的跨平台的开源 BitTorrent 客户端"
 
 msgid "profile_dir"
 msgstr "配置文件目录"
@@ -44,14 +44,10 @@ msgid "download_dir"
 msgstr "下载目录"
 
 msgid "Store download files in the Path"
-msgstr "下载文件存放目录路径"
+msgstr "下载文件存放目录"
 
 msgid "WEBUI Settings"
-msgstr "WebUI设置"
+msgstr "WEBUI设置"
 
 msgid "WEBUI listening port"
-msgstr "WebUI监听端口。默认登录用户名：admin 密码：adminadmin 。"
-
-
-
-
+msgstr "WEBUI监听端口"
