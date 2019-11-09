@@ -50,7 +50,7 @@ end)
 -- o:value("2", translatef("Forwarded Proxy"))
 -- o.rmempty = false
 
-s:tab("esc",  translate("Bypass Domain List"))
+s:tab("esc",  translate("Bypass Domain"))
 
 local escconf = "/etc/config/white.list"
 o = s:taboption("esc", TextValue, "escconf")
@@ -68,7 +68,7 @@ o.remove = function(self, section, value)
 end
 
 
-s:tab("block",  translate("Black Domain List"))
+s:tab("block",  translate("Black Domain"))
 
 local blockconf = "/etc/config/black.list"
 o = s:taboption("block", TextValue, "blockconf")
