@@ -1,11 +1,11 @@
 msgid "qbittorrent"
 msgstr "qBittorrent 下载"
 
-msgid "Running"
-msgstr "qBittorrent 运行中"
+msgid "The qBittorrent service is running."
+msgstr "qBittorrent 服务正在运行"
 
-msgid "Not running"
-msgstr "qBittorrent 未运行"
+msgid "The qBittorrent service is not running."
+msgstr "qBittorrent 服务未运行"
 
 msgid "qbittorrent Run Status"
 msgstr "qBittorrent运行状态"

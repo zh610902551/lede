@@ -8,7 +8,7 @@ if a then
 t="<br /><br /><input class=\"cbi-button cbi-button-apply\" type=\"submit\" value=\" "..translate("Open Web Interface").." \" onclick=\"window.open('http://'+window.location.hostname+':"..o.."')\"/>"
 end
 
-m = Map("qbittorrent", translate("qBittorrent"), translate("qBittorrent is a cross-platform free and open-source BitTorrent client")..t)
+m = Map("qbittorrent", translate("qbittorrent"), translate("qBittorrent is a cross-platform free and open-source BitTorrent client")..t)
 
 m:section(SimpleSection).template="qbittorrent/qbittorrent_status"
 
