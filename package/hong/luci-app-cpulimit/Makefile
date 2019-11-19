@@ -11,6 +11,14 @@ LUCI_DEPENDS:=+cpulimit
 PKG_VERSION:=1.0
 PKG_RELEASE:=2
 
+define Package/$(PKG_NAME)/postinst
+#!/bin/sh
+chmod 755 /usr/bin/cpulimit.sh  >/dev/null 2>&1
+chmod 755 /etc/init.d/cpulimit >/dev/null 2>&1
+exit 0
+endef
+
+
 include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature
