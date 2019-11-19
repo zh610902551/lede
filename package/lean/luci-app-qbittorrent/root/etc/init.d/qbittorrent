@@ -36,7 +36,6 @@ Bittorrent\PeX=false
 Downloads\UseIncompleteExtension=true
 Downloads\SavePath=$download_dir
 Queueing\QueueingEnabled=false
-
 WebUI\Port=$port
 WebUI\CSRFProtection=false
 EOF
