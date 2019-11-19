@@ -1,0 +1,13 @@
+#!/bin/sh
+
+uci -q batch <<-EOF >/dev/null
+  delete ucitrack.@cpulimit[-1]
+  add ucitrack cpulimit
+  set ucitrack.@cpulimit[-1].exec="/etc/init.d/cpulimit reload"
+  commit ucitrack
+EOF
+
+# remove LuCI cache
+rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
+
+exit 0
