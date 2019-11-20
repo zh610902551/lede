@@ -4,8 +4,18 @@ Copyright (C) 2019 Jianpeng Xiang (1505020109@mail.hnust.edu.cn)
 This is free software, licensed under the GNU General Public License v3.
 ]]--
 
-require("luci.sys")
-require("luci.util")
+local NXFS = require "nixio.fs"
+local SYS  = require "luci.sys"
+local HTTP = require "luci.http"
+local DISP = require "luci.dispatcher"
+local UTIL = require "luci.util"
+local uci = require("luci.model.uci").cursor()
+local m
+
+font_green = [[<font color="green">]]
+font_off = [[</font>]]
+bold_on  = [[<strong>]]
+bold_off = [[</strong>]]
 --得到Map对象，并初始化。参一：指定cbi文件，参二：设置标题，参三：设置标题下的注释
 m=Map("softwarecenter",translate("Software Center"),translate("The software center is designed for the automated and unified configuration of software applications. It provides us with a simple and friendly interactive interface, which aims to make the configuration process easier and simpler!"))
 --各个软件的状态
@@ -20,11 +30,14 @@ nginx_tab=s:tab("nginx",translate("Nginx Settings"))
 mysql_tab=s:tab("mysql",translate("MySQL Settings"))
 
 deploy_entware=s:taboption("entware",Flag,"deploy_entware",translate("Deploy Entware"),translate("This is a software repository for network attached storages, routers and other embedded devices.Browse through 2000+ packages for different platforms."))
-cpu_architecture=s:taboption("entware",ListValue,"cpu_architecture",translate("CPU architecture"),translate("You must select a right cpu architecture!<br>wrong cpu architecture will cause the installation failed"))
+local cpu_model = luci.sys.exec("opkg status libc 2>/dev/null |grep 'Architecture' |awk -F ': ' '{print $2}' 2>/dev/null")
+cpu_architecture = s:taboption("entware",ListValue,"cpu_architecture",translate("Select Core"))
+cpu_architecture.description = translate("Current CPU model")..': '..font_green..bold_on..cpu_model..bold_off..font_off..' '
 cpu_architecture:value("mipsel","mipsel")
 cpu_architecture:value("mips","mips")
 cpu_architecture:value("armv7","armv7")
 cpu_architecture:value("x64","x64")
+cpu_architecture:value("x86","x86")
 cpu_architecture:value("aarch64","aarch64")
 cpu_architecture:depends("deploy_entware",1)
 entware_disk_mount=s:taboption("entware",ListValue,"entware_disk_mount",translate("Entware install path"),translate("The select mount point will be reformat to ext4 filesystem,make sure that certain software can running normally<br>Warning: If select disk filesystem is not ext4,the disk will be reformat,please make sure there are no important data on the disk or make sure the disk's filesystem already is ext4"))

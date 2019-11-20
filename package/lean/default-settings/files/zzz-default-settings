@@ -35,8 +35,8 @@ uci commit minidlna
 
 ln -sf /sbin/ip /usr/bin/ip
 
-sed -i 's/downloads.openwrt.org/openwrt.proxy.ustclug.org/g' /etc/opkg/distfeeds.conf
-sed -i 's/http/https/g' /etc/opkg/distfeeds.conf
+#sed -i 's/downloads.openwrt.org/openwrt.proxy.ustclug.org/g' /etc/opkg/distfeeds.conf
+#sed -i 's/http/https/g' /etc/opkg/distfeeds.conf
 #sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 
 sed -i "s/# //g" /etc/opkg/distfeeds.conf
@@ -78,7 +78,9 @@ chmod 755 /etc/init.d/cpulimit
 chmod 755 /usr/bin/cpulimit.sh
 chmod 755 /etc/init.d/serverchan
 chmod 755 /usr/bin/serverchan/serverchan
-#chmod 755 /etc/init.d/unblockmusic
+chmod 755 /etc/init.d/unblockmusic
+chmod 755 /etc/init.d/baidupcs-web
+chmod 755 /etc/init.d/
 
 exit 0
 

@@ -13,10 +13,10 @@ PKG_RELEASE:=1
 
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
-  chmod 755 /usr/lib/smartinfo/smart_checker.sh >/dev/null 2>&1     
-  chmod 755 /usr/lib/smartinfo/smart_functions.sh >/dev/null 2>&1   
-  chmod 755 /usr/lib/smartinfo/smart_status.sh >/dev/null 2>&1      
-  chmod 755 /etc/init.d/smartinfo >/dev/null 2>&1                   
+  chmod 0755 /usr/lib/smartinfo/smart_checker.sh >/dev/null 2>&1     
+  chmod 0755 /usr/lib/smartinfo/smart_functions.sh >/dev/null 2>&1   
+  chmod 0755 /usr/lib/smartinfo/smart_status.sh >/dev/null 2>&1      
+  chmod 0755 /etc/init.d/smartinfo >/dev/null 2>&1                   
 exit 0
 endef
 

@@ -38,6 +38,8 @@ entware_set(){
 		wget -O - http://bin.entware.net/armv7sf-k3.2/installer/generic.sh | /bin/sh
 	elif [ "$1" == "x64" ]; then
 		wget -O - http://bin.entware.net/x64-k3.2/installer/generic.sh | /bin/sh
+	elif [ "$1" == "x86" ]; then
+		wget -O - http://bin.entware.net/x86-k2.6/installer/generic.sh | /bin/sh
 	elif [ "$1" == "aarch64" ]; then
 		wget -O - http://bin.entware.net/aarch64-k3.10/installer/generic.sh | /bin/sh
 	else
