@@ -49,8 +49,11 @@ msgstr "部署Entware软件仓库"
 msgid "This is a software repository for network attached storages, routers and other embedded devices.Browse through 2000+ packages for different platforms."
 msgstr "这是一个用于NAS，路由器和其他嵌入式设备的软件仓库。提供超过2000多个不同平台的软件包。"
 
+msgid "Select CPU model"
+msgstr "选择CPU架构："
+
 msgid "Current CPU model"
-msgstr "当前CPU型号："
+msgstr "当前CPU架构："
 
 msgid "Entware install path"
 msgstr "Entware软件仓库安装路径"
