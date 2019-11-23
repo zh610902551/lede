@@ -32,7 +32,7 @@ mysql_tab=s:tab("mysql",translate("MySQL Settings"))
 deploy_entware=s:taboption("entware",Flag,"deploy_entware",translate("Deploy Entware"),translate("This is a software repository for network attached storages, routers and other embedded devices.Browse through 2000+ packages for different platforms."))
 local cpu_model = luci.sys.exec("opkg status libc 2>/dev/null |grep 'Architecture' |awk -F ': ' '{print $2}' 2>/dev/null")
 cpu_architecture = s:taboption("entware",ListValue,"cpu_architecture",translate("Select CPU model"))
-cpu_architecture.description = translate("Current CPU model")..': '..font_green..bold_on..cpu_model..bold_off..font_off..' '
+cpu_architecture.description = translate("Current CPU model")..font_green..bold_on..cpu_model..bold_off..font_off..' '
 cpu_architecture:value("mipsel","mipsel")
 cpu_architecture:value("mips","mips")
 cpu_architecture:value("armv7","armv7")

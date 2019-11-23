@@ -50,7 +50,7 @@ msgid "This is a software repository for network attached storages, routers and 
 msgstr "这是一个用于NAS，路由器和其他嵌入式设备的软件仓库。提供超过2000多个不同平台的软件包。"
 
 msgid "Select CPU model"
-msgstr "选择CPU架构："
+msgstr "选择CPU架构"
 
 msgid "Current CPU model"
 msgstr "当前CPU架构："

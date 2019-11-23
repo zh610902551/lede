@@ -1,0 +1,11 @@
+#!/bin/sh
+
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@smartinfo[-1]
+	add ucitrack smartinfo
+	set ucitrack.@smartinfo[-1].init=smartinfo
+	commit ucitrack
+EOF
+
+rm -f /tmp/luci-indexcache
+exit 0

@@ -58,7 +58,7 @@ echo "iptables -i INPUT -p udp --destination-port 51413 -j ACCEPT" >> /etc/firew
 #wifi up
 
 #sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
-#echo "DISTRIB_REVISION='R9.10.24'" >> /etc/openwrt_release
+#echo "DISTRIB_REVISION='R9.11.9'" >> /etc/openwrt_release
 #sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
 #echo "DISTRIB_DESCRIPTION='OpenWrt '" >> /etc/openwrt_release
 
@@ -70,10 +70,10 @@ sed -i 's/cbi.submit\"] = true/cbi.submit\"] = \"1\"/g' /usr/lib/lua/luci/dispat
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
 
-chmod 755 /usr/lib/smartinfo/smart_checker.sh 
-chmod 755 /usr/lib/smartinfo/smart_functions.sh  
-chmod 755 /usr/lib/smartinfo/smart_status.sh  
-chmod 755 /etc/init.d/smartinfo
+#chmod 755 /usr/lib/smartinfo/smart_checker.sh 
+#chmod 755 /usr/lib/smartinfo/smart_functions.sh  
+#chmod 755 /usr/lib/smartinfo/smart_status.sh  
+#chmod 755 /etc/init.d/smartinfo
 chmod 755 /etc/init.d/cpulimit
 chmod 755 /usr/bin/cpulimit.sh
 chmod 755 /etc/init.d/serverchan
