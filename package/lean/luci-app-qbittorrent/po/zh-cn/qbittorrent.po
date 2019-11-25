@@ -1,57 +1,374 @@
-msgid "qbittorrent"
-msgstr "qBittorrent 下载"
+msgid "The qBittorrent daemon is running. Click the button below to startup webgui."
+msgstr "qBittorrent后台程序正在运行。单击下面的按钮启动webgui。"
 
-msgid "The qBittorrent service is running."
-msgstr "服务正在运行"
+msgid "The qBittorrent daemon is not running. Click the button below to startup webgui."
+msgstr "qBittorrent后台程序未运行。"
 
-msgid "The qBittorrent service is not running."
-msgstr "服务未运行"
-
-msgid "qbittorrent Run Status"
+msgid "qBittorrent Status"
 msgstr "qBittorrent运行状态"
 
-msgid "Basic Settings"
-msgstr "基本设置"
+msgid "Run daemon as user"
+msgstr "用户组"
 
-msgid "Enable"
-msgstr "启用"
+msgid "Parent Path for Profile Folder"
+msgstr "配置文件文件夹的主路径"
 
-msgid "qBittorrent is a cross-platform free and open-source BitTorrent client"
-msgstr "qBittorrent是一个基于 QT 的跨平台的开源 BitTorrent 客户端"
+msgid "The path for storing profile folder using by command: <b>--profile [PATH]</b>."
+msgstr "使用命令存储配置文件文件夹的路径 <b>--profile [PATH]</b>"
 
-msgid "profile_dir"
-msgstr "配置文件目录"
+msgid "Profile Folder Suffix"
+msgstr "配置文件文件夹后缀"
 
-msgid "Store configuration files in the Path"
-msgstr "配置文件存放路径"
+msgid "Suffix for profile folder, for example, <b>qBittorrent_[NAME]</b>."
+msgstr "配置文件文件夹的后缀。例如 <b>qBittorrent_[NAME]</b>"
 
-msgid "program_dir"
-msgstr "程序目录"
+msgid "Locale Language"
+msgstr "WebUI界面语言"
 
-msgid "library_dir"
-msgstr "库目录"
+msgid "English"
+msgstr "英文"
 
-msgid "Store Program files in the Path"
-msgstr "程序文件存放路径"
+msgid "Chinese"
+msgstr "中文"
 
-msgid "Store Library in the Path"
-msgstr "库文件存放路径"
+msgid "Enable Log"
+msgstr "启用日志"
 
-msgid "Download Settings"
+msgid "Enable logger to log file."
+msgstr "启用日志文件保存。"
+
+msgid "Log Path"
+msgstr "日志文件"
+
+msgid "The path for qbittorrent log."
+msgstr "日志文件存储的路径。"
+
+msgid "Enable Backup"
+msgstr "启用备份"
+
+msgid "Backup log file when oversize the given size."
+msgstr "当备份文件的超出设定大小时。"
+
+msgid "Delete Old Backup"
+msgstr "删除旧备份"
+
+msgid "Delete the old log file."
+msgstr "删除旧的日志文件"
+
+msgid ""
+msgstr "日志最大设定"
+
+msgid "The max size for qbittorrent log (Unit: Bytes)."
+msgstr "日志文件的最大大小（单位：字节）。"
+
+msgid "Log Saving Period"
+msgstr "日志保存期限"
+
+msgid "The log file will be deteted after given time. 1d -- 1 day, 1m -- 1 month, 1y -- 1 year"
+msgstr "设定时间后，日志文件将被删除。（1d-1天，1m-1个月，1y-1年）。"
+
+msgid "Connection Settings"
+msgstr "连接设置"
+
+msgid "Use UPnP for Connections"
+msgstr "使用UPnP连接"
+
+msgid "Manual"
+msgstr "手动"
+
+msgid "Use Random Port"
+msgstr "使用随机端口"
+
+msgid "Automaic"
+msgstr "自动"
+
+msgid "Connection Port"
+msgstr "连接端口"
+
+msgid "Generate Randomly"
+msgstr "随机生成"
+
+msgid "Global Download Speed"
+msgstr "全局下载速度限制"
+
+msgid "Global Download Speed Limit(KiB/s)."
+msgstr "全局下载速度限制(KiB/s)，0为无限制。"
+
+msgid "Global Upload Speed"
+msgstr "全局上传速度限制"
+
+msgid "Alternative Download Speed"
+msgstr "备用下载速度限制"
+
+msgid "Alternative Upload Speed"
+msgstr "备用上传速度限制"
+
+msgid "Global Upload Speed Limit(KiB/s)."
+msgstr "全局上传速度限制(KiB/s)，0为无限制。"
+
+msgid "Alternative Download Speed Limit(KiB/s)."
+msgstr "备用下载速度限制(KiB/s)，0为无限制。"
+
+msgid "Alternative Upload Speed Limit(KiB/s)."
+msgstr "备用上传速度限制(KiB/s)，0为无限制。"
+
+msgid "Enabled protocol"
+msgstr "启用的协议"
+
+msgid "The protocol that was enabled."
+msgstr "已启用的协议"
+
+msgid "TCP and UTP"
+msgstr "TCP和UTP"
+
+msgid "Log Max Size"
+msgstr "日志设定"
+
+msgid ""
+msgstr ""
+
+msgid "Downloads Settings"
 msgstr "下载设置"
 
-msgid "download_dir"
-msgstr "下载目录"
+msgid ""
+msgstr "当添加种子时"
 
-msgid "Store download files in the Path"
-msgstr "下载文件存放目录路径"
+msgid "Create Subfolder"
+msgstr "创建多文件子目录"
 
-msgid "WEBUI Settings"
-msgstr "WebUI设置"
+msgid "Create subfolder for torrents with multiple files."
+msgstr "为包含多个文件的种子创建子文件夹。"
 
-msgid "WEBUI listening port"
-msgstr "WebUI监听端口。默认登录用户名：admin 密码：adminadmin 。"
+msgid "Start In Pause"
+msgstr "开始暂停"
 
+msgid "Do not start the download automatically."
+msgstr "不要自动开始下载。"
 
+msgid "Auto Delete Torrent File"
+msgstr "自动删除种子"
 
+msgid "The .torrent files will be deleted afterwards."
+msgstr "下载完成后删除种子文件。"
 
+msgid "Pre Allocation"
+msgstr "磁盘预分配"
+
+msgid "Pre-allocate disk space for all files."
+msgstr "为所有文件预分配磁盘空间。"
+
+msgid "Use Incomplete Extension"
+msgstr "使用扩展名"
+
+msgid "The incomplete task will be added the extension of !qB."
+msgstr "为没完成的文件添加扩展名 !qB"
+
+msgid "Save Path"
+msgstr "默认的文件下载保存路径"
+
+msgid "Temp Path Enabled"
+msgstr "启用临时文件保存"
+
+msgid "Temp Path"
+msgstr "临时文件路径"
+
+msgid "The absolute and relative path can be set."
+msgstr "可以设置绝对和相对路径。"
+
+msgid "Disk Cache Size (MiB)"
+msgstr "磁盘缓存大小(MiB)"
+
+msgid "The value -1  is auto and 0 is disable. In default, it is set to 64MiB."
+msgstr "数值1是自动的，0是禁用的。默认设置为64MiB"
+
+msgid "Disk Cache TTL (s)"
+msgstr "磁盘缓存TTL(s)"
+
+msgid "In default, it is set to 60s."
+msgstr "默认设置为60秒。"
+
+msgid "Saving Management"
+msgstr "保存管理"
+
+msgid "Default Torrent Management Mode"
+msgstr "默认种子管理模式"
+
+msgid "Torrent Category Changed"
+msgstr "当种子分类修改时"
+
+msgid "Choose the action when torrent category changed."
+msgstr "选择种子类别更改时的操作。"
+
+msgid "Switch torrent to Manual Mode"
+msgstr "将种子切换到手动模式"
+
+msgid "Default Save Path Changed"
+msgstr "当默认保存路径修改时"
+
+msgid "Choose the action when default save path changed."
+msgstr "选择默认保存路径更改时的操作。"
+
+msgid "Switch affected torrent to Manual Mode"
+msgstr "将受影响的种子切换到手动模式"
+
+msgid "Relocate affected torrent"
+msgstr "重新定位种子"
+
+msgid "Choose the action when category save path changed."
+msgstr "选择分类保存路径更改时的操作。"
+
+msgid "Torrent Export Dir"
+msgstr "复制种子文件"
+
+msgid "The .torrent files will be copied to the target directory."
+msgstr "已完成下载的种子文件将复制到目标目录。"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""

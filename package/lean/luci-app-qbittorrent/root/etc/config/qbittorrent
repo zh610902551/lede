@@ -1,11 +1,3 @@
 
-config basic
-	option program_dir '/usr/bin'
-	option library_dir '/usr/lib'
-	option profile_dir '/root'
-	option enable '0'
-
-config Preferences
-	option download_dir '/mnt/sda'
-	option port '8080'
-
+config qbittorrent 'main'
+	option profile '/tmp'

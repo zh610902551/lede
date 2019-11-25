@@ -1,0 +1,53 @@
+<%#
+ Copyright 2019 xxx <xxx@xxx.com>
+ Licensed to the public under the Apache License 2.0.
+-%>
+
+<fieldset class="cbi-section">
+	<legend><%:qBittorrent Status%></legend>
+	<p id="qbt_status">
+		<em><%:Collecting data...%></em>
+	</p>
+	<p>
+		<input class="cbi-button cbi-button-apply" id="btn_startstop" style="font-size: 100%;"
+				value="PID: NUMBER" type="button" />
+	</p>
+</fieldset>
+
+<script type="text/javascript">//<![CDATA[
+XHR.poll(5, '<%=url("admin/services/qbittorrent/status")%>', null,
+	function(x, data) {
+		var tb = document.getElementById('qbt_status');
+		var btn = document.getElementById('btn_startstop');
+		if (data && tb && btn) {
+			if (data.pid) {
+				tb.innerHTML = '<em><b><font color=green><%:The qBittorrent daemon is running. Click the button below to startup webgui.%></font></b></em>';
+				btn.value = "PID: " + data.pid;
+				btn.onclick = function () {
+					onclick_startstop("webgui")
+				}
+			} else {
+				tb.innerHTML = '<em><b><font color=red><%:The qBittorrent daemon is not running. Click the button below to startup webgui.%></font></b></em>';
+				btn.value = "<%:Start qBittorrent%>"; 
+				btn.onclick = function () {
+					onclick_startstop("qbt")
+				}
+			}
+		}
+	}
+);
+
+function randomToken() {
+	document.getElementById('cbid.qbittorrent.main.PortRangeMin').value = Math.floor( Math.random() * (65535 - 1024)) + 1024;
+};
+
+function onclick_startstop(target) {
+	new XHR().post('<%=url('admin/services/qbittorrent/startstop')%>' + '/' + target, { token: '<%=token%>' },
+		function(x, data) {
+			if ( target == "webgui" ) {
+				window.open("http://" + data,'_blank')
+			}		}
+	);
+}
+
+//]]></script>
