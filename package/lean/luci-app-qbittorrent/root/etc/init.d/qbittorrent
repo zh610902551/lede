@@ -28,16 +28,16 @@ validate_QBT () {
 		'user:string:root' \
 		'profile:string:/tmp' \
 		'configuration:string' \
-		'DHT:or("true","false"):true' \
+		'DHT:or("true","false"):false' \
 		'Encryption:or("0","1","2"):0' \
-		'LSD:or("true","false"):true' \
+		'LSD:or("true","false"):false' \
 		'MaxConnecs:integer' \
 		'MaxConnecsPerTorrent:integer' \
 		'MaxRatio:float' \
 		'MaxRatioAction:or("0","1")' \
 		'MaxUploads:integer' \
 		'MaxUploadsPerTorrent:integer' \
-		'PeX:or("true","false"):true' \
+		'PeX:or("true","false"):false' \
 		'uTP_rate_limited:or("true","false"):true' \
 		'PortRangeMin:port' \
 		'InetAddress:string' \
@@ -52,12 +52,12 @@ validate_QBT () {
 		'PreAllocation:or("true","false"):false' \
 		'SavePath:string:/tmp/download' \
 		'StartInPause:or("true","false"):false' \
-		'TempPathEnabled:or("true","false"):true' \
+		'TempPathEnabled:or("true","false"):false' \
 		'TempPath:string:temp/' \
-		'UseIncompleteExtension:or("true","false"):false' \
+		'UseIncompleteExtension:or("true","false"):true' \
 		'TorrentExportDir:string' \
-		'Locale:string:en' \
-		'UseRandomPort:or("true","false"):true' \
+		'Locale:string:zh' \
+		'UseRandomPort:or("true","false"):false' \
 		'IgnoreSlowTorrents:or("true","false")' \
 		'MaxActiveDownloads:integer' \
 		'MaxActiveTorrents:integer' \
@@ -65,7 +65,7 @@ validate_QBT () {
 		'QueueingEnabled:or("true","false")' \
 		'AuthSubnetWhitelist:string' \
 		'AuthSubnetWhitelistEnabled:or("true","false"):false' \
-		'ClickjackingProtection:or("true","false"):true' \
+		'ClickjackingProtection:or("true","false"):false' \
 		'CSRFProtection:or("true","false"):false' \
 		'HostHeaderValidation:or("true","false"):true' \
 		'LocalHostAuth:or("true","false"):true' \

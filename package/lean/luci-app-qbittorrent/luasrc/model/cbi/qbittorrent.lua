@@ -1,292 +1,404 @@
-local a,t,e
-local o=luci.util.trim(luci.sys.exec("HOME=/tmp qbittorrent-nox -v | awk '{print $2}'"))
-function titlesplit(e)
-return"<p style=\"font-size:20px;font-weight:bold;color: DodgerBlue\">"..translate(e).."</p>"
+--[[
+	Copyright 2019 xxx <xxx@xxx.com>
+	Licensed to the public under the Apache License 2.0.
+]]--
+
+local m, s, o
+local ver = luci.util.trim(luci.sys.exec("HOME=/tmp qbittorrent-nox -v | awk '{print $2}'"))
+function titlesplit(Value)
+    return "<p style=\"font-size:15px;font-weight:bold;color: DodgerBlue\">" .. translate(Value) .. "</p>"
 end
-a=Map("qbittorrent",translate("qBittorrent"),"%s <br\> %s"%{translate("一个基于QT的跨平台的开源BitTorrent客户端。"
-.."<a href='https://github.com/qbittorrent/qBittorrent/wiki/Explanation-of-Options-in-qBittorrent'  target='_blank'>(更多信息)</a>"),
-"<b style=\"color:green\">"..translatef("当前qBittorrent版本:  %s.",o).."</b>"})
-a:append(Template("qbittorrent/qbt_status"))
-t=a:section(NamedSection,"main","qbittorrent")
-t:tab("basic",translate("Basic Settings"))
-e=t:taboption("basic",Flag,"enabled",translate("Enabled"))
-e.default="1"
-e=t:taboption("basic",ListValue,"user",translate("用户组"))
-local o
-for t in luci.util.execi("cat /etc/passwd | cut -d ':' -f1")do
-e:value(t)
+local e=require"luci.model.uci".cursor()
+local i=require"nixio.fs"
+local a=(luci.sys.call("pidof qbittorrent-nox > /dev/null")==0)
+local o=e:get_first("qbittorrent","main","Port") or 8080
+
+local t=""
+if a then
+t="<br /><br /><input class=\"cbi-button cbi-button-apply\" type=\"submit\" value=\" "..translate("Open Web Interface").." \" onclick=\"window.open('http://'+window.location.hostname+':"..o.."')\"/>"
 end
-e=t:taboption("basic",Value,"profile",translate("配置保存路径"),translate("使用命令存储配置文件文件夹的路径。例如：<code>/etc/config</code>"))
-e.default='/tmp'
-e=t:taboption("basic",Value,"configuration",translate("配置目录后缀"),translate("配置文件目录的后缀。例如 <b>qBittorrent_[NAME]</b>"))
-e=t:taboption("basic",Value,"Locale",translate("WebUI界面语言"))
-e:value("en",translate("英文"))
-e:value("zh",translate("中文"))
-e.default="zh"
-e=t:taboption("basic",Flag,"Enabled",translate("启用日志"),translate("启用日志文件存储。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("basic",Value,"Path",translate("日志文件"),translate("日志文件存储的路径。例如：<code>/etc/config</code>"))
-e:depends("Enabled","true")
-e=t:taboption("basic",Flag,"Backup",translate("启用日志备份"),translate("当备份文件超出给定大小时。"))
-e:depends("Enabled","true")
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("basic",Flag,"DeleteOld",translate("删除旧备份"),translate("删除旧的日志文件。"))
-e:depends("Enabled","true")
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("basic",Value,"MaxSizeBytes",translate("日志最大大小"),translate("日志文件的最大大小（单位：字节）。"))
-e:depends("Enabled","true")
-e.placeholder="66560"
-e=t:taboption("basic",Value,"SaveTime",translate("日志保存期限"),translate("到设定时间后日志文件将删除。1d-1天，1m-1个月，1y-1年。"))
-e:depends("Enabled","true")
-e.datatype="string"
 
-t:tab("connection",translate("连接设置"))
-e=t:taboption("connection",Flag,"UPnP",translate("端口自动转发"),translate("使用路由器的UPnP/NAT-PMP端口自动转发。"
-.."<a href='https://en.wikipedia.org/wiki/Port_forwarding' target='_blank'>(更多信息)</a>"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("connection",Flag,"UseRandomPort",translate("使用随机端口"),translate("在每次启动时使用不同的端口。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("connection",Value,"PortRangeMin",translate("连接端口"),translate("随机生成"),translate("全局下载速度限制(单位 KiB/s)，0为无限制。"))
-e:depends("UseRandomPort",false)
-e.placeholder="8999"
-e.datatype="range(1024,65535)"
-e.template="qbittorrent/qbt_value"
-e.btnclick="randomToken();"
-e=t:taboption("connection",Value,"GlobalDLLimit",translate("全局下载限制"),translate("全局下载速度限制(单位 KiB/s)，0为无限制。"))
-e.datatype="float"
-e.placeholder="0"
-e=t:taboption("connection",Value,"GlobalUPLimit",translate("全局上传限制"),translate("全局上传速度限制(单位 KiB/s)，0为无限制。"))
-e.datatype="float"
-e.placeholder="0"
-e=t:taboption("connection",Value,"GlobalDLLimitAlt",translate("备用下载限制"),translate("备用下载速度限制(单位 KiB/s)，0为无限制。"))
-e.datatype="float"
-e.placeholder="10"
-e=t:taboption("connection",Value,"GlobalUPLimitAlt",translate("备用上传限制"),translate("备用上传速度限制(单位 KiB/s)，0为无限制。"))
-e.datatype="float"
-e.placeholder="10"
-e=t:taboption("connection",ListValue,"BTProtocol",translate("启用的协议"),translate("已启用的协议。"))
-e:value("Both",translate("TCP和UTP"))
-e:value("TCP",translate("TCP"))
-e:value("UTP",translate("UTP"))
-e.default="Both"
-e=t:taboption("connection",Value,"InetAddress",translate("输入地址"),translate("响应跟踪器的地址。"))
+m = Map("qbittorrent", translate("qBittorrent"), "%s <br\> %s" % {translate("一个基于QT的跨平台的开源BitTorrent客户端。"),"<b style=\"color:green\">" .. translatef("当前BitTorrent版本: %s", ver) .. "</b>"}..t)
 
-t:tab("downloads",translate("下载设置"))
-e=t:taboption("downloads",DummyValue,"Saving Management",titlesplit("当添加种子时"))
-e=t:taboption("downloads",Flag,"CreateTorrentSubfolder",translate("创建目录"),translate("为含多个文件的种子创建子文件夹。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("downloads",Flag,"StartInPause",translate("开始暂停"),translate("添加种子后不要马上开始下载文件。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("downloads",Flag,"AutoDeleteAddedTorrentFile",translate("删除种子"),translate("下载完成后自动删除这个种子文件。"))
-e.enabled="IfAdded"
-e.disabled="Never"
-e.default=e.disabled
-e=t:taboption("downloads",Flag,"PreAllocation",translate("磁盘分配"),translate("为刚添加的文件预分配磁盘空间。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("downloads",Flag,"UseIncompleteExtension",translate("使用扩展名"),translate("为不完整的文件添加后缀名<code>!qB</code>"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("downloads",Value,"SavePath",translate("文件保存路径"),translate("默认下载文件的保存路径。例如：<code>/mnt/sda1/download</code>"))
-e.placeholder="/tmp/download"
-e=t:taboption("downloads",Flag,"TempPathEnabled",translate("启用临时目录"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("downloads",Value,"TempPath",translate("临时路径"),translate("可以设置绝对和相对路径。"))
-e:depends("TempPathEnabled","true")
-e.placeholder="temp/"
-e=t:taboption("downloads",Value,"DiskWriteCacheSize",translate("磁盘缓存"),translate("数值1是自动的，0是禁用的。默认设置为64MiB。"))
-e.datatype="integer"
-e.placeholder="64"
-e=t:taboption("downloads",Value,"DiskWriteCacheTTL",translate("磁盘缓存TTL"),translate("默认设置为60秒。"))
-e.datatype="integer"
-e.placeholder="60"
-e=t:taboption("downloads",DummyValue,"Saving Management",titlesplit("保存管理"))
-e=t:taboption("downloads",ListValue,"DisableAutoTMMByDefault",translate("默认种子管理模式"))
-e:value("true",translate("手动"))
-e:value("false",translate("自动"))
-e.default="true"
-e=t:taboption("downloads",ListValue,"CategoryChanged",translate("当种子分类修改时"),translate("选择种子类别更改时的操作。"))
-e:value("true",translate("将种子切换到手动模式"))
-e:value("false",translate("重新定位种子"))
-e.default="false"
-e=t:taboption("downloads",ListValue,"DefaultSavePathChanged",translate("当默认保存路径修改时"),translate("选择默认保存路径更改时的操作。"))
-e:value("true",translate("将受影响的种子切换到手动模式"))
-e:value("false",translate("重新定位种子"))
-e.default="true"
-e=t:taboption("downloads",ListValue,"CategorySavePathChanged",translate("当分类保存路径修改时"),translate("选择分类保存路径更改时的操作。"))
-e:value("true",translate("将受影响的种子切换到手动模式"))
-e:value("false",translate("重新定位种子"))
-e.default="true"
-e=t:taboption("downloads",Value,"TorrentExportDir",translate("种子导出目录"),translate("种子文件将被复制到目标目录。例如：<code>/etc/config</code>"))
-e=t:taboption("downloads",Value,"FinishedTorrentExportDir",translate("复制种子文件"),translate("将已下载完成的种子文件复制到目标目录。例如：<code>/etc/config</code>"))
+m:section(SimpleSection).template="qbittorrent/qbittorrent_status"
 
-t:tab("bittorrent",translate("BT设置"))
-e=t:taboption("bittorrent",Flag,"DHT",translate("启用DHT"),translate("启用DHT(去中心化网络) 以找到更多用户。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("bittorrent",Flag,"PeX",translate("启用PeX"),translate("启用用户交换(PeX)以找到更多用户。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("bittorrent",Flag,"LSD",translate("启用LSD"),translate("启用本地用户发现以找到更多用户。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("bittorrent",Flag,"uTP_rate_limited",translate("uTP速率限制"),translate("对µTP协议进行速度限制。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("bittorrent",ListValue,"Encryption",translate("加密模式"),translate("使DHT（分散网络）能够找到更多的对等点。"))
-e:value("0",translate("偏好加密"))
-e:value("1",translate("强制加密"))
-e:value("2",translate("禁用加密"))
-e.default="0"
-e=t:taboption("bittorrent",Value,"MaxConnecs",translate("连接数限制"),translate("全局最大连接数。"))
-e.datatype="integer"
-e.placeholder="500"
-e=t:taboption("bittorrent",Value,"MaxConnecsPerTorrent",translate("种子连接数限制"),translate("每个种子的最大连接数。"))
-e.datatype="integer"
-e.placeholder="100"
-e=t:taboption("bittorrent",Value,"MaxUploads",translate("最大上传数"),translate("全局最大上传线程数。"))
-e.datatype="integer"
-e.placeholder="8"
-e=t:taboption("bittorrent",Value,"MaxUploadsPerTorrent",translate("种子上传限制"),translate("每个种子上传线程最大值。"))
-e.datatype="integer"
-e.placeholder="4"
-e=t:taboption("bittorrent",DummyValue,"Saving Management",titlesplit("分享率限制"))
-e=t:taboption("bittorrent",Value,"MaxRatio",translate("最大的分享率"),translate("分享的最大比例设定。-1是禁用做种。"))
-e.datatype="float"
-e.placeholder="-1"
-e=t:taboption("bittorrent",Value,"GlobalMaxSeedingMinutes",translate("最大做种时间"),translate("做种最大比例设定。单位：分钟"))
-e.datatype="integer"
-e=t:taboption("bittorrent",ListValue,"MaxRatioAction",translate("达到后"),translate("达到设定分享率和时间后的动作。"))
-e:value("0",translate("暂停"))
-e:value("1",translate("删除"))
-e.defaule="0"
-e=t:taboption("bittorrent",DummyValue,"Queueing Setting",titlesplit("种子排队设置"))
-e=t:taboption("bittorrent",Flag,"QueueingEnabled",translate("启用种子排队"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("bittorrent",Value,"MaxActiveDownloads",translate("最大活动的下载数"))
-e.datatype="integer"
-e.placeholder="3"
-e=t:taboption("bittorrent",Value,"MaxActiveUploads",translate("最大活动的上传数"))
-e.datatype="integer"
-e.placeholder="3"
-e=t:taboption("bittorrent",Value,"MaxActiveTorrents",translate("最大活动的种子数"))
-e.datatype="integer"
-e.placeholder="5"
-e=t:taboption("bittorrent",Flag,"IgnoreSlowTorrents",translate("忽略慢速的种子"),translate("慢速种子不计入限制内。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("bittorrent",Value,"SlowTorrentsDownloadRate",translate("下载速度阈值"),translate("单位：KiB/s"))
-e.datatype="integer"
-e.placeholder="2"
-e=t:taboption("bittorrent",Value,"SlowTorrentsUploadRate",translate("上传速度阈值"),translate("单位：KiB/s"))
-e.datatype="integer"
-e.placeholder="2"
-e=t:taboption("bittorrent",Value,"SlowTorrentsInactivityTimer",translate("种子不活动时间"),translate("单位：分钟"))
-e.datatype="integer"
-e.placeholder="60"
+s = m:section(NamedSection, "main", "qbittorrent")
 
-t:tab("webgui",translate("WebUI设置"))
-e=t:taboption("webgui",Value,"Username",translate("WebUI登录名"),translate("WebUI的登录名设置。"))
-e.placeholder="admin"
-e=t:taboption("webgui",Value,"Password",translate("WebUI密码"),translate("WebUI的登录密码设置。"))
-e.password=true
-e=t:taboption("webgui",Value,"Port",translate("WebUI端口"),translate("WebUI的侦听端口设置，默认：8080。"))
-e.datatype="port"
-e.placeholder="8080"
-e=t:taboption("webgui",Flag,"UseUPnP",translate("WebUI用UPnP"),translate("使用路由器的UPnP/NAT-PMP端口连接到WebUI。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("webgui",Flag,"HostHeaderValidation",translate("主机标头验证"),translate("启用主机标头验证"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("webgui",Flag,"LocalHostAuth",translate("本地主机认证"),translate("对本地主机上的客户端跳过身份验证。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("webgui",Flag,"AuthSubnetWhitelistEnabled",translate("启用IP子网白名单"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("webgui",DynamicList,"AuthSubnetWhitelist",translate("IP子网白名单"),translate("对IP子网白名单中的客户端跳过身份验证。"))
-e:depends("AuthSubnetWhitelistEnabled","true")
-e=t:taboption("webgui",Flag,"CSRFProtection",translate("CSRF保护"),translate("启用跨站点请求伪造(CSRF)保护。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("webgui",Flag,"ClickjackingProtection",translate("劫持保护"),translate("启用“点击劫持”保护。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
+s:tab("basic", translate("Basic Settings"))
 
+o = s:taboption("basic", Flag, "enabled", translate("Enabled"))
+o.default = "1"
 
-t:tab("log",translate("日志显示"))
-e=t:taboption("log",TextValue,"SuperSeeding"),TextValue("")
-e.description = translate("当前qBittorrent运行状态。")
+o = s:taboption("basic", ListValue, "user", translate("Run daemon as user"))
+local u
+for u in luci.util.execi("cat /etc/passwd | cut -d ':' -f1") do
+	o:value(u)
+end
 
+o = s:taboption("basic", Value, "profile", translate("Parent Path for Profile Folder"), translate("The path for storing profile folder using by command: <b>--profile [PATH]</b>."))
+o.default = '/tmp'
 
-t:tab("advanced",translate("高级设置"))
-e=t:taboption("advanced",Flag,"AnonymousMode",translate("匿名模式"),translate("启用后，将采取某些措施来掩盖其身份。<a href='https://github.com/qbittorrent/qBittorrent/wiki/Anonymous-Mode'  target='_blank'>(更多信息)</a>"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("advanced",Flag,"SuperSeeding",translate("超级种子"),translate("超级种子模式。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("advanced",Flag,"IncludeOverhead",translate("开销限制"),translate("对传送总开销进行速度限制"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("advanced",Flag,"IgnoreLimitsLAN",translate("LAN限制"),translate("忽略对LAN的速度限制。"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("advanced",Flag,"osCache",translate("使用缓存"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-e=t:taboption("advanced",Value,"OutgoingPortsMax",translate("Max Outgoing Port"),translate("The max outgoing port."))
-e.datatype="port"
-e=t:taboption("advanced",Value,"OutgoingPortsMin",translate("Min Outgoing Port"),translate("The min outgoing port."))
-e.datatype="port"
-e=t:taboption("advanced",ListValue,"SeedChokingAlgorithm",translate("Choking Algorithm"),translate("The strategy of choking algorithm."))
-e:value("RoundRobin",translate("Round Robin"))
-e:value("FastestUpload",translate("Fastest Upload"))
-e:value("AntiLeech",translate("Anti-Leech"))
-e.default="FastestUpload"
-e=t:taboption("advanced",Flag,"AnnounceToAllTrackers",translate("Announce To All Trackers"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.disabled
-e=t:taboption("advanced",Flag,"AnnounceToAllTiers",translate("Announce To All Tiers"))
-e.enabled="true"
-e.disabled="false"
-e.default=e.enabled
-return a
+o = s:taboption("basic", Value, "configuration", translate("Profile Folder Suffix"), translate("Suffix for profile folder, for example, <b>qBittorrent_[NAME]</b>."))
+
+o = s:taboption("basic", Value, "Locale", translate("Locale Language"))
+o:value("en", translate("English"))
+o:value("zh", translate("Chinese"))
+o.default = "zh"
+
+o = s:taboption("basic", Flag, "Enabled", translate("Enable Log"), translate("Enable logger to log file."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("basic", Value, "Path", translate("Log Path"), translate("The path for qbittorrent log."))
+o:depends("Enabled", "true")
+
+o = s:taboption("basic", Flag, "Backup", translate("Enable Backup"), translate("Backup log file when oversize the given size."))
+o:depends("Enabled", "true")
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("basic", Flag, "DeleteOld", translate("Delete Old Backup"), translate("Delete the old log file."))
+o:depends("Enabled", "true")
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("basic", Value, "MaxSizeBytes", translate("Log Max Size"), translate("The max size for qbittorrent log (Unit: Bytes)."))
+o:depends("Enabled", "true")
+o.placeholder = "66560"
+
+o = s:taboption("basic", Value, "SaveTime", translate("Log Saving Period"), translate("The log file will be deteted after given time. 1d -- 1 day, 1m -- 1 month, 1y -- 1 year"))
+o:depends("Enabled", "true")
+o.datatype = "string"
+
+s:tab("connection", translate("Connection Settings"))
+
+o = s:taboption("connection", Flag, "UPnP", translate("Use UPnP for Connections"), translate("Use UPnP/ NAT-PMP port forwarding from my router."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("connection", Flag, "UseRandomPort", translate("Use Random Port"), translate("Use different port on each startup voids the first"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("connection", Value, "PortRangeMin", translate("Connection Port"), translate("Generate Randomly"))
+o:depends("UseRandomPort", false)
+o.datatype = "range(1024,65535)"
+o.template = "qbittorrent/qbt_value"
+o.btnclick = "randomToken();"
+
+o = s:taboption("connection", Value, "GlobalDLLimit", translate("Global Download Speed"), translate("Global Download Speed Limit(KiB/s)."))
+o.datatype = "float"
+o.placeholder = "0"
+
+o = s:taboption("connection", Value, "GlobalUPLimit", translate("Global Upload Speed"), translate("Global Upload Speed Limit(KiB/s)."))
+o.datatype = "float"
+o.placeholder = "0"
+
+o = s:taboption("connection", Value, "GlobalDLLimitAlt", translate("Alternative Download Speed"), translate("Alternative Download Speed Limit(KiB/s)."))
+o.datatype = "float"
+o.placeholder = "10"
+
+o = s:taboption("connection", Value, "GlobalUPLimitAlt", translate("Alternative Upload Speed"), translate("Alternative Upload Speed Limit(KiB/s)."))
+o.datatype = "float"
+o.placeholder = "10"
+
+o = s:taboption("connection", ListValue, "BTProtocol", translate("Enabled protocol"), translate("The protocol that was enabled."))
+o:value("Both", translate("TCP and UTP"))
+o:value("TCP", translate("TCP"))
+o:value("UTP", translate("UTP"))
+o.default = "Both"
+
+o = s:taboption("connection", Value, "InetAddress", translate("Inet Address"), translate("The address that respond to the trackers."))
+
+s:tab("downloads", translate("Downloads Settings"))
+
+o = s:taboption("downloads",DummyValue,"Saving Management",titlesplit("When adding seeds"))
+
+o = s:taboption("downloads", Flag, "CreateTorrentSubfolder", translate("Create Subfolder"), translate("Create subfolder for torrents with multiple files."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("downloads", Flag, "StartInPause", translate("Start In Pause"), translate("Do not start the download automatically."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("downloads", Flag, "AutoDeleteAddedTorrentFile", translate("Auto Delete Torrent File"), translate("The .torrent files will be deleted afterwards."))
+o.enabled = "IfAdded"
+o.disabled = "Never"
+o.default = o.disabled
+
+o = s:taboption("downloads", Flag, "PreAllocation", translate("Pre Allocation"), translate("Pre-allocate disk space for all files."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("downloads", Flag, "UseIncompleteExtension", translate("Use Incomplete Extension"), translate("The incomplete task will be added the extension of !qB."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("downloads", Value, "SavePath", translate("Save Path"),translate("The path to save the download file. For example:<code>/mnt/sda1/download</code>"))
+o.placeholder = "/tmp/download"
+
+o = s:taboption("downloads", Flag, "TempPathEnabled", translate("Temp Path Enabled"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("downloads", Value, "TempPath", translate("Temp Path"), translate("The absolute and relative path can be set."))
+o:depends("TempPathEnabled", "true")
+o.placeholder = "temp/"
+
+o = s:taboption("downloads", Value, "DiskWriteCacheSize", translate("Disk Cache Size (MiB)"), translate("The value -1  is auto and 0 is disable. In default, it is set to 64MiB."))
+o.datatype = "integer"
+o.placeholder = "64"
+
+o = s:taboption("downloads", Value, "DiskWriteCacheTTL", translate("Disk Cache TTL (s)"), translate("In default, it is set to 60s."))
+o.datatype = "integer"
+o.placeholder = "60"
+
+o = s:taboption("downloads", DummyValue, "Saving Management", titlesplit("Saving Management"))
+
+o = s:taboption("downloads", ListValue, "DisableAutoTMMByDefault", translate("Default Torrent Management Mode"))
+o:value("true", translate("Manual"))
+o:value("false", translate("Automaic"))
+o.default = "true"
+
+o = s:taboption("downloads", ListValue, "CategoryChanged", translate("Torrent Category Changed"), translate("Choose the action when torrent category changed."))
+o:value("true", translate("Switch torrent to Manual Mode"))
+o:value("false", translate("Relocate torrent"))
+o.default = "false"
+
+o = s:taboption("downloads", ListValue, "DefaultSavePathChanged", translate("Default Save Path Changed"), translate("Choose the action when default save path changed."))
+o:value("true", translate("Switch affected torrent to Manual Mode"))
+o:value("false", translate("Relocate affected torrent"))
+o.default = "true"
+
+o = s:taboption("downloads", ListValue, "CategorySavePathChanged", translate("Category Save Path Changed"), translate("Choose the action when category save path changed."))
+o:value("true", translate("Switch affected torrent to Manual Mode"))
+o:value("false", translate("Relocate affected torrent"))
+o.default = "true"
+
+o = s:taboption("downloads", Value, "TorrentExportDir", translate("Torrent Export Dir"), translate("The .torrent files will be copied to the target directory."))
+
+o = s:taboption("downloads", Value, "FinishedTorrentExportDir", translate("Finished Torrent Export Dir"), translate("The .torrent files for finished downloads will be copied to the target directory."))
+
+s:tab("bittorrent", translate("Bittorrent Settings"))
+
+o = s:taboption("bittorrent", Flag, "DHT", translate("Enable DHT"), translate("Enable DHT (decentralized network) to find more peers"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("bittorrent", Flag, "PeX", translate("Enable PeX"), translate("Enable Peer Exchange (PeX) to find more peers"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("bittorrent", Flag, "LSD", translate("Enable LSD"), translate("Enable Local Peer Discovery to find more peers"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("bittorrent", Flag, "uTP_rate_limited", translate("uTP Rate Limit"), translate("Apply rate limit to µTP protocol."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("bittorrent", ListValue, "Encryption", translate("Encryption Mode"), translate("Enable DHT (decentralized network) to find more peers"))
+o:value("0", translate("Prefer Encryption"))
+o:value("1", translate("Require Encryption"))
+o:value("2", translate("Disable Encryption"))
+o.default = "0"
+
+o = s:taboption("bittorrent", Value, "MaxConnecs", translate("Max Connections"), translate("The max number of connections."))
+o.datatype = "integer"
+o.placeholder = "500"
+
+o = s:taboption("bittorrent", Value, "MaxConnecsPerTorrent", translate("Max Connections Per Torrent"), translate("The max number of connections per torrent."))
+o.datatype = "integer"
+o.placeholder = "100"
+
+o = s:taboption("bittorrent", Value, "MaxUploads", translate("Max Uploads"), translate("The max number of connected peers."))
+o.datatype = "integer"
+o.placeholder = "8"
+
+o = s:taboption("bittorrent", Value, "MaxUploadsPerTorrent", translate("Max Uploads Per Torrent"), translate("The max number of connected peers per torrent."))
+o.datatype = "integer"
+o.placeholder = "4"
+
+o = s:taboption("bittorrent", Value, "MaxRatio", translate("Max Ratio"), translate("The max ratio for seeding. -1 is to disable the seeding."))
+o.datatype = "float"
+o.placeholder = "-1"
+
+o = s:taboption("bittorrent", ListValue, "MaxRatioAction", translate("Max Ratio Action"), translate("The action when reach the max seeding ratio."))
+o:value("0", translate("Pause them"))
+o:value("1", translate("Remove them"))
+o.defaule = "0"
+
+o = s:taboption("bittorrent", Value, "GlobalMaxSeedingMinutes", translate("Max Seeding Minutes"), translate("Units: minutes"))
+o.datatype = "integer"
+
+o = s:taboption("bittorrent", DummyValue, "Queueing Setting", titlesplit("Queueing Setting"))
+
+o = s:taboption("bittorrent", Flag, "QueueingEnabled", translate("Enable Torrent Queueing"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("bittorrent", Value, "MaxActiveDownloads", translate("Maximum Active Downloads"))
+o.datatype = "integer"
+o.placeholder = "3"
+
+o = s:taboption("bittorrent", Value, "MaxActiveUploads", translate("Max Active Uploads"))
+o.datatype = "integer"
+o.placeholder = "3"
+
+o = s:taboption("bittorrent", Value, "MaxActiveTorrents", translate("Max Active Torrents"))
+o.datatype = "integer"
+o.placeholder = "5"
+
+o = s:taboption("bittorrent", Flag, "IgnoreSlowTorrents", translate("Ignore Slow Torrents"), translate("Do not count slow torrents in these limits."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("bittorrent", Value, "SlowTorrentsDownloadRate", translate("Download rate threshold"), translate("Units: KiB/s"))
+o.datatype = "integer"
+o.placeholder = "2"
+
+o = s:taboption("bittorrent", Value, "SlowTorrentsUploadRate", translate("Upload rate threshold"), translate("Units: KiB/s"))
+o.datatype = "integer"
+o.placeholder = "2"
+
+o = s:taboption("bittorrent", Value, "SlowTorrentsInactivityTimer", translate("Torrent inactivity timer"), translate("Units: seconds"))
+o.datatype = "integer"
+o.placeholder = "60"
+
+s:tab("webgui", translate("WebUI Settings"))
+
+o = s:taboption("webgui", Value, "Username", translate("Username"), translate("The login name for WebUI."))
+o.placeholder = "admin"
+
+o = s:taboption("webgui", Value, "Password", translate("Password"), translate("The login password for WebUI."))
+o.password  =  true
+
+o = s:taboption("webgui", Value, "Port", translate("Listen Port"), translate("The listening port for WebUI."))
+o:value("",translate("default"))
+o.default=""
+
+o = s:taboption("webgui", Flag, "UseUPnP", translate("Use UPnP for WebUI"), translate("Using the UPnP / NAT-PMP port of the router for connecting to WebUI."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("webgui", Flag, "CSRFProtection", translate("CSRF Protection"), translate("Enable Cross-Site Request Forgery (CSRF) protection."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("webgui", Flag, "ClickjackingProtection", translate("Clickjacking Protection"), translate("Enable clickjacking protection."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("webgui", Flag, "HostHeaderValidation", translate("Host Header Validation"), translate("Validate the host header."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("webgui", Flag, "LocalHostAuth", translate("Local Host Authentication"), translate("Force authentication for clients on localhost."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("webgui", Flag, "AuthSubnetWhitelistEnabled", translate("Enable Subnet Whitelist"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("webgui", DynamicList, "AuthSubnetWhitelist", translate("Subnet Whitelist"))
+o:depends("AuthSubnetWhitelistEnabled", "true")
+
+o = s:tab("log",translate("运行日志"),translate("本页是qBittorrent的日志文档内容。"))
+o = s:taboption("log",TextValue,"log",translate(""))
+o.rows=20
+o.wrap="off"
+o.rmempty=false
+o.readonly=true
+o.cfgvalue=function(t,t)
+return i.readfile("/tmp/qBittorrent/data/logs/qbittorrent.log")or""
+end
+o.write=function(e,e,e)
+end
+
+o = s:tab("config",translate("配置文件"),translate("本页是/etc/config/qbittorrent下的配置文档内容。"))
+o = s:taboption("config",TextValue,"config")
+o.template="cbi/tvalue"
+o.rows=20
+o.wrap="off"
+o.rmempty=false
+o.readonly=true
+o.cfgvalue=function(t,t)
+return i.readfile("/etc/config/qbittorrent")or""
+end
+o.write=function(e,e,e)
+end
+
+s:tab("advanced", translate("Advance Settings"))
+
+o = s:taboption("advanced", Flag, "AnonymousMode", translate("Anonymous Mode"), translate("When enabled, qBittorrent will take certain measures to try"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("advanced", Flag, "SuperSeeding", translate("Super Seeding"), translate("The super seeding mode."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("advanced", Flag, "IncludeOverhead", translate("Limit Overhead Usage"), translate("The overhead usage is been limitted."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("advanced", Flag, "IgnoreLimitsLAN", translate("Ignore LAN Limit"), translate("Ignore the speed limit to LAN."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("advanced", Flag, "osCache", translate("Use os Cache"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("advanced", Value, "OutgoingPortsMax", translate("Max Outgoing Port"), translate("The max outgoing port."))
+o.datatype = "port"
+
+o = s:taboption("advanced", Value, "OutgoingPortsMin", translate("Min Outgoing Port"), translate("The min outgoing port."))
+o.datatype = "port"
+
+o = s:taboption("advanced", ListValue, "SeedChokingAlgorithm", translate("Choking Algorithm"), translate("The strategy of choking algorithm."))
+o:value("RoundRobin", translate("Round Robin"))
+o:value("FastestUpload", translate("Fastest Upload"))
+o:value("AntiLeech", translate("Anti-Leech"))
+o.default = "FastestUpload"
+
+o = s:taboption("advanced", Flag, "AnnounceToAllTrackers", translate("Announce To All Trackers"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.disabled
+
+o = s:taboption("advanced", Flag, "AnnounceToAllTiers", translate("Announce To All Tiers"))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+return m
