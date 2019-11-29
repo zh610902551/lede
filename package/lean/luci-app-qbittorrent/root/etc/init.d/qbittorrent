@@ -65,14 +65,14 @@ validate_QBT () {
 		'QueueingEnabled:or("true","false")' \
 		'AuthSubnetWhitelist:string' \
 		'AuthSubnetWhitelistEnabled:or("true","false"):false' \
-		'ClickjackingProtection:or("true","false"):false' \
+		'ClickjackingProtection:or("true","false"):true' \
 		'CSRFProtection:or("true","false"):false' \
 		'HostHeaderValidation:or("true","false"):true' \
 		'LocalHostAuth:or("true","false"):true' \
 		'Password:string' \
 		'Port:port:8080' \
 		'Username:string' \
-		'UseUPnP:or("true","false"):true' \
+		'UseUPnP:or("true","false"):false' \
 		'AnonymousMode:or("true","false"):true' \
 		'AnnounceToAllTrackers:or("true","false")' \
 		'IgnoreLimitsLAN:or("true","false"):true' \

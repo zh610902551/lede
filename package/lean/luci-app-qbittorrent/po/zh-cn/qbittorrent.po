@@ -12,10 +12,10 @@ msgid "Profile Folder Suffix"
 msgstr "配置目录后缀"
 
 msgid "Suffix for profile folder, for example, <b>qBittorrent_[NAME]</b>."
-msgstr "配置文件文件夹的后缀。例如 <b>qBittorrent_[NAME]</b>"
+msgstr "配置文件文件夹的后缀。例如： <b>qBittorrent_[NAME]</b>"
 
 msgid "Locale Language"
-msgstr "WebUI界面语言"
+msgstr "WebUI语言"
 
 msgid "English"
 msgstr "英文"
@@ -69,16 +69,16 @@ msgid "Use UPnP/ NAT-PMP port forwarding from my router."
 msgstr "使用路由器的UPnP/NAT-PMP端口自动转发。"
 
 msgid "Use Random Port"
-msgstr "使用随机端口"
+msgstr "启用随机端口"
 
 msgid "Use different port on each startup voids the first"
-msgstr "在每次启动时使用不同的端口。"
+msgstr "在每次启动时使用随机的端口。"
 
 msgid "Connection Port"
-msgstr "自定义连接端口"
+msgstr "自定义端口"
 
 msgid "Generate Randomly"
-msgstr "随机生成"
+msgstr "默认端口：8999"
 
 msgid "Global Download Speed"
 msgstr "全局下载速度限制"

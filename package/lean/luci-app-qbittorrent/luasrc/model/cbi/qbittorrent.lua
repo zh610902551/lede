@@ -11,14 +11,14 @@ end
 local e=require"luci.model.uci".cursor()
 local i=require"nixio.fs"
 local a=(luci.sys.call("pidof qbittorrent-nox > /dev/null")==0)
-local o=e:get_first("qbittorrent","main","Port") or 8080
+local o=luci.sys.exec("uci get qbittorrent.main.Port | xargs echo -n") or 8080
 
 local t=""
 if a then
-t="<br /><br /><input class=\"cbi-button cbi-button-apply\" type=\"submit\" value=\" "..translate("Open Web Interface").." \" onclick=\"window.open('http://'+window.location.hostname+':"..o.."')\"/>"
+t="<br /><br /><input class=\"cbi-button cbi-button-apply\" type=\"button\" value=\" "..translate("Open Web Interface").." \" onclick=\"window.open('http://'+window.location.hostname+':"..o.."')\"/>"
 end
 
-m = Map("qbittorrent", translate("qBittorrent"), "%s <br\> %s" % {translate("一个基于QT的跨平台的开源BitTorrent客户端。"),"<b style=\"color:green\">" .. translatef("当前BitTorrent版本: %s", ver) .. "</b>"}..t)
+m = Map("qbittorrent", translate("qBittorrent 下载器"), "%s <br\> %s" % {translate("一个基于QT的跨平台的开源BitTorrent客户端。"),"<b style=\"color:green\">" .. translatef("当前BitTorrent版本: %s", ver) .. "</b>"}..t)
 
 m:section(SimpleSection).template="qbittorrent/qbittorrent_status"
 
@@ -41,37 +41,19 @@ o.default = '/tmp'
 o = s:taboption("basic", Value, "configuration", translate("Profile Folder Suffix"), translate("Suffix for profile folder, for example, <b>qBittorrent_[NAME]</b>."))
 
 o = s:taboption("basic", Value, "Locale", translate("Locale Language"))
-o:value("en", translate("English"))
 o:value("zh", translate("Chinese"))
+o:value("en", translate("English"))
 o.default = "zh"
 
-o = s:taboption("basic", Flag, "Enabled", translate("Enable Log"), translate("Enable logger to log file."))
-o.enabled = "true"
-o.disabled = "false"
-o.default = o.enabled
+o = s:taboption("basic", Value, "Username", translate("Username"), translate("The login name for WebUI."))
+o.placeholder = "admin"
 
-o = s:taboption("basic", Value, "Path", translate("Log Path"), translate("The path for qbittorrent log."))
-o:depends("Enabled", "true")
+o = s:taboption("basic", Value, "Password", translate("Password"), translate("The login password for WebUI."))
+o.password  =  true
 
-o = s:taboption("basic", Flag, "Backup", translate("Enable Backup"), translate("Backup log file when oversize the given size."))
-o:depends("Enabled", "true")
-o.enabled = "true"
-o.disabled = "false"
-o.default = o.enabled
-
-o = s:taboption("basic", Flag, "DeleteOld", translate("Delete Old Backup"), translate("Delete the old log file."))
-o:depends("Enabled", "true")
-o.enabled = "true"
-o.disabled = "false"
-o.default = o.enabled
-
-o = s:taboption("basic", Value, "MaxSizeBytes", translate("Log Max Size"), translate("The max size for qbittorrent log (Unit: Bytes)."))
-o:depends("Enabled", "true")
-o.placeholder = "66560"
-
-o = s:taboption("basic", Value, "SaveTime", translate("Log Saving Period"), translate("The log file will be deteted after given time. 1d -- 1 day, 1m -- 1 month, 1y -- 1 year"))
-o:depends("Enabled", "true")
-o.datatype = "string"
+o = s:taboption("basic", Value, "Port", translate("Listen Port"), translate("The listening port for WebUI."))
+o.datatype = "port"
+o.default =  "8080"
 
 s:tab("connection", translate("Connection Settings"))
 
@@ -88,8 +70,7 @@ o.default = o.disabled
 o = s:taboption("connection", Value, "PortRangeMin", translate("Connection Port"), translate("Generate Randomly"))
 o:depends("UseRandomPort", false)
 o.datatype = "range(1024,65535)"
-o.template = "qbittorrent/qbt_value"
-o.btnclick = "randomToken();"
+o:value("",translate("default"))
 
 o = s:taboption("connection", Value, "GlobalDLLimit", translate("Global Download Speed"), translate("Global Download Speed Limit(KiB/s)."))
 o.datatype = "float"
@@ -284,16 +265,6 @@ o.placeholder = "60"
 
 s:tab("webgui", translate("WebUI Settings"))
 
-o = s:taboption("webgui", Value, "Username", translate("Username"), translate("The login name for WebUI."))
-o.placeholder = "admin"
-
-o = s:taboption("webgui", Value, "Password", translate("Password"), translate("The login password for WebUI."))
-o.password  =  true
-
-o = s:taboption("webgui", Value, "Port", translate("Listen Port"), translate("The listening port for WebUI."))
-o:value("",translate("default"))
-o.default=""
-
 o = s:taboption("webgui", Flag, "UseUPnP", translate("Use UPnP for WebUI"), translate("Using the UPnP / NAT-PMP port of the router for connecting to WebUI."))
 o.enabled = "true"
 o.disabled = "false"
@@ -400,5 +371,33 @@ o = s:taboption("advanced", Flag, "AnnounceToAllTiers", translate("Announce To A
 o.enabled = "true"
 o.disabled = "false"
 o.default = o.enabled
+
+o = s:taboption("advanced", Flag, "Enabled", translate("Enable Log"), translate("Enable logger to log file."))
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("advanced", Value, "Path", translate("Log Path"), translate("The path for qbittorrent log."))
+o:depends("Enabled", "true")
+
+o = s:taboption("advanced", Flag, "Backup", translate("Enable Backup"), translate("Backup log file when oversize the given size."))
+o:depends("Enabled", "true")
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("advanced", Flag, "DeleteOld", translate("Delete Old Backup"), translate("Delete the old log file."))
+o:depends("Enabled", "true")
+o.enabled = "true"
+o.disabled = "false"
+o.default = o.enabled
+
+o = s:taboption("advanced", Value, "MaxSizeBytes", translate("Log Max Size"), translate("The max size for qbittorrent log (Unit: Bytes)."))
+o:depends("Enabled", "true")
+o.placeholder = "66560"
+
+o = s:taboption("advanced", Value, "SaveTime", translate("Log Saving Period"), translate("The log file will be deteted after given time. 1d -- 1 day, 1m -- 1 month, 1y -- 1 year"))
+o:depends("Enabled", "true")
+o.datatype = "string"
 
 return m

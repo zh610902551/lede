@@ -4,7 +4,7 @@ function index()
   if not nixio.fs.access("/etc/config/qbittorrent")then
     return
   end
-  entry({"admin","nas","qbittorrent"},cbi("qbittorrent"),_("qbittorrent"))
+  entry({"admin","nas","qbittorrent"},cbi("qbittorrent"),_("qBittorrent"))
   entry({"admin","nas","qbittorrent","status"},call("act_status")).leaf=true
 end
 
