@@ -456,31 +456,31 @@ msgid ""
 msgstr ""
 
 msgid "Max Outgoing Port"
-msgstr ""
+msgstr "端口设置"
 
 msgid The max outgoing port.""
-msgstr ""
+msgstr "最大输出端口。"
 
 msgid "Min Outgoing Port"
-msgstr ""
+msgstr "端口设置"
 
 msgid "The min outgoing port."
-msgstr ""
+msgstr "最小输出端口。"
 
 msgid "Choking Algorithm"
-msgstr ""
+msgstr "数据传输算法"
 
 msgid "The strategy of choking algorithm."
-msgstr ""
+msgstr "数据传输算法的策略。"
 
 msgid "Round Robin"
-msgstr ""
+msgstr "负载均衡"
 
 msgid "Fastest Upload"
-msgstr ""
+msgstr "最快上传"
 
 msgid "Anti-Leech"
-msgstr ""
+msgstr "反吸血"
 
 msgid "Announce To All Trackers"
 msgstr ""

@@ -18,7 +18,7 @@ if a then
 t="<br /><br /><input class=\"cbi-button cbi-button-apply\" type=\"button\" value=\" "..translate("Open Web Interface").." \" onclick=\"window.open('http://'+window.location.hostname+':"..o.."')\"/>"
 end
 
-m = Map("qbittorrent", translate("qBittorrent 下载器"), "%s <br\> %s" % {translate("一个基于QT的跨平台的开源BitTorrent客户端。"),"<b style=\"color:green\">" .. translatef("当前BitTorrent版本: %s", ver) .. "</b>"}..t)
+m = Map("qbittorrent", translate("qqBittorrent 下载器"), translate("一个基于QT的跨平台的开源BitTorrent客户端。")..t)
 
 m:section(SimpleSection).template="qbittorrent/qbittorrent_status"
 
@@ -26,7 +26,7 @@ s = m:section(NamedSection, "main", "qbittorrent")
 
 s:tab("basic", translate("Basic Settings"))
 
-o = s:taboption("basic", Flag, "enabled", translate("Enabled"))
+o = s:taboption("basic", Flag, "enabled", translate("Enabled"),"%s  %s" % {translate(""),"<b style=\"color:green\">" .. translatef("当前运行qBitTorrent的版本: %s", ver) .. "</b>"})
 o.default = "1"
 
 o = s:taboption("basic", ListValue, "user", translate("Run daemon as user"))

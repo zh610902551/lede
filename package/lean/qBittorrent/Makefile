@@ -1,15 +1,9 @@
-#
-# Copyright (C) 2017-2019 Entware
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
-#
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qbittorrent
 PKG_VERSION:=4.1.9
-PKG_RELEASE=1
+PKG_RELEASE=3
 
 PKG_SOURCE:=$(PKG_NAME)-release-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/qbittorrent/qBittorrent/tar.gz/release-$(PKG_VERSION)?
@@ -27,13 +21,12 @@ PKG_USE_MIPS16:=0
 include $(INCLUDE_DIR)/package.mk
 
 define Package/qbittorrent
+	SUBMENU:=BitTorrent
 	SECTION:=net
 	CATEGORY:=Network
-	SUBMENU:=BitTorrent
-	DEPENDS:=+qt5-core +qt5-network +qt5-xml +rblibtorrent
 	TITLE:=bittorrent client programmed in C++ / Qt
 	URL:=https://www.qbittorrent.org/
-	PROVIDES:=qBittorrent
+	DEPENDS:=+qt5-core +qt5-network +qt5-xml +rblibtorrent
 endef
 
 define Package/qbittorrent/description
@@ -44,9 +37,6 @@ define Package/qbittorrent/description
   well as many features.
 endef
 
-#CONFIGURE_VARS += \
-#	QT_QMAKE="$(STAGING_DIR)/usr/bin" \
-#	PKG_CONFIG_PATH="$(STAGING_DIR)/usr/lib/pkgconfig"
 
 CONFIGURE_ARGS += \
 	--disable-gui \
@@ -62,12 +52,10 @@ define Build/Prepare
 endef
 
 define Package/qbittorrent/install
-	$(INSTALL_DIR) $(1)/usr/bin $(1)/usr/man/man1
+$(INSTALL_DIR) $(1)/usr/man/man1
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/man/man1/qbittorrent-nox.1 $(1)/usr/man/man1/qbittorrent-nox.1
+	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/qbittorrent-nox $(1)/usr/bin
-#	$(INSTALL_DIR) $(1)/etc/init.d $(1)/etc/config
-#	$(INSTALL_BIN) ./files/qbittorrent.init $(1)/etc/init.d/qbittorrent
-#	$(INSTALL_CONF) ./files/qbittorrent.conf $(1)/etc/config/qbittorrent
 
 endef
 
