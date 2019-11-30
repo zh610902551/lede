@@ -18,7 +18,7 @@ if a then
 t="<br /><br /><input class=\"cbi-button cbi-button-apply\" type=\"button\" value=\" "..translate("Open Web Interface").." \" onclick=\"window.open('http://'+window.location.hostname+':"..o.."')\"/>"
 end
 
-m = Map("qbittorrent", translate("qqBittorrent 下载器"), translate("一个基于QT的跨平台的开源BitTorrent客户端。")..t)
+m = Map("qbittorrent", translate("qBittorrent 下载器"), translate("一个基于QT的跨平台的开源BitTorrent客户端。")..t)
 
 m:section(SimpleSection).template="qbittorrent/qbittorrent_status"
 
