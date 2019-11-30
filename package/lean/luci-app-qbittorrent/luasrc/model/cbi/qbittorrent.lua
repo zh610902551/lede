@@ -37,8 +37,8 @@ end
 
 o = s:taboption("basic", Value, "profile", translate("Parent Path for Profile Folder"), translate("The path for storing profile folder using by command: <b>--profile [PATH]</b>."))
 o.default = '/tmp'
-
-o = s:taboption("basic", Value, "configuration", translate("Profile Folder Suffix"), translate("Suffix for profile folder, for example, <b>qBittorrent_[NAME]</b>."))
+o = s:taboption("basic", Value, "SavePath", translate("Save Path"),translate("The path to save the download file. For example:<code>/mnt/sda1/download</code>"))
+o.placeholder = "/tmp/download"
 
 o = s:taboption("basic", Value, "Locale", translate("Locale Language"))
 o:value("zh", translate("Chinese"))
@@ -54,6 +54,9 @@ o.password  =  true
 o = s:taboption("basic", Value, "Port", translate("Listen Port"), translate("The listening port for WebUI."))
 o.datatype = "port"
 o.default =  "8080"
+
+o = s:taboption("basic", Value, "configuration", translate("Profile Folder Suffix"), translate("Suffix for profile folder, for example, <b>qBittorrent_[NAME]</b>."))
+
 
 s:tab("connection", translate("Connection Settings"))
 
@@ -124,9 +127,6 @@ o = s:taboption("downloads", Flag, "UseIncompleteExtension", translate("Use Inco
 o.enabled = "true"
 o.disabled = "false"
 o.default = o.enabled
-
-o = s:taboption("downloads", Value, "SavePath", translate("Save Path"),translate("The path to save the download file. For example:<code>/mnt/sda1/download</code>"))
-o.placeholder = "/tmp/download"
 
 o = s:taboption("downloads", Flag, "TempPathEnabled", translate("Temp Path Enabled"))
 o.enabled = "true"
