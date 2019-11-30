@@ -89,6 +89,7 @@ CONFIGURE_ARGS = \
 		-no-freetype \
 		-no-harfbuzz \
 		-no-gtk \
+		-no-openssl \
 		-no-opengl \
 		-no-opengles3 \
 		-no-angle \
