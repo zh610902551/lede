@@ -26,7 +26,7 @@ s = m:section(NamedSection, "main", "qbittorrent")
 
 s:tab("basic", translate("Basic Settings"))
 
-o = s:taboption("basic", Flag, "enabled", translate("Enabled"),"%s  %s" % {translate(""),"<b style=\"color:green\">" .. translatef("当前运行qBitTorrent的版本: %s", ver) .. "</b>"})
+o = s:taboption("basic", Flag, "enabled", translate("Enabled"),"%s  %s" % {translate(""),"<b style=\"color:green\">" .. translatef("当前qBitTorrent的版本: %s", ver) .. "</b>"})
 o.default = "1"
 
 o = s:taboption("basic", ListValue, "user", translate("Run daemon as user"))

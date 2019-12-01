@@ -70,9 +70,9 @@ sed -i 's/cbi.submit\"] = true/cbi.submit\"] = \"1\"/g' /usr/lib/lua/luci/dispat
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
 
-chmod 755 /usr/lib/smartinfo/smart_checker.sh 
-chmod 755 /usr/lib/smartinfo/smart_functions.sh  
-chmod 755 /usr/lib/smartinfo/smart_status.sh  
+chmod 755 /usr/lib/smartinfo/*.sh 
+#chmod 755 /usr/lib/smartinfo/smart_functions.sh  
+#chmod 755 /usr/lib/smartinfo/smart_status.sh  
 chmod 755 /etc/init.d/smartinfo
 chmod 755 /etc/init.d/cpulimit
 chmod 755 /usr/bin/cpulimit.sh
