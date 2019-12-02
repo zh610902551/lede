@@ -124,8 +124,8 @@
 -        <file>url.png</file>
      </qresource>
  </RCC>
---- a/src/lang.qrc
-+++ b/src/lang.qrc
+--- a/src/lang/lang.qrc
++++ b/src/lang/lang.qrc
 @@ -1,54 +1,6 @@
  <RCC>
      <qresource prefix="/lang">
