@@ -29,7 +29,7 @@ s:tab("basic", translate("Basic Settings"))
 o = s:taboption("basic", Flag, "enabled", translate("Enabled"),"%s  %s" % {translate(""),"<b style=\"color:green\">" .. translatef("当前qBitTorrent的版本: %s", ver) .. "</b>"})
 o.default = "1"
 
-o = s:taboption("basic", ListValue, "user", translate("Run daemon as user"))
+o = s:taboption("basic", ListValue, "user", translate("Run daemon as user"),translate("Leave blank to use default user."))
 local u
 for u in luci.util.execi("cat /etc/passwd | cut -d ':' -f1") do
 	o:value(u)
