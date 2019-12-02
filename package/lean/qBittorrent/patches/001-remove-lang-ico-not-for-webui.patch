@@ -124,3 +124,92 @@
 -        <file>url.png</file>
      </qresource>
  </RCC>
+--- a/src/lang.qrc
++++ b/src/lang.qrc
+@@ -1,54 +1,6 @@
+ <RCC>
+     <qresource prefix="/lang">
+-        <file>qbittorrent_ar.qm</file>
+-        <file>qbittorrent_be.qm</file>
+-        <file>qbittorrent_bg.qm</file>
+-        <file>qbittorrent_ca.qm</file>
+-        <file>qbittorrent_cs.qm</file>
+-        <file>qbittorrent_da.qm</file>
+-        <file>qbittorrent_de.qm</file>
+-        <file>qbittorrent_el.qm</file>
+         <file>qbittorrent_en.qm</file>
+-        <file>qbittorrent_en_AU.qm</file>
+-        <file>qbittorrent_en_GB.qm</file>
+-        <file>qbittorrent_eo.qm</file>
+-        <file>qbittorrent_es.qm</file>
+-        <file>qbittorrent_eu.qm</file>
+-        <file>qbittorrent_fi.qm</file>
+-        <file>qbittorrent_fr.qm</file>
+-        <file>qbittorrent_gl.qm</file>
+-        <file>qbittorrent_he.qm</file>
+-        <file>qbittorrent_hi_IN.qm</file>
+-        <file>qbittorrent_hr.qm</file>
+-        <file>qbittorrent_hu.qm</file>
+-        <file>qbittorrent_hy.qm</file>
+-        <file>qbittorrent_id.qm</file>
+-        <file>qbittorrent_is.qm</file>
+-        <file>qbittorrent_it.qm</file>
+-        <file>qbittorrent_ja.qm</file>
+-        <file>qbittorrent_ka.qm</file>
+-        <file>qbittorrent_ko.qm</file>
+-        <file>qbittorrent_lt.qm</file>
+-        <file>qbittorrent_lv_LV.qm</file>
+-        <file>qbittorrent_ms_MY.qm</file>
+-        <file>qbittorrent_nb.qm</file>
+-        <file>qbittorrent_nl.qm</file>
+-        <file>qbittorrent_oc.qm</file>
+-        <file>qbittorrent_pl.qm</file>
+-        <file>qbittorrent_pt_BR.qm</file>
+-        <file>qbittorrent_pt_PT.qm</file>
+-        <file>qbittorrent_ro.qm</file>
+-        <file>qbittorrent_ru.qm</file>
+-        <file>qbittorrent_sk.qm</file>
+-        <file>qbittorrent_sl.qm</file>
+-        <file>qbittorrent_sr.qm</file>
+-        <file>qbittorrent_sv.qm</file>
+-        <file>qbittorrent_tr.qm</file>
+-        <file>qbittorrent_uk.qm</file>
+-        <file>qbittorrent_uz@Latn.qm</file>
+-        <file>qbittorrent_vi.qm</file>
+         <file>qbittorrent_zh.qm</file>
+-        <file>qbittorrent_zh_HK.qm</file>
+-        <file>qbittorrent_zh_TW.qm</file>
+     </qresource>
+ </RCC>
+--- a/src/lang/qbittorrent_zh.ts
++++ a/src/lang/qbittorrent_zh.ts
+@@ -9186,13 +9186,13 @@
+         <source>Tags</source>
+         <translation>标签</translation>
+     </message>
+     <message>
+         <location filename="../gui/transferlistfilterswidget.cpp" line="673"/>
+         <source>Trackers</source>
+-        <translation>Tracker</translation>
++        <translation>服务器</translation>
+     </message>
+ </context>
+ <context>
+     <name>TransferListModel</name>
+     <message>
+         <location filename="../gui/transferlistmodel.cpp" line="96"/>
+@@ -9276,13 +9276,13 @@
+         <comment>Torrent was completed on 01/01/2010 08:00</comment>
+         <translation>完成于</translation>
+     </message>
+     <message>
+         <location filename="../gui/transferlistmodel.cpp" line="110"/>
+         <source>Tracker</source>
+-        <translation>Tracker</translation>
++        <translation>服务器</translation>
+     </message>
+     <message>
+         <location filename="../gui/transferlistmodel.cpp" line="111"/>
+         <source>Down Limit</source>
+         <comment>i.e: Download limit</comment>
+         <translation>下载限制</translation>
