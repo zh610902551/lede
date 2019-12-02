@@ -512,11 +512,11 @@ msgstr "仅常用端口(不走P2P流量到代理)"
 msgid "Ping Latency"
 msgstr "Ping延迟"
 
-msgid "Bypass Domain"
-msgstr "域名白名单(直连)"
+msgid "Bypass Domain List"
+msgstr "不走代理的域名"
 
-msgid "Black Domain"
-msgstr "域名黑名单(代理)"
+msgid "Black Domain List"
+msgstr "强制走代理的域名"
 
 msgid "Update Subscribe List"
 msgstr "更新订阅URL列表"
@@ -526,12 +526,3 @@ msgstr "订阅服务器节点前，请先更新订阅URL列表"
 
 msgid "Update All Subscribe Severs"
 msgstr "更新所有订阅服务器节点"
-
-msgid "Direct connection to the domain name in the list"
-msgstr "名单内的域名直连"
-
-msgid "Domain name agent in the list"
-msgstr "名单内的域名代理"
-
-msgid ""
-msgstr ""
