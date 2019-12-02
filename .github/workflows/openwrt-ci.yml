@@ -11,7 +11,7 @@ name: OpenWrt-CI
 
 on:
   schedule:
-    - cron: 0 20 * * *
+    - cron: 0 7 * * *
   # push:
   #   branches: 
   #     - master
@@ -99,6 +99,10 @@ jobs:
 
           # 编译x64固件:
           # cat >> .config <<EOF
+          cat >> .config <<EOF
+          CONFIG_TARGET_ramips=y
+          CONFIG_TARGET_ramips_mt7621=y
+          CONFIG_TARGET_ramips_mt7621_DEVICE_d-team_newifi-d2=y
           # CONFIG_TARGET_x86=y
           # CONFIG_TARGET_x86_64=y
           # CONFIG_TARGET_x86_64_Generic=y
@@ -141,8 +145,12 @@ jobs:
 
           # 常用LuCI插件选择:
           # cat >> .config <<EOF
+          cat >> .config <<EOF
           # CONFIG_PACKAGE_luci-app-adbyby-plus=y
           # CONFIG_PACKAGE_luci-app-aria2=y
+          CONFIG_PACKAGE_luci-app-aria2=y
+          CONFIG_PACKAGE_luci-app-qbittorrent=y
+          CONFIG_PACKAGE_luci-app-transmission=y
           # CONFIG_PACKAGE_luci-app-baidupcs-web=y
           # CONFIG_PACKAGE_luci-app-docker=y
           # CONFIG_PACKAGE_luci-app-frpc=y
