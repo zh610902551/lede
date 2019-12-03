@@ -181,4 +181,20 @@
 -        <file>qbittorrent_zh_TW.qm</file>
      </qresource>
  </RCC>
-
+--- a/src/lang/qbittorrent_zh.ts
++++ a/src/lang/qbittorrent_zh.ts
+@@ -9191,13 +9191,13 @@
+         <source>Tags</source>
+         <translation>±êÇ©</translation>
+     </message>
+     <message>
+         <location filename="../gui/transferlistfilterswidget.cpp" line="673"/>
+         <source>Trackers</source>
+-        <translation>Tracker</translation>
++        <translation>·þÎñÆ÷</translation>
+     </message>
+ </context>
+ <context>
+     <name>TransferListModel</name>
+     <message>
+         <location filename="../gui/transferlistmodel.cpp" line="96"/>
