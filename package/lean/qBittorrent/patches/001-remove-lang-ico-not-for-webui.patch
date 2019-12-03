@@ -200,10 +200,7 @@
          <location filename="../gui/transferlistmodel.cpp" line="96"/>
 --- a/src/gui/transferlistmodel.cpp
 +++ b/src/gui/transferlistmodel.cpp
-@@ -92,40 +92,40 @@
-     if (orientation == Qt::Horizontal) {
-         if (role == Qt::DisplayRole) {
-             switch (section) {
+@@ -95,6 +95,7 @@
              case TR_QUEUE_POSITION: return QChar('#');
              case TR_NAME: return tr("Name", "i.e: torrent name");
              case TR_SIZE: return tr("Size", "i.e: torrent size");
@@ -211,7 +208,7 @@
              case TR_PROGRESS: return tr("Done", "% Done");
              case TR_STATUS: return tr("Status", "Torrent status (e.g. downloading, seeding, paused)");
              case TR_SEEDS: return tr("Seeds", "i.e. full sources (often untranslated)");
-             case TR_PEERS: return tr("Peers", "i.e. partial sources (often untranslated)");
+@@ -102,9 +103,8 @@
              case TR_DLSPEED: return tr("Down Speed", "i.e: Download speed");
              case TR_UPSPEED: return tr("Up Speed", "i.e: Upload speed");
              case TR_RATIO: return tr("Ratio", "Share ratio");
@@ -222,11 +219,7 @@
              case TR_ADD_DATE: return tr("Added On", "Torrent was added to transfer list on 01/01/2010 08:00");
              case TR_SEED_DATE: return tr("Completed On", "Torrent was completed on 01/01/2010 08:00");
              case TR_TRACKER: return tr("Tracker");
-             case TR_DLLIMIT: return tr("Down Limit", "i.e: Download limit");
-             case TR_UPLIMIT: return tr("Up Limit", "i.e: Upload limit");
-             case TR_AMOUNT_DOWNLOADED: return tr("Downloaded", "Amount of data downloaded (e.g. in MB)");
-             case TR_AMOUNT_UPLOADED: return tr("Uploaded", "Amount of data uploaded (e.g. in MB)");
-             case TR_AMOUNT_DOWNLOADED_SESSION: return tr("Session Download", "Amount of data downloaded since program open (e.g. in MB)");
+@@ -116,13 +116,13 @@
              case TR_AMOUNT_UPLOADED_SESSION: return tr("Session Upload", "Amount of data uploaded since program open (e.g. in MB)");
              case TR_AMOUNT_LEFT: return tr("Remaining", "Amount of data left to download (e.g. in MB)");
              case TR_TIME_ELAPSED: return tr("Time Active", "Time (duration) the torrent is active (not paused)");
@@ -242,6 +235,3 @@
              default: return {};
              }
          }
-         else if (role == Qt::TextAlignmentRole) {
-             switch (section) {
-             case TR_AMOUNT_DOWNLOADED:
