@@ -124,3 +124,108 @@
 -        <file>url.png</file>
      </qresource>
  </RCC>
+diff -Nur a/src/gui/transferlistmodel.cpp b/src/gui/transferlistmodel.cpp
+--- a/src/gui/transferlistmodel.cpp	2019-12-04 01:08:01.564411109 +0800
++++ b/src/gui/transferlistmodel.cpp	2019-12-04 01:14:26.021143067 +0800
+@@ -97,6 +97,7 @@
+             case TR_PRIORITY: return QChar('#');
+             case TR_NAME: return tr("Name", "i.e: torrent name");
+             case TR_SIZE: return tr("Size", "i.e: torrent size");
++            case TR_TOTAL_SIZE: return tr("Total Size", "i.e. Size including unwanted data");
+             case TR_PROGRESS: return tr("Done", "% Done");
+             case TR_STATUS: return tr("Status", "Torrent status (e.g. downloading, seeding, paused)");
+             case TR_SEEDS: return tr("Seeds", "i.e. full sources (often untranslated)");
+@@ -104,9 +105,8 @@
+             case TR_DLSPEED: return tr("Down Speed", "i.e: Download speed");
+             case TR_UPSPEED: return tr("Up Speed", "i.e: Upload speed");
+             case TR_RATIO: return tr("Ratio", "Share ratio");
++            case TR_SAVE_PATH: return tr("Save path", "Torrent save path");
+             case TR_ETA: return tr("ETA", "i.e: Estimated Time of Arrival / Time left");
+-            case TR_CATEGORY: return tr("Category");
+-            case TR_TAGS: return tr("Tags");
+             case TR_ADD_DATE: return tr("Added On", "Torrent was added to transfer list on 01/01/2010 08:00");
+             case TR_SEED_DATE: return tr("Completed On", "Torrent was completed on 01/01/2010 08:00");
+             case TR_TRACKER: return tr("Tracker");
+@@ -118,12 +118,12 @@
+             case TR_AMOUNT_UPLOADED_SESSION: return tr("Session Upload", "Amount of data uploaded since program open (e.g. in MB)");
+             case TR_AMOUNT_LEFT: return tr("Remaining", "Amount of data left to download (e.g. in MB)");
+             case TR_TIME_ELAPSED: return tr("Time Active", "Time (duration) the torrent is active (not paused)");
+-            case TR_SAVE_PATH: return tr("Save path", "Torrent save path");
+             case TR_COMPLETED: return tr("Completed", "Amount of data completed (e.g. in MB)");
+             case TR_RATIO_LIMIT: return tr("Ratio Limit", "Upload share ratio limit");
+             case TR_SEEN_COMPLETE_DATE: return tr("Last Seen Complete", "Indicates the time when the torrent was last seen complete/whole");
+             case TR_LAST_ACTIVITY: return tr("Last Activity", "Time passed since a chunk was downloaded/uploaded");
+-            case TR_TOTAL_SIZE: return tr("Total Size", "i.e. Size including unwanted data");
++            case TR_CATEGORY: return tr("Category");
++            case TR_TAGS: return tr("Tags");
+             default:
+                 return QVariant();
+             }
+diff -Nur a/src/lang/lang.qrc b/src/lang/lang.qrc
+--- a/src/lang/lang.qrc	2019-12-04 01:07:52.656779835 +0800
++++ b/src/lang/lang.qrc	2019-12-04 01:10:17.938864167 +0800
+@@ -1,52 +1,6 @@
+ <RCC>
+     <qresource prefix="/lang">
+-        <file>qbittorrent_ar.qm</file>
+-        <file>qbittorrent_be.qm</file>
+-        <file>qbittorrent_bg.qm</file>
+-        <file>qbittorrent_ca.qm</file>
+-        <file>qbittorrent_cs.qm</file>
+-        <file>qbittorrent_da.qm</file>
+-        <file>qbittorrent_de.qm</file>
+-        <file>qbittorrent_el.qm</file>
+         <file>qbittorrent_en.qm</file>
+-        <file>qbittorrent_en_AU.qm</file>
+-        <file>qbittorrent_en_GB.qm</file>
+-        <file>qbittorrent_eo.qm</file>
+-        <file>qbittorrent_es.qm</file>
+-        <file>qbittorrent_eu.qm</file>
+-        <file>qbittorrent_fi.qm</file>
+-        <file>qbittorrent_fr.qm</file>
+-        <file>qbittorrent_gl.qm</file>
+-        <file>qbittorrent_he.qm</file>
+-        <file>qbittorrent_hi_IN.qm</file>
+-        <file>qbittorrent_hr.qm</file>
+-        <file>qbittorrent_hu.qm</file>
+-        <file>qbittorrent_hy.qm</file>
+-        <file>qbittorrent_id.qm</file>
+-        <file>qbittorrent_is.qm</file>
+-        <file>qbittorrent_it.qm</file>
+-        <file>qbittorrent_ja.qm</file>
+-        <file>qbittorrent_ka.qm</file>
+-        <file>qbittorrent_ko.qm</file>
+-        <file>qbittorrent_lt.qm</file>
+-        <file>qbittorrent_lv_LV.qm</file>
+-        <file>qbittorrent_ms_MY.qm</file>
+-        <file>qbittorrent_nb.qm</file>
+-        <file>qbittorrent_nl.qm</file>
+-        <file>qbittorrent_oc.qm</file>
+-        <file>qbittorrent_pl.qm</file>
+-        <file>qbittorrent_pt_BR.qm</file>
+-        <file>qbittorrent_pt_PT.qm</file>
+-        <file>qbittorrent_ro.qm</file>
+-        <file>qbittorrent_ru.qm</file>
+-        <file>qbittorrent_sk.qm</file>
+-        <file>qbittorrent_sl.qm</file>
+-        <file>qbittorrent_sr.qm</file>
+-        <file>qbittorrent_sv.qm</file>
+-        <file>qbittorrent_tr.qm</file>
+-        <file>qbittorrent_uk.qm</file>
+-        <file>qbittorrent_uz@Latn.qm</file>
+-        <file>qbittorrent_vi.qm</file>
+         <file>qbittorrent_zh.qm</file>
+         <file>qbittorrent_zh_HK.qm</file>
+         <file>qbittorrent_zh_TW.qm</file>
+diff -Nur a/src/lang/qbittorrent_zh.ts b/src/lang/qbittorrent_zh.ts
+--- a/src/lang/qbittorrent_zh.ts	2019-12-04 01:07:47.460995313 +0800
++++ b/src/lang/qbittorrent_zh.ts	2019-12-04 01:18:20.736240950 +0800
+@@ -9222,7 +9222,7 @@
+     <message>
+         <location filename="../gui/transferlistmodel.cpp" line="112"/>
+         <source>Tracker</source>
+-        <translation>Tracker</translation>
++        <translation>·þÎñÆ÷</translation>
+     </message>
+     <message>
+         <location filename="../gui/transferlistmodel.cpp" line="113"/>
