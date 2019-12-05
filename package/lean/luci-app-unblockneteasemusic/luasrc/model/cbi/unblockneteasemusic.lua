@@ -53,11 +53,6 @@ hijack.description = translate("如果使用Hosts劫持，请将HTTP/HTTPS端口
 hijack.default = "dont_hijack"
 hijack.rmempty = false
 
-auto_update = s:option(Flag, "auto_update", translate("启用自动更新"))
-auto_update.description = translate("启用后会在每天凌晨检测最新版本并自动更新")
-auto_update.default = 0
-auto_update.rmempty = false
-
 advanced_mode = s:option(Flag, "advanced_mode", translate("启用进阶设置"))
 advanced_mode.description = translate("仅推荐高级玩家使用")
 advanced_mode.default = 0
@@ -93,5 +88,10 @@ proxy_server_ip.description = translate("使用代理服务器获取音乐信息
 proxy_server_ip.placeholder = "http(s)://host:port"
 proxy_server_ip.datatype = "string"
 proxy_server_ip:depends("advanced_mode", 1)
+
+auto_update = s:option(Flag, "auto_update", translate("启用自动更新"))
+auto_update.description = translate("启用后会在每天凌晨检测最新版本并自动更新")
+auto_update.default = 0
+auto_update.rmempty = false
 
 return mp
