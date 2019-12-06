@@ -458,7 +458,7 @@ msgstr ""
 msgid "Max Outgoing Port"
 msgstr "最大端口"
 
-msgid The max outgoing port.""
+msgid "The max outgoing port."
 msgstr "最大的对外连接端口。"
 
 msgid "Min Outgoing Port"
