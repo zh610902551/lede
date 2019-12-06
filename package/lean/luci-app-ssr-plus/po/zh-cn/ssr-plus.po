@@ -562,3 +562,6 @@ msgstr "国内网IP"
 
 msgid "Global IP"
 msgstr "国外网IP"
+
+msgid "Checking..."
+msgstr "正在检查..."
