@@ -452,9 +452,6 @@ msgstr "忽略对LAN的速度限制。"
 msgid "Use os Cache"
 msgstr "使用系统缓存"
 
-msgid ""
-msgstr ""
-
 msgid "Max Outgoing Port"
 msgstr "最大端口"
 
