@@ -19,24 +19,14 @@
     <link rel="preconnect" href="https://d.skk.moe">
     <link rel="shortcut icon" type="image/ico" href="https://cdn.jsdelivr.net/npm/skx@0.0.1">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,minimal-ui">
-    <style>
+     <style>
         .ip-title {
             font-weight: bold;
             color: #444;
             font-size:15px;
             display: inline-block;
-            width: 25%;
+            width: 18%;
             vertical-align:bottom;
-        }
-        
-        .ip-state_title {
-            font-weight: bold;
-            color: #444;
-            font-size:15px;
-            display: inline-block;
-            width: 52%;
-            vertical-align:bottom;
-            transform:translateY(10%);
         }
         
         .ip-result {
@@ -44,7 +34,7 @@
             font-size:16px;
             white-space: nowrap;  /*强制span不换行*/
             display: inline-block;  /*将span当做块级元素对待*/
-            width: 29%;  /*限制宽度*/
+            width: 27%;  /*限制宽度*/
             overflow: hidden;  /*超出宽度部分隐藏*/
             text-overflow: ellipsis;  /*超出部分以点号代替*/
             vertical-align:bottom;
@@ -56,11 +46,21 @@
             font-size:15px;
             white-space: nowrap;  /*强制span不换行*/
             display: inline-block;  /*将span当做块级元素对待*/
-            width: 40%;  /*限制宽度*/
+            width: 53%;  /*限制宽度*/
             overflow: hidden;  /*超出宽度部分隐藏*/
             text-overflow: ellipsis;  /*超出部分以点号代替*/
             vertical-align:bottom;
             transform:translateY(2%);
+        }
+        
+        .ip-state_title {
+            font-weight: bold;
+            color: #444;
+            font-size:15px;
+            display: inline-block;
+            width: 52%;
+            vertical-align:bottom;
+            transform:translateY(10%);
         }
         
         .ip-checking {
@@ -121,26 +121,26 @@
      <tr><td width="100%">
 <body>
     <div style="display: flex;">
-        <div style="width: 51%">
-            <h3><font color="#2E8B57"><B>IP 地址查询</B></font></h3>
+        <div style="width: 55%">
+            <h4><font color="#2E8B57"><B>IP 地址查询</B></font></h4>
             <p>
-                <span class="ip-title">IP&nbsp;&nbsp;&nbsp;登录设备:</span><span class="ip-result" id="ip-webrtc"></span> <span class="ip-geo" id="ip-webrtc-cz88"></span>
+                <span class="ip-title">IP登录设备:</span><span class="ip-result" id="ip-webrtc"></span> <span class="ip-geo" id="ip-webrtc-cz88"></span>
             </p>
             <p>
-                <span class="ip-title">IPIP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;国内:</span><span class="ip-result" id="ip-ipipnet"></span> <span class="ip-geo" id="ip-ipipnet-geo"></span>
+                <span class="ip-title">IPIP&nbsp;&nbsp;&nbsp;&nbsp;国内:</span><span class="ip-result" id="ip-ipipnet"></span> <span class="ip-geo" id="ip-ipipnet-geo"></span>
             </p>
             <p>
-                <span class="ip-title">IP.PC&nbsp;&nbsp;&nbsp;&nbsp;国内:</span><span class="ip-result" id="ip-pcol"></span> <span class="ip-geo" id="ip-pcol-ipip"></span>
+                <span class="ip-title">IP.PC&nbsp;&nbsp;国内:</span><span class="ip-result" id="ip-pcol"></span> <span class="ip-geo" id="ip-pcol-ipip"></span>
             </p>
             <p>
-                <span class="ip-title">IP.SB&nbsp;&nbsp;&nbsp;&nbsp;海外:</span><span class="ip-result" id="ip-ipsb"></span> <span class="ip-geo" id="ip-ipsb-geo"></span>
+                <span class="ip-title">IP.SB&nbsp;&nbsp;海外:</span><span class="ip-result" id="ip-ipsb"></span> <span class="ip-geo" id="ip-ipsb-geo"></span>
             </p>
             <p>
-                <span class="ip-title">IPIFY&nbsp;&nbsp;&nbsp;&nbsp;海外:</span><span class="ip-result" id="ip-ipify"></span> <span class="ip-geo" id="ip-ipify-ipip"></span>
+                <span class="ip-title">IPIFY&nbsp;&nbsp;海外:</span><span class="ip-result" id="ip-ipify"></span> <span class="ip-geo" id="ip-ipify-ipip"></span>
             </p>
         </div>
-        <div style="width: 49%">
-            <h3><font color="#2E8B57"><B>网站访问检查</B></font></h3>
+        <div style="width: 45%">
+            <h4><font color="#2E8B57"><B>网站访问检查</B></font></h4>
                 <p>
                 <span class="ip-state_title">百度搜索:</span><span id="http-baidu"></span>
             </p>
@@ -148,13 +148,13 @@
                 <span class="ip-state_title">网易云音乐:</span><span id="http-163"></span>
             </p>
             <p>
-                <span class="ip-state_title">GitHub:</span><span id="http-github"></span>
-            </p>
-            <p>
                 <span class="ip-state_title">Facebook:</span><span id="http-facebook"></span>
             </p>
             <p>
                 <span class="ip-state_title">YouTube:</span><span id="http-youtube"></span>
+            </p>
+            <p>
+                <span class="ip-state_title">GitHub:</span><span id="http-github"></span>
             </p>
         </div>
     </div>

@@ -554,6 +554,7 @@ stop() {
 	killall -q -9 ssr-redir
 	killall -q -9 v2ray
 	killall -q -9 trojan
+	killall -q -9 ipt2socks
 	killall -q -9 ssr-server
 	killall -q -9 kcptun-client
 	killall -q -9 ssr-local
