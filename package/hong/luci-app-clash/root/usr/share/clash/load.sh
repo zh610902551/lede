@@ -12,7 +12,7 @@ elif [ "$load_from" == "upl" ];then
 fi
 
 CFG_FILE="/etc/config/clash"
-REAL_LOG="/tmp/clash_real.log"
+REAL_LOG="/usr/share/clash/clash_real.log"
 
 if [ $loadgroups -eq 1 ];then
 
@@ -28,7 +28,7 @@ fi
     	echo "Start updating policy group config" >$REAL_LOG
 	fi
 
-	sleep 3
+	sleep 2
 if [ -f "$load" ]; then
 	 [ ! -z "$(grep "^ \{0,\}'Proxy':" "$load")" ] || [ ! -z "$(grep '^ \{0,\}"Proxy":' "$load")" ] && {
 	    sed -i "/^ \{0,\}\'Proxy\':/c\Proxy:" "$load"
@@ -207,7 +207,7 @@ do
                   ${uci_add}other_group="$other_group_name"
                fi
                group_nums=$(( $group_nums + 1))
-		sleep 1
+		
             done
          fi 
 		fi 
@@ -344,7 +344,7 @@ do
 		elif [ $lang == "zh_cn" ];then
 			echo "正在读取【$server_type】-【$server_name】代理配置..." >$REAL_LOG
 		fi 
-sleep 1 
+
    name=clash
    uci_name_tmp=$(uci add $name servers)
 
