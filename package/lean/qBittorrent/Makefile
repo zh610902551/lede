@@ -37,10 +37,6 @@ define Package/qbittorrent/description
   well as many features.
 endef
 
-#CONFIGURE_VARS += \
-#	QT_QMAKE="$(STAGING_DIR)/usr/bin" \
-#	PKG_CONFIG_PATH="$(STAGING_DIR)/usr/lib/pkgconfig"
-
 CONFIGURE_ARGS += \
 	--disable-gui \
 	--enable-stacktrace=no \
@@ -58,9 +54,6 @@ define Package/qbittorrent/install
 	$(INSTALL_DIR) $(1)/usr/bin $(1)/usr/man/man1
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/man/man1/qbittorrent-nox.1 $(1)/usr/man/man1/qbittorrent-nox.1
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/qbittorrent-nox $(1)/usr/bin
-#	$(INSTALL_DIR) $(1)/etc/init.d $(1)/etc/config
-#	$(INSTALL_BIN) ./files/qbittorrent.init $(1)/etc/init.d/qbittorrent
-#	$(INSTALL_CONF) ./files/qbittorrent.conf $(1)/etc/config/qbittorrent
 
 endef
 
