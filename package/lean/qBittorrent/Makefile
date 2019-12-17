@@ -1,28 +1,14 @@
-#
-# Copyright (C) 2017-2019 Entware
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
-#
-
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=qbittorrent
-#PKG_VERSION:=4.1.9
-#PKG_RELEASE=1
-
-#PKG_SOURCE:=$(PKG_NAME)-release-$(PKG_VERSION).tar.gz
-#PKG_SOURCE_URL:=https://codeload.github.com/qbittorrent/qBittorrent/tar.gz/release-$(PKG_VERSION)?
-#PKG_HASH:=620127f73f88ed3f2b2e4195cbc641f7c27f967d3b045e45f7916c0995fd61fe
-
-PKG_VERSION:=4.1.9.1
+PKG_NAME:=qBittorrent
+PKG_VERSION:=4.1.9.15
 PKG_RELEASE=1
 
-PKG_SOURCE:=$(PKG_NAME)-release-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/qbittorrent/qBittorrent/tar.gz/release-$(PKG_VERSION)?
-PKG_HASH:=18688c4bf50eb285d5ee1bdae771f301308059b31ac9f1b4aeff117ae7a12db2
-
-PKG_BUILD_DIR:=$(BUILD_DIR)/qBittorrent-release-$(PKG_VERSION)
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=https://github.com/c0re100/qBittorrent-Enhanced-Edition.git
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_VERSION:=0e1a14ddf1ff005f193fc7125fabb748611d5d63
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 
 PKG_LICENSE:=GPL-2.0+
 PKG_LICENSE_FILES:=COPYING
