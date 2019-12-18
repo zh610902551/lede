@@ -4,11 +4,13 @@ PKG_NAME:=qBittorrent
 PKG_VERSION:=4.1.9.15
 PKG_RELEASE=1
 
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/c0re100/qBittorrent-Enhanced-Edition.git
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_VERSION:=0e1a14ddf1ff005f193fc7125fabb748611d5d63
+
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://github.com/c0re100/qBittorrent-Enhanced-Edition.git
+PKG_SOURCE_VERSION:=0e1a14ddf1ff005f193fc7125fabb748611d5d63
+PKG_SOURCE_PROTO:=git
+
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 
 PKG_LICENSE:=GPL-2.0+
 PKG_LICENSE_FILES:=COPYING
@@ -20,12 +22,12 @@ PKG_USE_MIPS16:=0
 include $(INCLUDE_DIR)/package.mk
 
 define Package/qbittorrent
+	SUBMENU:=BitTorrent
 	SECTION:=net
 	CATEGORY:=Network
-	SUBMENU:=BitTorrent
-	DEPENDS:=+qt5-core +qt5-network +qt5-xml +rblibtorrent
 	TITLE:=bittorrent client programmed in C++ / Qt
 	URL:=https://www.qbittorrent.org/
+	DEPENDS:=+qt5-core +qt5-network +qt5-xml +rblibtorrent
 	PROVIDES:=qBittorrent
 endef
 

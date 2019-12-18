@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # 读取设置文件
 function get_config(){
@@ -88,7 +88,7 @@ elif [ ! -z "$serverchan_interface" ] ; then
 fi
 
 }
-serverchan_init
+
 
 #创建计划任务
 function serverchan_cron(){
@@ -131,7 +131,7 @@ elif [ -z "$send_mode" ] ; then
 	fi
 fi
 }
-serverchan_cron
+
 
 #免打扰检测
 function serverchan_disturb(){
@@ -162,7 +162,7 @@ if [ ! -z "$serverchan_sheep" ] && [ "$serverchan_sheep" -eq "1" ] && [ ! -z "$s
 	fi
 fi
 }
-serverchan_disturb
+
 
 #清理日志
 function clean_log(){
@@ -208,8 +208,8 @@ if [ "$1" ] ;then
 			ip_name=$( cat /var/dhcp.leases | grep -w $1 |awk '{print $4}' | grep -v "^$" | sort -u )
 		fi
 		
-		if [ -z "$ip_mac" ] ; then ip_mac="未知设备";fi
-		if [ -z "$ip_name" ] ; then ip_name="未知设备";fi
+		if [ -z "$ip_mac" ] ; then ip_mac="unknown";fi
+		if [ -z "$ip_name" ] ; then ip_name="unknown";fi
 		
 		local ip_ms=`echo $( arping -I $( cat /proc/net/arp | grep -w $1 | awk  '{print $6}' | grep -v "^$" | sort -u ) -c 10 -f -w 3 $1)`
 		
@@ -228,7 +228,7 @@ if [ "$1" ] ;then
 		if ( echo ${ip_ms} | grep -q ms ); then
 		# 如果连接成功
 		LockFile	
-		if ( echo "$ip_mac" | grep -q "未知设备" ) || ( echo "$ip_name" | grep -q "未知设备" ) ; then
+		if ( echo "$ip_mac" | grep -q "unknown" ) || ( echo "$ip_name" | grep -q "unknown" ) ; then
 			for i in `seq 1 5` 
 			do
 				echo "`date "+%H:%M:%S"` 获取 $1 $ip_mac 设备信息失败，重试中" >> ${logfile}
@@ -244,11 +244,11 @@ if [ "$1" ] ;then
 			done
 		fi
 		if [ -z "$ip_mac" ] ; then
-			ip_mac="未知设备"
+			ip_mac="unknown"
 			echo "`date "+%H:%M:%S"` 获取 $1 mac 超时，暂停跳过" >> ${logfile}
 		fi
 		if [ -z "$ip_name" ] ; then
-			ip_name="未知设备"
+			ip_name="unknown"
 			echo "`date "+%H:%M:%S"` 获取 $1 设备名超时，暂停跳过" >> ${logfile}
 		fi
 		
@@ -306,7 +306,7 @@ if [ "$1" ] ;then
 	ip_mac=$( cat ${dir}ipAddress | grep -w $1 |awk '{print $2}' | grep -v "^$" | sort -u )
 	if [ -z "$ip_mac" ] ; then ip_mac=$( cat /proc/net/arp | grep "0x2" | grep -w $1 | awk  '{print $4}' | grep -v "^$" | sort -u );fi
 	ip_name=$( cat ${dir}ipAddress | grep -w $1 |awk '{print $3}' | grep -v "^$" | sort -u )
-	if ( echo "$ip_mac" | grep -q "未知设备" ) || ( echo "$ip_name" | grep -q "未知设备" ) ; then
+	if ( echo "$ip_mac" | grep -q "unknown" ) || ( echo "$ip_name" | grep -q "unknown" ) ; then
 		echo "`date "+%H:%M:%S"` $1 $ip_mac 无设备名，尝试重新读取" >> ${logfile}
 		sed -i "/$1/d" ${dir}ipAddress
 		ip_mac=$( cat /var/dhcp.leases | grep -w $1 |awk '{print $2}' | grep -v "^$" | sort -u )
@@ -316,8 +316,8 @@ if [ "$1" ] ;then
 		else
 			ip_name=$( cat /var/dhcp.leases | grep -w $1 |awk '{print $4}' | grep -v "^$" | sort -u )
 		fi
-		if [ -z "$ip_mac" ] ; then ip_mac="未知设备";fi
-		if [ -z "$ip_name" ] ; then ip_name="未知设备";fi
+		if [ -z "$ip_mac" ] ; then ip_mac="unknown";fi
+		if [ -z "$ip_name" ] ; then ip_name="unknown";fi
 		echo "$1 $ip_mac $ip_name" >> ${dir}ipAddress
 	fi
 
@@ -383,7 +383,7 @@ function send(){
 	send_content=""
 	serverchan_cron
 	send_title=`uci get serverchan.serverchan.send_title` >/dev/null 2>&1
-	if [ -z "$send_title" ] ; then send_title="OpenWrt  路由状态：";fi
+	if [ -z "$send_title" ] ; then send_title="OpenWrt 路由状态：";fi
 	router_status=`uci get serverchan.serverchan.router_status` >/dev/null 2>&1
 		if [ ! -z "$router_status" ] && [ "$router_status" -eq "1" ] ; then send_content=${send_content}"%0D%0A%0D%0A---%0D%0A%0D%0A#### 系统运行状态%0D%0A%0D%0A";fi
 		#if [ ! -z "$router_status" ] && [ "$router_status" -eq "1" ] ; then send_content=${send_content}"%0D%0A%0D%0A""     CPU占用：`top -n 1 |grep -i Cpu:| awk '{print $3":"$2" "$5":"$4}'`";fi
@@ -442,6 +442,7 @@ function send(){
 			done
 		fi
 	send_title=$( echo $send_title | sed $'s/\ /%20/g'| sed $'s/\"/%22/g'| sed $'s/\#/%23/g'| sed $'s/\&/%26/g'| sed $'s/\,/%2C/g'| sed $'s/\//%2F/g'| sed $'s/\:/%3A/g'| sed $'s/\;/%3B/g'| sed $'s/\=/%3D/g'| sed $'s/\@/%40/g')
+	content=$( echo $content| sed $'s/unknown/%e6%9c%aa%e7%9f%a5%e8%ae%be%e5%a4%87/')
 	#send_content=$( echo $send_content | sed $'s/\ /%20/g'| sed $'s/\"/%22/g'| sed $'s/\#/%23/g'| sed $'s/\&/%26/g'| sed $'s/\,/%2C/g'| sed $'s/\//%2F/g'| sed $'s/\:/%3A/g'| sed $'s/\;/%3B/g'| sed $'s/\=/%3D/g'| sed $'s/\@/%40/g')
 	#未转义 | sed $'s/\(/%28/g'  | sed $'s/\)/%29/g'   | sed $'s/\+/%2B/g'   | sed $'s/\%/%25/g'   | sed $'s/\</%3C/g'   | sed $'s/\>/%3E/g'   | sed $'s/\?/%3F/g'   | sed $'s/\\/%5C/g'   | sed $'s/\|/%7C/g'
 	if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] ; then  echo "`date "+%H:%M:%S"`  进行 URL 编码，标题=$send_title" >> ${logfile};fi
@@ -459,9 +460,14 @@ function send(){
 }
 
 if [ "$1" ] ;then
-	if [ $1="send" ] ;then send;fi
+	if [ $1 = "send" ] ;then send;fi
+	if [ $1 = "crontab" ] ;then serverchan_cron;fi
 	exit
 fi
+
+serverchan_init
+serverchan_cron
+serverchan_disturb
 
 #初始化在线设备列表
 function serverchan_first(){
@@ -490,8 +496,8 @@ if [ ! -z "$serverchan_enable" ] && [ "$serverchan_enable" -eq "1" ] ; then
 		if [ -z "$ip_name" ] ; then
 			temp_ms=`ping -c 1 -w 2 $ip` &
 		fi
-		if [ -z "$ip_mac" ] ; then ip_mac="未知设备";fi
-		if [ -z "$ip_name" ] ; then ip_name="未知设备";fi
+		if [ -z "$ip_mac" ] ; then ip_mac="unknown";fi
+		if [ -z "$ip_name" ] ; then ip_name="unknown";fi
 		
 		# 如果 “忽略列表 为空” 并且  “关注列表为空” 
 		if [ -z "$serverchan_whitelist" ] && [ -z "$serverchan_blacklist" ] && [ -z "$serverchan_interface" ]; then
@@ -502,7 +508,7 @@ if [ ! -z "$serverchan_enable" ] && [ "$serverchan_enable" -eq "1" ] ; then
 			if ( ! echo $serverchan_whitelist | grep -q -i $ip_mac ); then
 				up $ip &
 			else
-				if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "未知设备" ) ; then  echo "`date "+%H:%M:%S"`  忽略列表已启用，跳过$ip_name $ip" >> ${logfile};fi
+				if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "unknown" ) ; then  echo "`date "+%H:%M:%S"`  忽略列表已启用，跳过$ip_name $ip" >> ${logfile};fi
 			fi
 
 		# 如果 “关注列表不为空” 
@@ -510,14 +516,14 @@ if [ ! -z "$serverchan_enable" ] && [ "$serverchan_enable" -eq "1" ] ; then
 			if ( echo $serverchan_blacklist | grep -q -i $ip_mac ); then
 				up $ip &
 			else
-				if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "未知设备" ) ; then  echo "`date "+%H:%M:%S"`  关注列表已启用，跳过$ip_name $ip" >> ${logfile};fi
+				if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "unknown" ) ; then  echo "`date "+%H:%M:%S"`  关注列表已启用，跳过$ip_name $ip" >> ${logfile};fi
 			fi	
 		# 如果 “仅关注接口选项打开” 
 		elif [ ! -z "$serverchan_interface" ] ; then
 			if ( echo $serverchan_interface | grep -q -i $( cat /proc/net/arp | grep $ip |awk '{print $6}' | grep -v "^$" | sort -u )); then
 				up $ip &
 			else
-				if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "未知设备" ) ; then  echo "`date "+%H:%M:%S"`  仅关注接口已启用，跳过$ip_name $ip" >> ${logfile};fi
+				if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "unknown" ) ; then  echo "`date "+%H:%M:%S"`  仅关注接口已启用，跳过$ip_name $ip" >> ${logfile};fi
 			fi	
 		fi
 	fi
@@ -555,7 +561,7 @@ function rand_geturl(){
 			#查询ip历史记录
 			if [ -f ${dir}ip ] ; then lastIP=$( cat "${dir}ip");else unset lastIP;fi
 			if [ ! -z "$lastIP" ] ; then
-				#if [ "$wanIP"!="$lastIP" ] && [ ! -z "$wanIP" ] ; then
+				#if [ "$wanIP" != "$lastIP" ] && [ ! -z "$wanIP" ] ; then
 				if [ ! -z "$wanIP" ] && ( echo ${wanIP} | grep -w -q ${lastIP} );then
 					if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] ; then  echo "`date "+%H:%M:%S"`  IP 无变化，当前 ip 为 $lastIP" >> ${logfile};fi
 				else
@@ -622,8 +628,8 @@ function rand_geturl(){
 					ip_name=$( cat /var/dhcp.leases | grep -w $ip |awk '{print $4}' | grep -v "^$" | sort -u )
 				fi
 		
-				if [ -z "$ip_mac" ] ; then ip_mac="未知设备";fi
-				if [ -z "$ip_name" ] ; then ip_name="未知设备";fi
+				if [ -z "$ip_mac" ] ; then ip_mac="unknown";fi
+				if [ -z "$ip_name" ] ; then ip_name="unknown";fi
 		
 				# 如果 “忽略列表 为空” 并且  “关注列表为空” 
 				if [ -z "$serverchan_whitelist" ] && [ -z "$serverchan_blacklist" ] && [ -z "$serverchan_interface" ]; then
@@ -684,8 +690,8 @@ function rand_geturl(){
 				if [ -z "$ip_name" ] ; then
 					temp_ms=`ping -c 1 -w 2 $ip` &
 				fi
-				if [ -z "$ip_mac" ] ; then ip_mac="未知设备";fi
-				if [ -z "$ip_name" ] ; then ip_name="未知设备";fi
+				if [ -z "$ip_mac" ] ; then ip_mac="unknown";fi
+				if [ -z "$ip_name" ] ; then ip_name="unknown";fi
 				
 				# 如果 “忽略列表为空” 并且  “关注列表为空” 
 				if [ -z "$serverchan_whitelist" ] && [ -z "$serverchan_blacklist" ] && [ -z "$serverchan_interface" ]; then
@@ -696,7 +702,7 @@ function rand_geturl(){
 					if ( ! echo $serverchan_whitelist | grep -q -i $ip_mac ); then
 						up $ip &
 					else
-						if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "未知设备" ) ; then  echo "`date "+%H:%M:%S"`  忽略列表已启用，跳过$ip_name $ip" >> ${logfile};fi
+						if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "unknown" ) ; then  echo "`date "+%H:%M:%S"`  忽略列表已启用，跳过$ip_name $ip" >> ${logfile};fi
 					fi
 
 				# 如果 “关注列表不为空” 
@@ -704,7 +710,7 @@ function rand_geturl(){
 					if ( echo $serverchan_blacklist | grep -q -i $ip_mac ); then
 						up $ip &
 					else
-						if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "未知设备" ) ; then  echo "`date "+%H:%M:%S"`  关注列表已启用，跳过$ip_name $ip" >> ${logfile};fi
+						if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "unknown" ) ; then  echo "`date "+%H:%M:%S"`  关注列表已启用，跳过$ip_name $ip" >> ${logfile};fi
 					fi
 					
 				# 如果 “仅关注接口选项打开” 
@@ -712,7 +718,7 @@ function rand_geturl(){
 					if ( echo $serverchan_interface | grep -q -i $( cat /proc/net/arp | grep $ip |awk '{print $6}' | grep -v "^$" | sort -u )); then
 						up $ip &
 					else
-						if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "未知设备" ) ; then  echo "`date "+%H:%M:%S"`  仅关注接口已启用，跳过$ip_name $ip" >> ${logfile};fi
+						if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] && ( ! echo ${ip_mac} | grep -q "unknown" ) ; then  echo "`date "+%H:%M:%S"`  仅关注接口已启用，跳过$ip_name $ip" >> ${logfile};fi
 					fi	
 				fi
 
@@ -735,8 +741,6 @@ function rand_geturl(){
 			if [ ! -z "$cpuload" ] && [ `expr $cpu_fuzai \> $cpuload` -eq "1" ] ; then
 				cpuload_n=$(($cpuload_n+1))
 				echo "`date "+%H:%M:%S"` 【！！警报！！】当前 CPU 负载过高: ${cpu_fuzai}" >> ${logfile}
-			elif [ "$cpuload_n" -ge "5" ] ;then
-				cpuload_n=$(($cpuload_n+1))
 			else
 				cpuload_n=0
 				if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] ; then  echo "`date "+%H:%M:%S"`  CPU 负载正常：$cpu_fuzai" >> ${logfile};fi
@@ -745,11 +749,7 @@ function rand_geturl(){
 			if [ "$cpuload_n" -eq "5" ] ;then
 				if [ -f "${dir}title" ] ; then title=`cat ${dir}title` ;fi
 				if [ -f "${dir}content" ] ; then content=`cat ${dir}content` ;fi
-				if ( echo ${title} | grep -q "设备报警" ) || [ -z "$title" ] ; then
-					title="CPU 负载过高！"
-				else
-					title="设备报警！"
-				fi
+				title="CPU 负载过高！"
 				echo "`date "+%H:%M:%S"` 【微信推送】当前 CPU 负载过高: ${cpu_fuzai}" >> ${logfile}
 				content="%0D%0A%0D%0A---%0D%0A%0D%0A""####CPU 负载过高%0D%0A%0D%0A>CPU 负载已连续五分钟超过预设%0D%0A%0D%0A>接下来一小时不再提示%0D%0A%0D%0A>当前负载：${cpu_fuzai}"
 				echo $title >${dir}title
@@ -758,7 +758,7 @@ function rand_geturl(){
 				cpuload_n=0
 			fi
 		fi
-		
+
 		#温度状态报警
 		if [ ! -z "$temperature_enable" ] && [ "$temperature_enable" -eq "1" ] ; then
 			if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] ; then  echo "`date "+%H:%M:%S"` 【温度】正在检测 CPU 温度" >> ${logfile};fi
@@ -767,8 +767,6 @@ function rand_geturl(){
 			if [ ! -z "$temperature" ] && [ "$cpu_wendu" -gt "$temperature" ] ; then
 				Temperature_n=$(($Temperature_n+1))
 				echo "`date "+%H:%M:%S"` 【！！警报！！】当前 CPU 温度过高: ${cpu_wendu}" >> ${logfile}
-			elif [ "$Temperature_n" -ge "5" ] ;then
-				Temperature_n=$(($Temperature_n+1))
 			else
 				Temperature_n=0
 				if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] ; then  echo "`date "+%H:%M:%S"`  CPU 温度正常：$cpu_wendu" >> ${logfile};fi
@@ -776,10 +774,10 @@ function rand_geturl(){
 			if [ "$Temperature_n" -eq "5" ] ;then
 				if [ -f "${dir}title" ] ; then title=`cat ${dir}title` ;fi
 				if [ -f "${dir}content" ] ; then content=`cat ${dir}content` ;fi
-				if ( echo ${title} | grep -q "设备报警" ) || [ -z "$title" ] ; then
-					title="CPU 温度过高！"
-				else
+				if [ ! -z "$title" ] && ( echo ${title} | grep -q "过高" ) ; then
 					title="设备报警！"
+				else
+					title="CPU 温度过高！"
 				fi
 				echo "`date "+%H:%M:%S"`  【微信推送】当前 CPU 温度过高: ${cpu_wendu}" >> ${logfile}
 				content="%0D%0A%0D%0A---%0D%0A%0D%0A""####CPU 温度过高%0D%0A%0D%0A>CPU 温度已连续五分钟超过预设%0D%0A%0D%0A>接下来一小时不再提示%0D%0A%0D%0A>当前温度：${cpu_wendu}"
@@ -824,6 +822,9 @@ function serverchan_send(){
 	if [ -f "${dir}content" ] ; then content=`cat ${dir}content` ;fi
 	if [ ! -z "$title" ] && [ ! -z "$content" ] ; then
 		nowtime=`date "+%Y-%m-%d %H:%M:%S"`
+		title=$( echo $title | sed $'s/\ /%20/g'| sed $'s/\"/%22/g'| sed $'s/\#/%23/g'| sed $'s/\&/%26/g'| sed $'s/\,/%2C/g'| sed $'s/\//%2F/g'| sed $'s/\:/%3A/g'| sed $'s/\;/%3B/g'| sed $'s/\=/%3D/g'| sed $'s/\@/%40/g')
+		content=$( echo $content| sed $'s/unknown/%e6%9c%aa%e7%9f%a5%e8%ae%be%e5%a4%87/')
+	if [ ! -z "$debuglevel" ] && [ "$debuglevel" -ne "1" ] ; then  echo "`date "+%H:%M:%S"`  进行 URL 编码，标题=$title" >> ${logfile};fi
 		curl -s "http://sc.ftqq.com/$serverchan_sckey.send?text=${title}" -d "&desp=${nowtime}%0D%0A%0D%0A${content}" >/dev/null
 		unset title
 		unset content

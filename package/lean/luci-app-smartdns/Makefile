@@ -1,16 +1,13 @@
-# Copyright (C) 2016 Openwrt.org
-#
 # This is free software, licensed under the Apache License, Version 2.0 .
-#
 
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI support for serverchan
-LUCI_DEPENDS:=+iputils-arping +curl 
+LUCI_TITLE:=Luci for smartdns server
+LUCI_DEPENDS:=+smartdns
 LUCI_PKGARCH:=all
-PKG_NAME:=luci-app-serverchan
-PKG_VERSION:=1.21
-PKG_RELEASE:=42
+PKG_NAME:=luci-app-smartdns
+PKG_VERSION:=1
+PKG_RELEASE:=1
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
