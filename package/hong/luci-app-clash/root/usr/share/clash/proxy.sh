@@ -6,12 +6,12 @@ lang=$(uci get luci.main.lang 2>/dev/null)
 config_type=$(uci get clash.config.config_type 2>/dev/null)
 
 
- 	if [ $lang == "en" ];then
+ 	if [ $lang == "en" ] || [ $lang == "auto" ];then
 		echo "Strating to Create Custom Config.. " >$REAL_LOG 
 	elif [ $lang == "zh_cn" ];then
     	 echo "开始创建自定义配置..." >$REAL_LOG
 	fi
-sleep 1
+	sleep 1
 CONFIG_YAML_RULE="/usr/share/clash/custom_rule.yaml"
 SERVER_FILE="/tmp/servers.yaml"
 CONFIG_YAML="/usr/share/clash/config/custom/config.yaml"
@@ -26,18 +26,18 @@ DNS_FILE="/usr/share/clash/dns.yaml"
    servcount=$( grep -c "config servers" $CFG_FILE 2>/dev/null)
    gcount=$( grep -c "config groups" $CFG_FILE 2>/dev/null)
    if [ $servcount -eq 0 ] || [ $gcount -eq 0 ];then
- 	if [ $lang == "en" ];then
+ 	if [ $lang == "en" ] || [ $lang == "auto" ];then
 		echo "No servers or group. Aborting Operation .." >$REAL_LOG 
 		sleep 2
-			echo "Clash for OpenWRT" >$REAL_LOG
+		echo "Clash for OpenWRT" >$REAL_LOG
 	elif [ $lang == "zh_cn" ];then
     	 echo "找不到代理或策略组。中止操作..." >$REAL_LOG
 		 sleep 2
-			echo "Clash for OpenWRT" >$REAL_LOG
+		echo "Clash for OpenWRT" >$REAL_LOG
 	fi
 	exit 0	
    fi
-
+sleep 2
 servers_set()
 {
    local section="$1"
@@ -415,7 +415,7 @@ sed -i "/Rule:/i\     " $CONFIG_YAML 2>/dev/null
 
 rm -rf $TEMP_FILE $GROUP_FILE $Proxy_Group $CONFIG_FILE
 
- 	if [ $lang == "en" ];then
+ 	if [ $lang == "en" ] || [ $lang == "auto" ];then
 		echo "Completed Creating Custom Config.. " >$REAL_LOG 
 		 sleep 2
 			echo "Clash for OpenWRT" >$REAL_LOG

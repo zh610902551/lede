@@ -22,13 +22,13 @@ if [ ! -f $load ] && [ ! -f $load ]; then
   exit 0
 fi
 
-	if [ $lang == "en" ];then
+	if [ $lang == "zh_cn" ];then
 		echo "开始更新策略组配置..." >$REAL_LOG 
-	elif [ $lang == "zh_cn" ];then
+	elif [ $lang == "en" ] || [ $lang == "auto" ];then
     	echo "Start updating policy group config" >$REAL_LOG
 	fi
 
-	sleep 2
+	sleep 3
 if [ -f "$load" ]; then
 	 [ ! -z "$(grep "^ \{0,\}'Proxy':" "$load")" ] || [ ! -z "$(grep '^ \{0,\}"Proxy":' "$load")" ] && {
 	    sed -i "/^ \{0,\}\'Proxy\':/c\Proxy:" "$load"
@@ -56,14 +56,14 @@ if [ -f "$load" ]; then
       echo 'REJECT' >>/tmp/Proxy_Group
    else
       
-	  	if [ $lang == "en" ];then
+	  	if [ $lang == "en" ] || [ $lang == "auto" ];then
 			echo "Read error, configuration file exception!" >/tmp/Proxy_Group
 		elif [ $lang == "zh_cn" ];then
 			echo '读取错误，配置文件异常！' >/tmp/Proxy_Group
 		fi
    fi
 else
-	  	if [ $lang == "en" ];then
+	  	if [ $lang == "en" ] || [ $lang == "auto" ];then
 			echo "Read error, configuration file exception!" >/tmp/Proxy_Group
 		elif [ $lang == "zh_cn" ];then
 			echo '读取错误，配置文件异常！' >/tmp/Proxy_Group
@@ -71,7 +71,7 @@ else
 fi
 
 
-if [ $lang == "en" ];then
+if [ $lang == "en" ] || [ $lang == "auto" ];then
 [ ! -z "$(grep "Read error" /tmp/Proxy_Group)"] && {
 	echo "Read error, configuration file exception!" >$REAL_LOG
 	uci commit clash
@@ -94,9 +94,9 @@ fi
 awk '/Proxy Group:/,/Rule:/{print}' $load 2>/dev/null |sed 's/\"//g' 2>/dev/null |sed "s/\'//g" 2>/dev/null |sed 's/\t/ /g' 2>/dev/null >/tmp/yaml_group.yaml 2>&1
 
 
-if [ -f /tmp/yaml_group.yaml ] && [ "$(ls -l /tmp/yaml_group.yaml | awk '{print int($5/1024)}')" -eq 0 ];then
+if [ -f /tmp/yaml_group.yaml ] && [ "$(ls -l /tmp/yaml_group.yaml | awk '{print int($5)}')" -eq 0 ];then
 
- 	if [ $lang == "en" ];then
+ 	if [ $lang == "en" ] || [ $lang == "auto" ];then
 		echo "No policy group found. Aborting Operation .." >$REAL_LOG 
 		sleep 5
 		echo "Clash for OpenWRT" >$REAL_LOG
@@ -158,7 +158,7 @@ do
    group_test_interval="$(cfg_get "interval:" "$single_group")"
 
    
-	  	if [ $lang == "en" ];then
+	  	if [ $lang == "en" ] || [ $lang == "auto" ];then
 			echo "Now Reading 【$group_type】-【$group_name】 Policy Group..." >$REAL_LOG
 		elif [ $lang == "zh_cn" ];then
 			echo "正在读取【$group_type】-【$group_name】策略组配置..." >$REAL_LOG
@@ -207,7 +207,6 @@ do
                   ${uci_add}other_group="$other_group_name"
                fi
                group_nums=$(( $group_nums + 1))
-		
             done
          fi 
 		fi 
@@ -219,7 +218,7 @@ done
 
 uci commit clash
 
- 	  	if [ $lang == "en" ];then
+ 	  	if [ $lang == "en" ] || [ $lang == "auto" ];then
 			echo "Reading Policy Group Completed" >$REAL_LOG
 			sleep 2
 			echo "Clash for OpenWRT" >$REAL_LOG
@@ -239,6 +238,7 @@ awk '/^ {0,}Rule:/,/^ {0,}##END/{print}' $load 2>/dev/null |sed 's/\"//g' 2>/dev
 fi
 
 
+
 if [ $loadservers -eq 1 ];then
 
    while [[ "$( grep -c "config servers" $CFG_FILE )" -ne 0 ]] 
@@ -248,7 +248,25 @@ if [ $loadservers -eq 1 ];then
    
 awk '/^ {0,}Proxy:/,/^ {0,}Proxy Group:/{print}' $load 2>/dev/null |sed 's/\"//g' 2>/dev/null |sed "s/\'//g" 2>/dev/null |sed 's/\t/ /g' 2>/dev/null >/tmp/yaml_proxy.yaml 2>&1
 
+if [ -f /tmp/yaml_proxy.yaml ] && [ "$(ls -l /tmp/yaml_proxy.yaml | awk '{print int($5)}')" -eq 0 ];then
 
+ 	if [ $lang == "en" ] || [ $lang == "auto" ];then
+		echo "No proxies found. Aborting Operation .." >$REAL_LOG 
+		sleep 5
+		echo "Clash for OpenWRT" >$REAL_LOG
+	elif [ $lang == "zh_cn" ];then
+    	 	echo "找不到代理。中止操作..." >$REAL_LOG
+		 sleep 5
+		echo "Clash for OpenWRT" >$REAL_LOG
+	fi
+	exit 0	
+else
+   while [[ "$( grep -c "config servers" $CFG_FILE )" -ne 0 ]] 
+   do
+      uci delete clash.@servers[0] && uci commit clash >/dev/null 2>&1
+   done
+
+fi
 
 server_file="/tmp/yaml_proxy.yaml"
 single_server="/tmp/servers.yaml"
@@ -339,12 +357,11 @@ do
    tls_custom="$(cfg_get "tls:")"
    
    
- 	  	if [ $lang == "en" ];then
+ 	  	if [ $lang == "en" ] || [ $lang == "auto" ];then
 			echo "Now Reading 【$server_type】-【$server_name】 Proxies..." >$REAL_LOG
 		elif [ $lang == "zh_cn" ];then
 			echo "正在读取【$server_type】-【$server_name】代理配置..." >$REAL_LOG
 		fi 
-
    name=clash
    uci_name_tmp=$(uci add $name servers)
 
@@ -430,7 +447,7 @@ sleep 2
 
 uci commit clash
 
- 	  	if [ $lang == "en" ];then
+ 	  	if [ $lang == "en" ] || [ $lang == "auto" ];then
 			echo "Reading Server Completed" >$REAL_LOG
 			sleep 2
 			echo "Clash for OpenWRT" >$REAL_LOG			

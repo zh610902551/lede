@@ -8,21 +8,23 @@ config_type=$(uci get clash.config.config_type 2>/dev/null)
 REAL_LOG="/usr/share/clash/clash_real.log"
 
 if [ $config_type == "sub" ];then 
-if [  -f $CONFIG_YAML_SUB ] && [ "$(ls -l $CONFIG_YAML_SUB|awk '{print int($5/1024)}')" -ne 0 ];then
+if [  -f $CONFIG_YAML_SUB ] && [ "$(ls -l $CONFIG_YAML_SUB|awk '{print int($5)}')" -ne 0 ];then
 	cp $CONFIG_YAML_SUB $CONFIG_YAML 2>/dev/null
 fi
 elif [ $config_type == "upl" ];then 
-if [  -f $CONFIG_YAML_UPL ] && [ "$(ls -l $CONFIG_YAML_UPL|awk '{print int($5/1024)}')" -ne 0 ];then
+if [  -f $CONFIG_YAML_UPL ] && [ "$(ls -l $CONFIG_YAML_UPL|awk '{print int($5)}')" -ne 0 ];then
 	cp $CONFIG_YAML_UPL $CONFIG_YAML 2>/dev/null
 fi
 elif [ $config_type == "cus" ];then 
-if [  -f $CONFIG_YAML_CUS ] && [ "$(ls -l $CONFIG_YAML_CUS|awk '{print int($5/1024)}')" -ne 0 ];then
+if [  -f $CONFIG_YAML_CUS ] && [ "$(ls -l $CONFIG_YAML_CUS|awk '{print int($5)}')" -ne 0 ];then
 	cp $CONFIG_YAML_CUS $CONFIG_YAML 2>/dev/null
 fi
 fi
 
 if [  -f $CONFIG_YAML ];then
- 	if [ $lang == "en" ];then
+
+
+ 	if [ $lang == "en" ] || [ $lang == "auto" ];then
 		echo "Checking DNS Settings.. " >$REAL_LOG 
 	elif [ $lang == "zh_cn" ];then
     	 echo "DNS设置检查..." >$REAL_LOG
@@ -48,7 +50,7 @@ fi
 				
 if [ $mode -eq 1 ];  then
 	
- 	if [ $lang == "en" ];then
+ 	if [ $lang == "en" ] || [ $lang == "auto" ];then
 		echo "Setting Up Ports and Password.. " >$REAL_LOG 
 	elif [ $lang == "zh_cn" ];then
     	 echo "设置端口,DNS和密码..." >$REAL_LOG
@@ -88,7 +90,7 @@ if [ $mode -eq 1 ];  then
 		sed -i "/dns:/i\     " $CONFIG_YAML 2>/dev/null
 		fi	
 else
- 	if [ $lang == "en" ];then
+ 	if [ $lang == "en" ] || [ $lang == "auto" ];then
 		echo "Setting Up Ports and Password.. " >$REAL_LOG 
 	elif [ $lang == "zh_cn" ];then
     	 echo "设置端口,DNS和密码..." >$REAL_LOG

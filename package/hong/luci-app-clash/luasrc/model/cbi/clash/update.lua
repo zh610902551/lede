@@ -19,7 +19,7 @@ k = Map("clash")
 s = k:section(TypedSection, "clash")
 s.anonymous = true
 
-o = s:option(ListValue, "core", translate("Core Type"))
+o = s:option(ListValue, "dcore", translate("Core Type"))
 o.default = "clashcore"
 o:value("1", translate("Clash"))
 o:value("2", translate("Clashr"))
@@ -43,16 +43,17 @@ o:value("linux-mipsle-softfloat")
 o:value("linux-mipsle-hardfloat")
 
 
-o = s:option(Button,"down_core")
-o.title = translate("Download")
-o.inputtitle = translate("Download")
-o.description = translate("Download")
+o=s:option(Button,"down_core")
+o.inputtitle = translate("Save & Apply")
+o.title = translate("Save & Apply")
 o.inputstyle = "reload"
 o.write = function()
   k.uci:commit("clash")
-  SYS.call("sh /usr/share/clash/core_download.sh >>/tmp/clash.log 2>&1 &")
-  HTTP.redirect(DISP.build_url("admin", "services", "clash", "log"))
 end
+
+o = s:option(Button,"download")
+o.title = translate("Download")
+o.template = "clash/core_check"
 
 
 return m, k

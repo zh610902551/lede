@@ -22,12 +22,15 @@ cdns.default = 1
 cdns.description = translate("Enabling will set custom DNS Servers for Lan")
 cdns:depends("dnsforwader", 0)
 
+deldns = s:option(Flag, "delan", translate("Remove Lan DNS"))
+deldns.description = translate("Remove Lan custom DNS Servers when client is disabled")
+deldns:depends("dnsforwader", 0)
+
 dns = s:option(DynamicList, "landns", translate("Lan DNS servers"))
 dns.description = translate("Set custom DNS Servers for Lan")
 dns.datatype = "ipaddr"
 dns.cast     = "string"
 dns:depends("culan", 1)
-
 
 y = s:option(ListValue, "dnscache", translate("Cache DNS"))
 y:value("0", translate("disabled"))
