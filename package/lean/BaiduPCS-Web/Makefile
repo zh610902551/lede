@@ -26,7 +26,7 @@ define Package/$(PKG_NAME)/description
 BaiduPCS-Web is a web controller for BaiduPCS-Go
 endef
 
-# 禁止OpenWrt对二进制文件进行strip
+# ??OpenWrt????????strip
 STRIP:=true
 
 ifeq ($(ARCH),i386)
