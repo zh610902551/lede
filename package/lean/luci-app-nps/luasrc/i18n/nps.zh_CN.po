@@ -26,3 +26,51 @@ msgstr "压缩传输内容，加快流量转发速度，会额外消耗 cpu 资�
 
 msgid "Encrypted the communication between Npc and Nps, will effectively prevent the traffic intercepted."
 msgstr "加密传输 npc 与 nps 之间的通信内容，会有效防止流量被拦截"
+
+msgid "Nps is a fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet."
+msgstr "一款轻量级、功能强大的内网穿透代理服务器。支持tcp、udp流量转发，支持内网http代理、内网socks5代理，同时支持snappy压缩、站点保护、加密传输、多路复用、header修改等。支持web图形化管理，集成多用户模式。"
+
+msgid "Must an IPv4 address"
+msgstr "必须是IPv4地址"
+
+msgid "Protocol Type"
+msgstr "协议类型"
+
+msgid "The contents will be compressed to speed up the traffic forwarding speed, but this will consume some additional cpu resources."
+msgstr "内容将被压缩以加快流量转发速度，但这将消耗一些额外的cpu资源。"
+
+msgid "Log Level"
+msgstr "日志级别"
+
+msgid "Emergency"
+msgstr "紧急"
+
+msgid "Critical"
+msgstr "关键的"
+
+msgid "Error"
+msgstr "错误"
+
+msgid "Warning"
+msgstr "警告"
+
+msgid "Debug"
+msgstr "调试"
+
+msgid "TCP Protocol"
+msgstr "TCP协议"
+
+msgid "KCP Protocol"
+msgstr "KCP协议"
+
+msgid "vkey"
+msgstr "密码"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
