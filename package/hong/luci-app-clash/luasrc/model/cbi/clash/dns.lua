@@ -37,6 +37,10 @@ y:value("0", translate("disabled"))
 y:value("1", translate("enabled"))
 y.description = translate("Cache DNS")
 
+y = s:option(ListValue, "ipv6", translate("Enable ipv6"))
+y:value("0", translate("disabled"))
+y:value("1", translate("enabled"))
+y.description = translate("Allow ipv6 traffic through clash")
 
 o = s:option(Value, "fake_ip_range", translate("Fake IP Range"))
 o.description = translate("Ip range will be added to iptables")
