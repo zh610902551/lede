@@ -136,6 +136,9 @@ msgstr "redir代理端口"
 msgid "No Update | Return"
 msgstr "已安装最新本 | 返回"
 
+msgid "Error Occured |Return"
+msgstr "发生错误 | 返回"
+
 msgid "Log level"
 msgstr "日志级别"
 
