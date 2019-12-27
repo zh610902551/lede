@@ -1,0 +1,45 @@
+config KERNEL_AMIGA_PARTITION
+	bool "Amiga partition table support"
+	default n
+
+config KERNEL_MAC_PARTITION
+	bool "Macintosh partition map support"
+	default n
+	help
+          Say Y here if you would like to use hard disks under Linux which
+	  were partitioned on a Macintosh.
+
+config KERNEL_MSDOS_PARTITION
+	bool "PC BIOS (MSDOS partition tables) support"
+	default n
+
+config KERNEL_BSD_DISKLABEL
+	depends KERNEL_MSDOS_PARTITION
+	bool "BSD disklabel (FreeBSD partition tables) support"
+	default n
+	help
+	  FreeBSD uses its own hard disk partition scheme on your PC. It 
+	  requires only one entry in the primary partition table of your disk
+	  and manages it similarly to DOS extended partitions, putting in its
+	  first sector a new partition table in BSD disklabel format. Saying Y
+	  here allows you to read these disklabels and further mount FreeBSD 
+	  partitions from within Linux if you have also said Y to "UFS
+	  file system support", above. If you don't know what all this is 
+	  about, say N. 
+
+config KERNEL_SOLARIS_X86_PARTITION
+	depends KERNEL_MSDOS_PARTITION
+	bool "Solaris (x86) partition table support"
+	default n
+	help
+	  Like most systems, Solaris x86 uses its own hard disk partition
+	  table format, incompatible with all others. Saying Y here allows you
+	  to read these partition tables and further mount Solaris x86
+	  partitions from within Linux if you have also said Y to "UFS
+	  file system support", above.
+
+config KERNEL_EFI_PARTITION
+	bool "Enable EFI Partition parsing support in the kernel"
+        default n
+
+
