@@ -36,3 +36,6 @@ msgstr "配置文件"
 
 msgid "This file is /etc/vlmcsd.ini."
 msgstr "这个文件在 /etc/vlmcsd.ini 下，可以增加新的产品主密钥。"
+
+msgid "A KMS Serever Emulator to active your Windows or Office"
+msgstr "KMS服务器仿真器，用于激活Windows或Office"
