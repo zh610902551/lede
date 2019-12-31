@@ -190,6 +190,8 @@ function do_update()
 end
 
 
+
+
 function check_update_log()
 	luci.http.prepare_content("text/plain; charset=utf-8")
 	local fdp=tonumber(fs.readfile("/var/run/clashlog")) or 0

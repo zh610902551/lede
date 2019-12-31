@@ -10,7 +10,7 @@ local uci = require "luci.model.uci".cursor()
 
 m = Map("clash")
 s = m:section(TypedSection, "clash")
---m.pageaction = false
+m.pageaction = false
 s.anonymous = true
 s.addremove=false
 
@@ -51,7 +51,7 @@ md = s:option(Flag, "rejectlan", translate("Bypass Lan IP"))
 md.default = 1
 md.rmempty = false
 md.description = translate("Selected IPs will not be proxied if enabled. fake-ip mode not supported")
-md:depends("proxylan", 0)
+md:depends("proxylan", 0)    
 
 
 o = s:option(DynamicList, "lan_ips", translate("Bypass Lan List"))
@@ -66,13 +66,18 @@ o:depends("rejectlan", 1)
 
 
 
-local apply = luci.http.formvalue("cbi.apply")
-if apply then
-	m.uci:commit("clash")
-	if luci.sys.call("pidof clash >/dev/null") == 0 then
-	SYS.call("/etc/init.d/clash restart >/dev/null 2>&1 &")
+
+
+o = s:option(Button, "Apply")
+o.title = translate("Save & Apply")
+o.inputtitle = translate("Save & Apply")
+o.inputstyle = "apply"
+o.write = function()
+  m.uci:commit("clash")
+  if luci.sys.call("pidof clash >/dev/null") == 0 then
+  SYS.call("/etc/init.d/clash restart >/dev/null 2>&1 &")
     luci.http.redirect(luci.dispatcher.build_url("admin", "services", "clash"))
-	end
+  end
 end
 
 return m

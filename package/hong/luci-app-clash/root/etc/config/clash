@@ -24,8 +24,7 @@ config clash 'config'
 	option loadservers '1'
 	option loadgroups '1'
 	option fake_ip_range '198.18.0.0/16'
-	option dnscache '0'
-	
+	option dnscache '0'	
 
 config groups
 	option old_name '❌AdBlock'
@@ -73,3 +72,4 @@ config groups
 	option test_url 'http://www.gstatic.com/generate_204'
 	option test_interval '600'
 	list other_group 'ALL'
+

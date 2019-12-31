@@ -5,7 +5,7 @@ local DISP = require "luci.dispatcher"
 local UTIL = require "luci.util"
 local fs = require "luci.clash"
 local uci = require "luci.model.uci".cursor()
-local m, s, o, k
+local m, s, o, krk
 local clash = "clash"
 local http = luci.http
 
@@ -14,7 +14,7 @@ m = Map("clash")
 s = m:section(TypedSection, "clash" , translate("Rule"))
 s.anonymous = true
 s.addremove=false
-
+m.pageaction = false
 
 o = s:option(Value, "rule_url")
 o.title = translate("Custom Rule Url")
@@ -65,16 +65,17 @@ o.description = translate("Select from which configuration custom server should 
 o = s:option(ListValue, "loadservers", translate("Load Servers"))
 o:value("1", translate("enabled"))
 o:value("0", translate("disabled"))
-o.description = translate("Enable to read servers")
+o.description = translate("Enabbe to read servers")
 
 
 o = s:option(ListValue, "loadgroups", translate("Load Groups"))
 o:value("1", translate("enabled"))
 o:value("0", translate("disabled"))
-o.description = translate("Enable to read policy group")
+o.description = translate("Enabbe to read policy group")
+
 
 local t = {
-    {Load_Config, Delete_Severs, Delete_Groups}
+    {Load_Config, Creat_Config, Delete_Severs, Delete_Groups}
 }
 
 b = krk:section(Table, t)
@@ -85,11 +86,17 @@ o.inputstyle = "apply"
 o.write = function()
  krk.uci:commit("clash")
  luci.sys.call("sh /usr/share/clash/load.sh >/dev/null 2>&1 &")
- SYS.call("sleep 2")
  luci.http.redirect(luci.dispatcher.build_url("admin", "services", "clash"))
 end
 
-
+o = b:option(Button,"Creat_Config")
+o.inputtitle = translate("Create Config")
+o.inputstyle = "apply"
+o.write = function()
+  krk.uci:commit("clash")
+  luci.sys.call("sh /usr/share/clash/proxy.sh >/dev/null 2>&1 &")
+  luci.http.redirect(luci.dispatcher.build_url("admin", "services", "clash"))
+end
 
 
 o = b:option(Button,"Delete_Severs")
@@ -115,7 +122,7 @@ end
 s = krk:section(TypedSection, "servers", translate("Proxies"))
 s.anonymous = true
 s.addremove = true
-s.sortable = true
+s.sortable = false
 s.template = "cbi/tblsection"
 s.extedit = luci.dispatcher.build_url("admin/services/clash/servers-config/%s")
 function s.create(...)
@@ -125,7 +132,6 @@ function s.create(...)
 		return
 	end
 end
-
 
 
 o = s:option(DummyValue, "type", translate("Type"))
@@ -155,8 +161,8 @@ o.width="10%"
 r = krk:section(TypedSection, "groups", translate("Policy Groups"))
 r.anonymous = true
 r.addremove = true
-r.sortable = true
-r.template = "clash/tblsection"
+s.sortable = false
+r.template = "cbi/tblsection"
 r.extedit = luci.dispatcher.build_url("admin/services/clash/groups/%s")
 function r.create(...)
 	local sid = TypedSection.create(...)
@@ -180,14 +186,5 @@ end
 
 krk:append(Template("clash/list"))
 
-
-local apply = luci.http.formvalue("cbi.apply")
-if apply then
-	krk.uci:commit("clash")
-	SYS.call("sh /usr/share/clash/proxy.sh >/dev/null 2>&1 &")
-  	luci.http.redirect(luci.dispatcher.build_url("admin", "services", "clash"))	
-	
-end
-
-return  krk, m
+return krk, m
 

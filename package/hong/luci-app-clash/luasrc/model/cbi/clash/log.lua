@@ -13,7 +13,6 @@ m.pageaction = false
 s.anonymous = true
 s.addremove=false
 
-
 log = s:option(TextValue, "clog")
 log.template = "clash/status_log"
 
