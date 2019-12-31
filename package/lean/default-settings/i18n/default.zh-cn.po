@@ -72,7 +72,7 @@ msgstr "磁盘信息"
 msgid "Disks Model"
 msgstr "磁盘型号"
 
-msgid "Serial number"
+msgid "Serial Number"
 msgstr "磁盘序列号"
 
 msgid "Firmware"
