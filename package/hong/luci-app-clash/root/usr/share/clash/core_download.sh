@@ -1,15 +1,14 @@
 #!/bin/sh
 LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
-LOG_FILE="/tmp/clash_update.log"
+LOG_FILE="/tmp/clash_update.txt"
 MODELTYPE=$(uci get clash.config.download_core 2>/dev/null)
 CORETYPE=$(uci get clash.config.dcore 2>/dev/null)
-lang=$(uci get luci.main.lang 2>/dev/null)
 CORE=$(uci get clash.config.core 2>/dev/null)
-
+lang=$(uci get luci.main.lang 2>/dev/null)
 if [ -f /tmp/clash.tar.gz ];then
 rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
 fi
- echo '' >$LOG_FILE 2>/dev/null
+ echo '' >/tmp/clash_update.txt 2>/dev/null
  
 if [ /usr/share/clash/core_down_complete ];then 
   rm -rf /usr/share/clash/core_down_complete 2>/dev/null
@@ -135,7 +134,7 @@ update(){
 		    touch /usr/share/clash/core_down_complete >/dev/null 2>&1
 		    sleep 2
 		    rm -rf /var/run/core_update >/dev/null 2>&1
-		    echo "" > /tmp/clash_update.log >/dev/null 2>&1
+		    echo "" > /tmp/clash_update.txt >/dev/null 2>&1
 			
 	    else
 		  if [ $lang == "zh_cn" ];then
@@ -144,7 +143,7 @@ update(){
 		  echo "  ${LOGTIME} - Core Update Error" >$LOG_FILE
 		  fi
 		  rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
-		  echo "" > /tmp/clash_update.log >/dev/null 2>&1
+		  echo "" > /tmp/clash_update.txt >/dev/null 2>&1
 	    fi  
 		if pidof clash >/dev/null; then
 			if [ $CORETYPE == $CORE ];then

@@ -2,7 +2,7 @@
 subscribe_url=$(uci get clash.config.subscribe_url_clash 2>/dev/null)
 subtype=$(uci get clash.config.subcri 2>/dev/null)
 config_type=$(uci get clash.config.config_type 2>/dev/null)
-REAL_LOG="/usr/share/clash/clash_real.log"
+REAL_LOG="/usr/share/clash/clash_real.txt"
 lang=$(uci get luci.main.lang 2>/dev/null)
 CONFIG_YAML="/usr/share/clash/config/sub/config.yaml" 
 

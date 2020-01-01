@@ -338,7 +338,7 @@ json_for_each_item() {
 	esac
 }
 
-REAL_LOG="/usr/share/clash/clash_real.log"
+REAL_LOG="/usr/share/clash/clash_real.txt"
 lang=$(uci get luci.main.lang 2>/dev/null)
 
 urlsafe_b64decode() {
