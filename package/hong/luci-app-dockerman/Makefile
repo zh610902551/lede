@@ -7,7 +7,6 @@ include $(TOPDIR)/rules.mk
 LUCI_TITLE:=LuCI support for the Docker
 LUCI_DEPENDS:=+docker-ce +luci-lib-json
 LUCI_PKGARCH:=all
-PKG_NAME:=luci-app-dockerman
 PKG_VERSION:=v0.1.7
 PKG_RELEASE:=beta
 
