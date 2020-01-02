@@ -125,9 +125,9 @@
      </qresource>
  </RCC>
 
---- a/src/lang/lang.qrc	2019-12-04 01:07:52.656779835 +0800
-+++ b/src/lang/lang.qrc	2019-12-04 01:10:17.938864167 +0800
-@@ -1,52 +1,6 @@
+--- a/src/lang/lang.qrc	2020-01-02 14:26:04.972992326 +0800
++++ b/src/lang/lang.qrc	2020-01-02 13:49:38.743280207 +0800
+@@ -1,54 +1,6 @@
  <RCC>
      <qresource prefix="/lang">
 -        <file>qbittorrent_ar.qm</file>
@@ -179,4 +179,6 @@
 -        <file>qbittorrent_vi.qm</file>
          <file>qbittorrent_zh.qm</file>
 -        <file>qbittorrent_zh_HK.qm</file>
--       <file>qbittorrent_zh_TW.qm</file>
+-        <file>qbittorrent_zh_TW.qm</file>
+     </qresource>
+ </RCC>
