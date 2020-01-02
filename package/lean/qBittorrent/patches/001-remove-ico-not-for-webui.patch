@@ -1,5 +1,5 @@
---- a/src/icons/icons.qrc	2020-01-02 19:35:56.538372125 +0800
-+++ b/src/icons/icons.qrc	2020-01-02 19:49:33.057758176 +0800
+--- a/src/icons/icons.qrc
++++ b/src/icons/icons.qrc
 @@ -250,38 +250,16 @@
          <file>flags/zm.svg</file>
          <file>flags/zw.svg</file>
@@ -123,8 +123,8 @@
 -        <file>sphere2.png</file>
      </qresource>
  </RCC>
---- a/src/lang/lang.qrc	2020-01-02 19:35:53.486971345 +0800
-+++ b/src/lang/lang.qrc	2020-01-02 19:38:36.731469606 +0800
+--- a/src/lang/lang.qrc
++++ b/src/lang/lang.qrc
 @@ -1,54 +1,6 @@
  <RCC>
      <qresource prefix="/lang">
@@ -180,8 +180,8 @@
 -        <file>qbittorrent_zh_TW.qm</file>
      </qresource>
  </RCC>
---- a/src/webui/www/translations/webui_translations.qrc	2020-01-02 19:35:43.513292831 +0800
-+++ b/src/webui/www/translations/webui_translations.qrc	2020-01-02 19:56:41.470523600 +0800
+--- a/src/webui/www/translations/webui_translations.qrc
++++ b/src/webui/www/translations/webui_translations.qrc
 @@ -1,54 +1,6 @@
  <RCC>
      <qresource prefix="/www/translations">

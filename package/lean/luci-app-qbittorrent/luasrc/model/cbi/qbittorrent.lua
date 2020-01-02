@@ -45,11 +45,11 @@ o:value("zh", translate("Chinese"))
 o:value("en", translate("English"))
 o.default = "zh"
 
-o = s:taboption("basic", Value, "Username", translate("Username"), translate("The login name for WebUI."))
-o.placeholder = "admin"
+--o = s:taboption("basic", Value, "Username", translate("Username"), translate("The login name for WebUI."))
+--o.placeholder = "admin"
 
-o = s:taboption("basic", Value, "Password", translate("Password"), translate("The login password for WebUI."))
-o.password  =  true
+--o = s:taboption("basic", Value, "Password", translate("Password"), translate("The login password for WebUI."))
+--o.password  =  true
 
 o = s:taboption("basic", Value, "Port", translate("Listen Port"), translate("The listening port for WebUI."))
 o.datatype = "port"
