@@ -1,5 +1,5 @@
 --- a/src/icons/icons.qrc	2020-01-02 19:35:56.538372125 +0800
-+++ b/src/icons/icons.qrc	2020-01-02 19:45:24.479598042 +0800
++++ b/src/icons/icons.qrc	2020-01-02 19:49:33.057758176 +0800
 @@ -250,38 +250,16 @@
          <file>flags/zm.svg</file>
          <file>flags/zw.svg</file>
@@ -106,7 +106,7 @@
          <file>skin/qbittorrent32.png</file>
          <file>skin/queued.svg</file>
          <file>skin/ratio.svg</file>
-@@ -370,16 +316,12 @@
+@@ -370,16 +316,11 @@
          <file>skin/spacer.gif</file>
          <file>skin/spinner-placeholder.gif</file>
          <file>skin/spinner.gif</file>
@@ -116,7 +116,6 @@
          <file>skin/tabs.gif</file>
 -        <file>skin/toolbox-divider.gif</file>
 -        <file>skin/toolbox-divider2.gif</file>
-+        <file>skin/toolbox-divider.gif</file
          <file>skin/uploading.svg</file>
          <file>slow.svg</file>
          <file>slow_off.svg</file>
