@@ -165,6 +165,7 @@ msgstr "Clash模式"
 
 msgid "App Name"
 msgstr "应用程序名称"
+
 msgid "Error Occured | Return"
 msgstr "检查错误 | 返回"
 
