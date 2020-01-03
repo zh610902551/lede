@@ -27,7 +27,7 @@ sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/usb_printer.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/xunlei.lua
 sed -i 's/services/nas/g'  /usr/lib/lua/luci/view/minidlna_status.htm
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/smartinfo.lua
-sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/diskman.lua
+sed -i 's/\"system\"/\"nas\"/g' /usr/lib/lua/luci/controller/diskman.lua
 
 ln -sf /sbin/ip /usr/bin/ip
 
