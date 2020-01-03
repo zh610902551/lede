@@ -39,7 +39,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_socks
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray
 	bool "Include V2ray"
-	default n
+	default y
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Trojan
 	bool "Include Trojan"
