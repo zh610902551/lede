@@ -11,7 +11,7 @@ msgid "Partition Table"
 msgstr "分区表"
 
 msgid "SATA Version"
-msgstr "SATA版本"
+msgstr "SATA模式"
 
 msgid "Health"
 msgstr "状态"
@@ -37,14 +37,14 @@ msgstr "卸载"
 msgid "auto"
 msgstr "自动"
 
-msgid ""
-msgstr ""
+msgid "Serial Number"
+msgstr "序列号"
 
-msgid ""
-msgstr ""
+msgid "temp"
+msgstr "温度"
 
-msgid ""
-msgstr ""
+msgid "services"
+msgstr "服务"
 
 msgid ""
 msgstr ""

@@ -1,17 +1,45 @@
-# Copyright (C) 2019 Openwrt.org
-#
-# This is free software, licensed under the Apache License, Version 2.0 .
-#
-
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI support for diskman
-LUCI_DEPENDS:=+e2fsprogs +parted +smartmontools +blkid +btrfs-progs
+PKG_NAME:=luci-app-diskman
 PKG_VERSION:=v0.0.2
 PKG_RELEASE:=beta
 PKG_MAINTAINER:=lisaac <https://github.com/lisaac/luci-app-diskman>
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
+PKG_LICENSE:=Apache-2.0
 
+include $(INCLUDE_DIR)/package.mk
 
-include $(TOPDIR)/feeds/luci/luci.mk
+define Package/$(PKG_NAME)
+	SECTION:=luci
+	CATEGORY:=LuCI
+	SUBMENU:=3. Applications
+	TITLE:=Disk Manager interface for LuCI
+	PKGARCH:=all
+	DEPENDS:=+e2fsprogs +parted +smartmontools +blkid +btrfs-progs
+endef
 
-# call BuildPackage - OpenWrt buildroot signature
+define Package/$(PKG_NAME)/description
+	Disk Manager interface for LuCI
+endef
+
+define Build/Prepare
+endef
+
+define Build/Compile
+endef
+
+define Package/$(PKG_NAME)/postinst
+#!/bin/sh
+rm -fr /tmp/luci-indexcache /tmp/luci-modulecache
+endef
+
+define Package/$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
+	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
+	$(INSTALL_DIR) $(1)/
+	cp -pR ./root/* $(1)/
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	po2lmo ./po/zh-cn/diskman.po $(1)/usr/lib/lua/luci/i18n/diskman.zh-cn.lmo
+endef
+
+$(eval $(call BuildPackage,$(PKG_NAME)))
