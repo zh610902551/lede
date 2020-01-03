@@ -35,7 +35,9 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
-	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
+	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci	
+	$(INSTALL_DIR) $(1)/
+	cp -pR ./root/* $(1)/
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
