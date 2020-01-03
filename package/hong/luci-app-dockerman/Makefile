@@ -12,6 +12,4 @@ PKG_RELEASE:=beta
 
 PKG_MAINTAINER:=lisaac <https://github.com/lisaac/luci-app-dockerman>
 
-include $(TOPDIR)/feeds/luci/luci.mk
-
-# call BuildPackage - OpenWrt buildroot signature
+$(eval $(call BuildPackage,$(PKG_NAME)))
