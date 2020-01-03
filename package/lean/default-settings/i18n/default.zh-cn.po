@@ -135,8 +135,44 @@ msgstr "打开AriaNg的Web管理界面"
 msgid "WebUI-Aria2"
 msgstr "打开WebUI-Aria2的Web管理界面"
 
-msgid ""
-msgstr ""
+msgid "Disk Man"
+msgstr "磁盘管理"
+
+msgid "DiskMan"
+msgstr "磁盘管理"
+
+msgid "Manage Disks over LuCI."
+msgstr "通过LuCI管理磁盘。"
+
+msgid "Partition Table"
+msgstr "分区表"
+
+msgid "SATA Version"
+msgstr "SATA版本"
+
+msgid "Health"
+msgstr "状态"
+
+msgid "Rescan Disks"
+msgstr "添加磁盘"
+
+msgid "File System"
+msgstr "文件系统"
+
+msgid "Mount Options"
+msgstr "挂载选项"
+
+msgid "Mount"
+msgstr "挂载"
+
+msgid "Raid"
+msgstr "磁盘阵列"
+
+msgid "Umount"
+msgstr "卸载"
+
+msgid "auto"
+msgstr "自动"
 
 msgid "YAAW"
 msgstr "打开YAAW的Web管理界面"
