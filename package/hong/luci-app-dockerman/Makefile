@@ -1,6 +1,4 @@
-#
 # This is free software, licensed under the Apache License, Version 2.0 .
-#
 
 include $(TOPDIR)/rules.mk
 
@@ -10,9 +8,6 @@ LUCI_PKGARCH:=all
 PKG_VERSION:=v0.1.7
 PKG_RELEASE:=beta
 
-include $(INCLUDE_DIR)/package.mk
-
-PKG_MAINTAINER:=lisaac <https://github.com/lisaac/luci-app-dockerman>
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
