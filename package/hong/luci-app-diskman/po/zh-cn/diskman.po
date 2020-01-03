@@ -40,7 +40,7 @@ msgstr "自动"
 msgid "Serial Number"
 msgstr "序列号"
 
-msgid "temp"
+msgid "Temp"
 msgstr "温度"
 
 msgid "services"
