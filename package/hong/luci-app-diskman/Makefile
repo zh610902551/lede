@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-diskman
-PKG_VERSION:=v0.0.2
+PKG_VERSION:=v0.1.3
 PKG_RELEASE:=beta
 PKG_MAINTAINER:=lisaac <https://github.com/lisaac/luci-app-diskman>
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
@@ -35,9 +35,9 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
-	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci	
-	$(INSTALL_DIR) $(1)/
-	cp -pR ./root/* $(1)/
+	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
+	# $(INSTALL_DIR) $(1)/
+	# cp -pR ./root/* $(1)/
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
