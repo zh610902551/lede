@@ -1,5 +1,5 @@
---- a/src/icons/icons.qrc	2020-01-03 12:32:27.988857062 +0800
-+++ b/src/icons/icons.qrc	2020-01-03 12:31:24.519885811 +0800
+--- a/src/icons/icons.qrc
++++ b/src/icons/icons.qrc
 @@ -250,38 +250,16 @@
          <file>flags/zm.svg</file>
          <file>flags/zw.svg</file>
@@ -124,8 +124,8 @@
 -        <file>url.png</file>
      </qresource>
  </RCC>
---- a/src/lang/lang.qrc	2020-01-03 12:32:25.372809621 +0800
-+++ b/src/lang/lang.qrc	2020-01-03 12:31:22.019856571 +0800
+--- a/src/lang/lang.qrc
++++ b/src/lang/lang.qrc
 @@ -1,54 +1,6 @@
  <RCC>
      <qresource prefix="/lang">
@@ -181,8 +181,8 @@
 -        <file>qbittorrent_zh_TW.qm</file>
      </qresource>
  </RCC>
---- a/src/webui/www/translations/webui_translations.qrc	2020-01-03 12:32:16.664655651 +0800
-+++ b/src/webui/www/translations/webui_translations.qrc	2020-01-03 12:31:13.259760709 +0800
+--- a/src/webui/www/translations/webui_translations.qrc
++++ b/src/webui/www/translations/webui_translations.qrc
 @@ -1,54 +1,6 @@
  <RCC>
      <qresource prefix="/www/translations">
@@ -238,8 +238,8 @@
 -        <file>webui_zh_TW.qm</file>
      </qresource>
  </RCC>
---- a/src/gui/transferlistmodel.cpp	2019-10-27 23:26:03.000000000 +0800
-+++ b/src/gui/transferlistmodel.cpp	2019-12-04 20:07:29.955635779 +0800
+--- a/src/gui/transferlistmodel.cpp
++++ b/src/gui/transferlistmodel.cpp
 @@ -94,36 +94,35 @@
      if (orientation == Qt::Horizontal) {
          if (role == Qt::DisplayRole) {
@@ -285,8 +285,8 @@
              default:
                  return QVariant();
              }
---- a/src/lang/qbittorrent_zh.ts	2019-12-04 01:07:47.460995313 +0800
-+++ b/src/lang/qbittorrent_zh.ts	2019-12-04 01:18:20.736240950 +0800
+--- a/src/lang/qbittorrent_zh.ts
++++ b/src/lang/qbittorrent_zh.ts
 @@ -9222,7 +9222,7 @@
      <message>
          <location filename="../gui/transferlistmodel.cpp" line="112"/>

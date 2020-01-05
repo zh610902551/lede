@@ -40,4 +40,6 @@ define Package/$(PKG_NAME)/install
 	cp -pR ./root/* $(1)/
 endef
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+include $(TOPDIR)/feeds/luci/luci.mk
+
+# call BuildPackage - OpenWrt buildroot signature
