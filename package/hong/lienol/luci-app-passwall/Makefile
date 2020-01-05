@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-passwall
 PKG_VERSION:=3.0
-PKG_RELEASE:=2-20200101
+PKG_RELEASE:=2
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 PO2LMO:=./po2lmo
@@ -39,7 +39,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_socks
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray
 	bool "Include V2ray"
-	default y
+	default n
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Trojan
 	bool "Include Trojan"
