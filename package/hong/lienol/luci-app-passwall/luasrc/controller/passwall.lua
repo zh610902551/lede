@@ -8,7 +8,7 @@ local v2ray = require "luci.model.cbi.passwall.api.v2ray"
 
 function index()
     if not nixio.fs.access("/etc/config/passwall") then return end
-    entry({"admin", "services"}, firstchild(), "services", 45).dependent = false
+    entry({"admin", "services"}, firstchild(), "VPN", 45).dependent = false
     entry({"admin", "services", "passwall", "show"}, call("show_menu")).leaf = true
     entry({"admin", "services", "passwall", "hide"}, call("hide_menu")).leaf = true
     if nixio.fs.access("/etc/config/passwall") and

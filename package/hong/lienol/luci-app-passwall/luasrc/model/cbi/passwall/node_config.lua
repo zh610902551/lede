@@ -144,10 +144,7 @@ ss_plugin:value("none", translate("none"))
 if is_finded("v2ray-plugin") then ss_plugin:value("v2ray-plugin") end
 ss_plugin:depends("type", "SS")
 
-ss_plugin_v2ray_opts = s:option(ListValue, "ss_plugin_v2ray_opts", translate("opts"))
-ss_plugin_v2ray_opts:value("http", translate("HTTP"))
-ss_plugin_v2ray_opts:value("https", translate("HTTPS"))
-ss_plugin_v2ray_opts:value("quic", translate("QUIC"))
+ss_plugin_v2ray_opts = s:option(Value, "ss_plugin_v2ray_opts", translate("opts"))
 ss_plugin_v2ray_opts:depends("ss_plugin", "v2ray-plugin")
 
 use_kcp = s:option(Flag, "use_kcp", translate("Use Kcptun"),
@@ -242,7 +239,7 @@ v2ray_tcp_guise_http_path:depends("v2ray_tcp_guise", "http")
 
 v2ray_mkcp_guise = s:option(ListValue, "v2ray_mkcp_guise",
                             translate("Camouflage Type"), translate(
-                                '<br>none: default, no masquerade, data sent is packets with no characteristics.<br>srtp: disguised as an SRTP packet, it will be recognized as video call data (such as FaceTime).<br>utp: packets disguised as uTP will be recognized as bittorrent downloaded data.<br>wechat-video: packets disguised as WeChat video calls.<br>dtls: disguised as DTLS 1.2 packet.<br>wireguard: disguised as a WireGuard packet. (not really WireGuard protocol)'))
+                                '<br />none: default, no masquerade, data sent is packets with no characteristics.<br />srtp: disguised as an SRTP packet, it will be recognized as video call data (such as FaceTime).<br />utp: packets disguised as uTP will be recognized as bittorrent downloaded data.<br />wechat-video: packets disguised as WeChat video calls.<br />dtls: disguised as DTLS 1.2 packet.<br />wireguard: disguised as a WireGuard packet. (not really WireGuard protocol)'))
 for a, t in ipairs(v2ray_header_type_list) do v2ray_mkcp_guise:value(t) end
 v2ray_mkcp_guise:depends("v2ray_transport", "mkcp")
 
