@@ -43,9 +43,6 @@ msgstr "序列号"
 msgid "Temp"
 msgstr "温度"
 
-msgid "services"
-msgstr "服务"
-
 msgid ""
 msgstr ""
 

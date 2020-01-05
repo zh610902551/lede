@@ -138,11 +138,11 @@ msgstr "打开WebUI-Aria2的Web管理界面"
 msgid "YAAW"
 msgstr "打开YAAW的Web管理界面"
 
-msgid ""
-msgstr ""
+msgid "services"
+msgstr "服务"
 
-msgid ""
-msgstr ""
+msgid "Control"
+msgstr "管控"
 
 msgid ""
 msgstr ""
