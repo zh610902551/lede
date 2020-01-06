@@ -11,7 +11,7 @@ name: OpenWrt-CI
 
 on:
   schedule:
-    - cron: 0 11 * * *
+    - cron: 0 12 * * *
 
 
 jobs:
@@ -81,7 +81,7 @@ jobs:
       if: always()
       with:
         name: OpenWrt_bin
-        path: openwrt/bin
+        path: ./bin/
 
     - name: 上传软件包
       if: always()
