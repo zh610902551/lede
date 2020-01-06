@@ -1,0 +1,243 @@
+#!/bin/sh /etc/rc.common
+# by wulishui 20191229
+
+
+START=99
+
+convert_list()
+{
+	mkdir /tmp/wobl 2>/dev/null
+#	cp -r /etc/wobl/"$work_mode" /tmp/wobl 2>/dev/null
+	if [ "$work_mode" = "macwhitelist" -o "$work_mode" = "macblacklist" ];
+	then
+#	对于mac加载文本           |删除带#行 |删除空行     | -替换成:    |删除不是17个字符 行|排序   |去重复 |删除MAC地址外字符的行    |行前插入导入标记字符 >输出
+	cat /etc/wobl/"$work_mode"|sed '/#/d'|sed '/^ *$/d'|sed 's/-/:/g'|sed "/^.\{17\}$/!d"|sort -n|uniq -i|sed 's/^/add '"$work_mode"' &/g' > /tmp/wobl/"$work_mode" 2>/dev/null
+       fi
+
+	if [ "$work_mode" = "ipwhitelist" -o "$work_mode" = "ipblacklist" ];
+	then
+#	对于ip加载文本            |删除带#行 |删除空行     |排序   |去重复 |行前插入导入标记字符 >输出
+	cat /etc/wobl/"$work_mode"|sed '/#/d'|sed '/^ *$/d'|sort -n|uniq -i|sed 's/^/add '"$work_mode"' &/g' > /tmp/wobl/"$work_mode" 2>/dev/null
+       fi
+}
+
+clear_iptables()
+{
+	iptables -D FORWARD -m set ! --match-set macwhitelist src,dst -j DROP 2>/dev/null
+	iptables -D FORWARD -m set --match-set macblacklist src,dst -j DROP 2>/dev/null
+	iptables -D FORWARD -m set ! --match-set ipwhitelist src,dst -j DROP 2>/dev/null
+	iptables -D FORWARD -m set --match-set ipblacklist src,dst -j DROP 2>/dev/null
+
+	iptables -D INPUT -m set ! --match-set macwhitelist src,dst -j DROP 2>/dev/null
+	iptables -D INPUT -m set --match-set macblacklist src,dst -j DROP 2>/dev/null
+	iptables -D INPUT -m set ! --match-set ipwhitelist src,dst -j DROP 2>/dev/null
+	iptables -D INPUT -m set --match-set ipblacklist src,dst -j DROP 2>/dev/null
+
+	iptables -D INPUT -m set --match-set admin_mac src,dst -j ACCEPT 2>/dev/null
+	iptables -D FORWARD -m set --match-set admin_mac src,dst -j ACCEPT 2>/dev/null
+}
+
+destroy_ipset()
+{
+	ipset destroy macblacklist 2>/dev/null
+	ipset destroy macwhitelist 2>/dev/null
+	ipset destroy ipblacklist 2>/dev/null
+	ipset destroy ipwhitelist 2>/dev/null
+	ipset destroy admin_mac 2>/dev/null
+}
+
+add_whitemac()
+{
+ config_mac=$(uci get wobl.wobl.config_mac)
+ exist=`grep -n -i "$config_mac" /etc/wobl/macwhitelist`
+  if [ -n "$exist" ];
+    then
+    echo "MAC exists."
+    else
+    echo ""$config_mac"" >> /etc/wobl/macwhitelist 2>/dev/null
+  fi
+}
+
+created_rules()
+{
+    echo "                                                              " >> /tmp/woblwatchdog 2>/dev/null
+    echo "---------------------作者为wulishui,20200104------------------" >> /tmp/woblwatchdog 2>/dev/null
+  total_line=`sed -n '$=' /etc/wobl/"$work_mode"` 2>/dev/null
+  added_line=`ipset list "$work_mode"|grep -E 'Number of entries'|awk '{if(match($0,"Number of entries: "))print substr($0,RSTART+RLENGTH)}'` 2>/dev/null
+
+  ipset_created=`ipset list "$work_mode"|grep -n -i "$work_mode"`
+  if [ -n "$ipset_created" ];
+    then
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")"   ipset "$work_mode" 创建成功，设定列表 "$total_line"条（包括含#号行），成功导入 "$added_line"条。" >> /tmp/woblwatchdog 2>/dev/null
+    else
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")"   ipset "$work_mode" 创建失败！！！！！" >> /tmp/woblwatchdog 2>/dev/null
+  fi
+
+  if [ "$macblack_any_mode_enabled" -eq 1 ];
+   then
+    total_line2=`sed -n '$=' /etc/wobl/macblacklist` 2>/dev/null
+    added_line2=`ipset list macblacklist|grep -E 'Number of entries'|awk '{if(match($0,"Number of entries: "))print substr($0,RSTART+RLENGTH)}'` 2>/dev/null
+    macblacklist_created=`ipset list macblacklist|grep -n -i macblacklist`
+   if [ -n "$macblacklist_created" ];
+    then
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")"   ipset macblacklist 创建成功，设定MAC黑名单列表 "$total_line2"条（包括含#号行），成功导入 "$added_line2"条。" >> /tmp/woblwatchdog 2>/dev/null
+    else
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")"   ipset macblacklist 创建失败！！！！！" >> /tmp/woblwatchdog 2>/dev/null
+   fi
+    macblacklist_created=`iptables -t filter -L "$drop_mode"|grep -n -i macblacklist`
+   if [ -n "$macblacklist_created" ];
+    then
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")"   iptables macblacklist 创建成功。" >> /tmp/woblwatchdog 2>/dev/null
+    else
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")"   iptables macblacklist 创建失败！！！！！" >> /tmp/woblwatchdog 2>/dev/null
+   fi
+  fi
+
+  rule_created=`iptables -t filter -L "$drop_mode"|grep -n -i "$work_mode"`
+  if [ -n "$rule_created" ];
+    then
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")"   iptables "$work_mode" 创建成功。" >> /tmp/woblwatchdog 2>/dev/null
+    else
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")"   iptables "$work_mode" 创建失败！！！！！" >> /tmp/woblwatchdog 2>/dev/null
+  fi
+}
+
+start()
+{
+ enabled=$(uci get wobl.wobl.enabled 2>/dev/null)
+ work_mode=$(uci get wobl.wobl.work_mode)
+ drop_mode=$(uci get wobl.wobl.drop_mode)
+ admin_mac=$(uci get wobl.wobl.admin_mac)
+
+ clear_iptables
+ destroy_ipset
+
+# 先停止woblwatchdog.sh运行
+ RUNNING=`pgrep woblwatchdog.sh`
+  if [ -n "$RUNNING" ];
+    then
+    kill -9 `pgrep woblwatchdog.sh` 2>/dev/null
+  fi
+
+# 将配置MAC加入白名单
+ add_whitemac
+
+ if [ "$enabled" -eq 1 ];
+   then
+	convert_list
+	
+	if [ "$work_mode" = "ipwhitelist" ];
+	then
+	ipset create ipwhitelist hash:ip 2>/dev/null
+	ipset restore -f /tmp/wobl/ipwhitelist 2>/dev/null
+	#获取"$drop_mode" ACCEPT规则行号 From koolshare,thanks!
+	FA_INDEX=`iptables -t filter -L "$drop_mode"|tail -n +3|sed -n -e '/^ACCEPT/='|awk 'END {print}'` 2>/dev/null
+	  if [ -n "$FA_INDEX" ]; then
+	  let FA_INDEX+=1
+	  fi
+	#确保添加到"$drop_mode" ACCEPT规则之后
+	iptables -I "$drop_mode" "$FA_INDEX" -m set ! --match-set ipwhitelist src,dst -j DROP 2>/dev/null
+	fi
+
+	if [ "$work_mode" = "ipblacklist" ];
+	then
+	ipset create ipblacklist hash:ip 2>/dev/null
+	ipset restore -f /tmp/wobl/ipblacklist 2>/dev/null
+	iptables -I "$drop_mode" -m set --match-set ipblacklist src,dst -j DROP 2>/dev/null
+	fi
+
+	if [ "$work_mode" = "macwhitelist" ];
+	then
+	ipset create macwhitelist hash:mac 2>/dev/null
+	ipset restore -f /tmp/wobl/macwhitelist 2>/dev/null
+	#获取"$drop_mode" ACCEPT规则行号 From koolshare,thanks!
+	FA_INDEX=`iptables -t filter -L "$drop_mode"|tail -n +3|sed -n -e '/^ACCEPT/='|awk 'END {print}'` 2>/dev/null
+	  if [ -n "$FA_INDEX" ]; then
+	  let FA_INDEX+=1
+	  fi
+	#确保添加到"$drop_mode" ACCEPT规则之后
+	iptables -I "$drop_mode" "$FA_INDEX" -m set ! --match-set macwhitelist src,dst -j DROP 2>/dev/null
+	fi
+
+	if [ "$work_mode" = "macblacklist" ];
+	then
+	uci del wobl.wobl.macblack_any_mode_enabled=1 >/dev/null 2>&1
+	uci commit wobl
+	ipset create macblacklist hash:mac 2>/dev/null
+	ipset restore -f /tmp/wobl/macblacklist 2>/dev/null
+	iptables -I "$drop_mode" -m set --match-set macblacklist src,dst -j DROP 2>/dev/null
+	fi
+
+       # 导出ipset信息
+       echo "--------------------以下为模式名单导入记录--------------------" > /tmp/woblwatchdog 2>/dev/null
+       ipset list "$work_mode" >> /tmp/woblwatchdog 2>/dev/null
+
+	macblack_any_mode_enabled=$(uci get wobl.wobl.macblack_any_mode_enabled)
+	if [ "$macblack_any_mode_enabled" -eq 1 ];
+	then
+	cat /etc/wobl/macblacklist|sed '/#/d'|sed '/^ *$/d'|sed 's/-/:/g'|sed "/^.\{17\}$/!d"|sort -n|uniq -i|sed 's/^/add '"macblacklist"' &/g' > /tmp/wobl/macblacklist 2>/dev/null
+#	cat /etc/wobl/macblacklist|sed '/#/d'|sed '/^ *$/d'|sed 's/^/add '"macblacklist"' &/g' > /tmp/wobl/macblacklist 2>/dev/null
+	ipset create macblacklist hash:mac 2>/dev/null
+	ipset restore -f /tmp/wobl/macblacklist 2>/dev/null
+	iptables -I "$drop_mode" -m set --match-set macblacklist src,dst -j DROP 2>/dev/null
+       echo "                                                              " >> /tmp/woblwatchdog 2>/dev/null
+       echo "--------------------以下为MAC黑名单导入记录-------------------" >> /tmp/woblwatchdog 2>/dev/null
+        ipset list macblacklist >> /tmp/woblwatchdog 2>/dev/null
+	fi
+
+#	运行超级白名单
+	if [ -n "$admin_mac" ];
+	then
+	ipset create admin_mac hash:mac
+	ipset add admin_mac "$admin_mac"
+	iptables -I "$drop_mode" -m set --match-set admin_mac src,dst -j ACCEPT 2>/dev/null
+	fi
+
+#	运行看门狗
+	if [ -n "$admin_mac" -o "$work_mode" = "macwhitelist" -o "$work_mode" = "ipwhitelist" ];
+	then
+	/etc/woblwatchdog.sh &  2>/dev/null
+	fi
+
+#  rm -r /tmp/wobl
+  created_rules
+
+# 打印日志信息---------------------------------------------------------
+    echo "----以上如出现失败的记录，可多按一次“保存并应用”重新启动----" >> /tmp/woblwatchdog 2>/dev/null
+    echo "                                                              " >> /tmp/woblwatchdog 2>/dev/null
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")" iptables结果如下：" >> /tmp/woblwatchdog
+    iptables -t filter -L "$drop_mode" >> /tmp/woblwatchdog
+
+  if [ "$work_mode" = "ipwhitelist" -o "$work_mode" = "macwhitelist" ];
+   then
+    echo "                                                              " >> /tmp/woblwatchdog 2>/dev/null
+    echo "----------------------以下为白名单守护日志--------------------" >> /tmp/woblwatchdog 2>/dev/null
+    dogRUNNING=`pgrep woblwatchdog.sh`
+    if [ -n "$dogRUNNING" ];
+     then
+     echo "20"$(date +"%y-%m-%d %H:%M:%S")"   白名单守护进程启动成功，没有问题。" >> /tmp/woblwatchdog 2>/dev/null
+     else
+     echo "20"$(date +"%y-%m-%d %H:%M:%S")"   白名单守护进程启动失败，如当前是白名单模式会导致断网，请多按一次“保存并应用”重启，如还是启动失败，需要停止使用白名单模式！！！！！" >> /tmp/woblwatchdog 
+    fi
+  fi
+# ---------------------------------------------------------------------
+
+ fi
+
+
+#    iptables -t filter -L "$drop_mode"> /var/iptables_wobl_tst 2>/dev/null
+}
+
+stop()
+{
+	clear_iptables
+	destroy_ipset
+	kill -9 `pgrep woblwatchdog.sh` 2>/dev/null
+}
+
+restart()
+{
+	stop
+	start
+}
+

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@wobl[-1]
+	add ucitrack wobl
+	set ucitrack.@wobl[-1].init=wobl
+	commit ucitrack
+EOF
+        echo "/etc/wobl/ipblacklist" >> /etc/sysupgrade.conf
+        echo "/etc/wobl/ipwhitelist" >> /etc/sysupgrade.conf
+        echo "/etc/wobl/macblacklist" >> /etc/sysupgrade.conf
+        echo "/etc/wobl/macwhitelist" >> /etc/sysupgrade.conf
+
+rm -f /tmp/luci-indexcache
+exit 0

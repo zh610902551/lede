@@ -1,0 +1,40 @@
+#!/bin/sh 
+# by wulishui 20191229
+
+  work_mode=$(uci get wobl.wobl.work_mode)
+  drop_mode=$(uci get wobl.wobl.drop_mode)
+
+#-------------------------test------------wulishui,20200105------------------------------------
+  mac_whitelist=`iptables -t filter -L "$drop_mode"|tail -n +3|sed -n -e '/macwhitelist/='` 2>/dev/null
+  FA_INDEX_2=`iptables -t filter -L "$drop_mode"|tail -n +3|sed -n -e '/^ACCEPT/='|awk 'END {print}'`
+  if [ "$FA_INDEX_2" -gt "$mac_whitelist" ];
+   then
+	iptables -D "$drop_mode" -m set ! --match-set macwhitelist src,dst -j DROP 2>/dev/null
+	iptables -I "$drop_mode" "$FA_INDEX_2" -m set ! --match-set macwhitelist src,dst -j DROP 2>/dev/null
+    echo "                                                              " >> /tmp/woblwatchdog 2>/dev/null
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")" iptables MAC白名单位置被改变，已修复了，结果如下：" >> /tmp/woblwatchdog
+    iptables -t filter -L "$drop_mode" >> /tmp/woblwatchdog
+  fi
+#-------------------------test------------wulishui,20200105------------------------------------
+
+  ip_whitelist=`iptables -t filter -L "$drop_mode"|tail -n +3|sed -n -e '/ipwhitelist/='` 2>/dev/null
+  FA_INDEX_0=`iptables -t filter -L "$drop_mode"|tail -n +3|sed -n -e '/^ACCEPT/='|awk 'END {print}'` 
+  if [ "$FA_INDEX_0" -gt "$ip_whitelist" ];
+   then
+	iptables -D "$drop_mode" -m set ! --match-set ipwhitelist src,dst -j DROP 2>/dev/null
+	iptables -I "$drop_mode" "$FA_INDEX_0" -m set ! --match-set ipwhitelist src,dst -j DROP 2>/dev/null
+    echo "                                                              " >> /tmp/woblwatchdog 2>/dev/null
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")" iptables IP白名单位置被改变，已修复了，结果如下：" >> /tmp/woblwatchdog
+    iptables -t filter -L "$drop_mode" >> /tmp/woblwatchdog
+  fi
+
+  FA_INDEX_3=`iptables -t filter -L "$drop_mode"|tail -n +3|sed -n -e '/admin_mac/='` 
+  if [ "$FA_INDEX_3" -gt 1 ];
+   then
+	iptables -D "$drop_mode" -m set --match-set admin_mac src,dst -j ACCEPT 2>/dev/null
+	iptables -I "$drop_mode" -m set --match-set admin_mac src,dst -j ACCEPT 2>/dev/null
+    echo "20"$(date +"%y-%m-%d %H:%M:%S")" iptables 超级白名单位置被改变，已修复了，结果如下：" >> /tmp/woblwatchdog
+    iptables -t filter -L "$drop_mode" >> /tmp/woblwatchdog
+  fi
+
+

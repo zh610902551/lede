@@ -1,0 +1,6 @@
+
+config wobl 'wobl'
+	option enabled '0'
+	option work_mode '2'
+
+
