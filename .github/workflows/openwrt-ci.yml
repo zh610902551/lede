@@ -11,7 +11,7 @@ name: OpenWrt-CI
 
 on:
   schedule:
-    - cron: 11 14 * * *
+    - cron: 0 20 * * *
 
 
 jobs:
@@ -49,7 +49,7 @@ jobs:
 
         df -h
 
-    - name: 下载源码
+    - name: 下载feeds
       run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
