@@ -11,7 +11,7 @@ name: OpenWrt-CI
 
 on:
   schedule:
-    - cron: 0 12 * * *
+    - cron: 11 14 * * *
 
 
 jobs:
@@ -71,19 +71,19 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc)
 
-    - name: Single-thread compile
+    - name: 单线程校验
       if: failure()
       run: |
         make -j1 V=s
 
-    - name: Upload bin directory
+    - name: 上传固件及软件包
       uses: actions/upload-artifact@master
       if: always()
       with:
         name: OpenWrt_bin
         path: ./bin/
 
-    - name: 上传软件包
+    - name: 固件打包
       if: always()
       run: |
         cd bin/targets/*/*
