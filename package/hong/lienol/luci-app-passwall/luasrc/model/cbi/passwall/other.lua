@@ -216,10 +216,10 @@ o.rmempty = false
 
 ---- Hide Menu
 o = s:option(Button, "hide", translate("Hide Menu"), translate(
-                 "After the hidden to the display, type in the address bar enter the admin/services/passwall/show, such as: http://192.168.1.1/cgi-bin/luci/admin/services/passwall/show"))
+                 "After the hidden to the display, type in the address bar enter the admin/vpn/passwall/show, such as: http://192.168.1.1/cgi-bin/luci/admin/vpn/passwall/show"))
 o.inputstyle = "remove"
 function o.write(e, e)
-    luci.http.redirect(luci.dispatcher.build_url("admin", "services", "passwall",
+    luci.http.redirect(luci.dispatcher.build_url("admin", "vpn", "passwall",
                                                  "hide"))
 end
 
