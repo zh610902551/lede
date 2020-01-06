@@ -57,9 +57,6 @@ jobs:
     - name: 生成配置文件
       run: make defconfig
 
-#    - name: SSH connection to Actions
-#      uses: P3TERX/debugger-action@master
-
     - name: 下载软件包
       run: |
         make download -j8
