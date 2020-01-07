@@ -38,7 +38,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_socks
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray
 	bool "Include V2ray"
-	default n
+	default y
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Trojan
 	bool "Include Trojan"
@@ -123,8 +123,7 @@ define Package/$(PKG_NAME)/install
 	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci/
 	
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	chmod 755 $(PO2LMO)
-	$(PO2LMO) ./po/zh-cn/passwall.po $(1)/usr/lib/lua/luci/i18n/passwall.zh-cn.lmo
+	po2lmo ./po/zh-cn/passwall.po $(1)/usr/lib/lua/luci/i18n/passwall.zh-cn.lmo
 endef
 
 define Package/$(PKG_NAME)/postinst

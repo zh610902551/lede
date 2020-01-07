@@ -119,7 +119,7 @@ msgid "Clear"
 msgstr "清除"
 
 msgid "If you can use it, very stable. If not, GG !!!"
-msgstr "项目地址https://github.com/Lienol/openwrt-package/tree/master/lienol/luci-app-passwall"
+msgstr "如果你会用，稳得一批。否则，GG！！！"
 
 msgid "TCP Node"
 msgstr "TCP节点"
