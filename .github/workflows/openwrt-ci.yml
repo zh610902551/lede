@@ -57,21 +57,16 @@ jobs:
     - name: 生成配置文件
       run: make defconfig
 
-    - name: 下载软件包
+    - name: 下载dl软件
       run: |
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
-    - name: 固件编译
+    - name: 编译固件
       run: |
         echo -e "$(nproc) thread compile"
         make -j$(nproc)
-
-    - name: 单线程校验
-      if: failure()
-      run: |
-        make -j1 V=s
 
     - name: 上传固件及软件包
       uses: actions/upload-artifact@master
