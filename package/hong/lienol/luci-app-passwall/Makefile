@@ -22,7 +22,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks
 	bool "Include Shadowsocks Redir (ss-redir)"
-	default n
+	default y if x86_64
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR
 	bool "Include ShadowsocksR Redir (ssr-redir)"
@@ -38,11 +38,11 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_socks
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray
 	bool "Include V2ray"
-	default y
+	default y if x86_64
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Trojan
 	bool "Include Trojan"
-	default n
+	default y if x86_64
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_Brook
 	bool "Include Brook"
@@ -103,25 +103,10 @@ define Build/Compile
 endef
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_CONF) ./root/etc/config/passwall $(1)/etc/config/passwall
-	$(INSTALL_CONF) ./root/etc/config/passwall_show $(1)/etc/config/passwall_show
-	
-	$(INSTALL_DIR) $(1)/etc/config/passwall_rule
-	cp -pR ./root/etc/config/passwall_rule/* $(1)/etc/config/passwall_rule/
-	
-	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_CONF) ./root/etc/uci-defaults/* $(1)/etc/uci-defaults
-	
-	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./root/etc/init.d/passwall $(1)/etc/init.d/passwall
-	
-	$(INSTALL_DIR) $(1)/usr/share/passwall
-	cp -pR ./root/usr/share/passwall/* $(1)/usr/share/passwall
-	
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
-	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci/
-	
+	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
+	$(INSTALL_DIR) $(1)/
+	cp -pR ./root/* $(1)/
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
 	po2lmo ./po/zh-cn/passwall.po $(1)/usr/lib/lua/luci/i18n/passwall.zh-cn.lmo
 endef
