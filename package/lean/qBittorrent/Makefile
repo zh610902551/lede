@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=qBittorrent
+PKG_NAME:=qbittorrent
 PKG_VERSION:=4.3.0
 PKG_RELEASE=alpha1
 
@@ -19,7 +19,7 @@ PKG_USE_MIPS16:=0
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/qBittorrent
+define Package/qbittorrent
   SUBMENU:=BitTorrent
   SECTION:=net
   CATEGORY:=Network
@@ -28,7 +28,7 @@ define Package/qBittorrent
   DEPENDS:=+qt5-core +qt5-network +qt5-xml +rblibtorrent
 endef
 
-define Package/qBittorrent/description
+define Package/qbittorrent/description
 qBittorrent is a bittorrent client programmed in C++ / Qt that uses 
 libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.
 It aims to be a good alternative to all other bittorrent clients out 
@@ -47,11 +47,11 @@ CONFIGURE_ARGS += \
 MAKE_VARS += \
 	INSTALL_ROOT="$(PKG_INSTALL_DIR)"
 
-define Package/qBittorrent/install
+define Package/qbittorrent/install
 	$(INSTALL_DIR) $(1)/usr/man/man1
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/man/man1/qbittorrent-nox.1 $(1)/usr/man/man1/qbittorrent-nox.1
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/qbittorrent-nox $(1)/usr/bin
 endef
 
-$(eval $(call BuildPackage,qBittorrent))
+$(eval $(call BuildPackage,qbittorrent))
