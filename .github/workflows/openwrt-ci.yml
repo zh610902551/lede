@@ -73,7 +73,7 @@ jobs:
       if: always()
       with:
         name: OpenWrt_bin
-        path: ./bin/
+        path: lede/bin
 
     - name: 固件打包
       if: always()
