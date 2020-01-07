@@ -134,6 +134,7 @@ menu "Global build settings"
 			help
 			  This will install binaries stripped using strip from binutils.
 
+
 		config USE_SSTRIP
 			bool "sstrip"
 			depends on !USE_GLIBC
