@@ -8,11 +8,11 @@ The motiviation of this patch is to allow applications which remote control
 pppd to react properly on errors, e.g. only redial (relaunch pppd) if there
 was a hangup, but not if the CHAP authentication failed.
 
-Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
+Signed-off-by: Jo-Philipp Wich <jo@mein.io>
 
 --- a/pppd/main.c
 +++ b/pppd/main.c
-@@ -1048,7 +1048,8 @@ get_input()
+@@ -1055,7 +1055,8 @@ get_input()
  	}
  	notice("Modem hangup");
  	hungup = 1;
