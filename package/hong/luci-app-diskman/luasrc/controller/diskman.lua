@@ -25,14 +25,14 @@ function index()
 
   if not executables_all_existed then return end
   -- entry(path, target, title, order)
-  -- set leaf attr to true to pass argument throughe url (e.g. admin/system/disk/partition/sda)
-  entry({"admin", "system", "diskman"}, alias("admin", "system", "diskman", "disks"), _("Disk Man"), 55)
-  entry({"admin", "system", "diskman", "disks"}, form("diskman/disks"), nil).leaf = true
-  entry({"admin", "system", "diskman", "partition"}, form("diskman/partition"), nil).leaf = true
-  entry({"admin", "system", "diskman", "get_disk_info"}, call("get_disk_info"), nil).leaf = true
-  entry({"admin", "system", "diskman", "mk_p_table"}, call("mk_p_table"), nil).leaf = true
-  entry({"admin", "system", "diskman", "smartdetail"}, call("smart_detail"), nil).leaf = true
-  entry({"admin", "system", "diskman", "smartattr"}, call("smart_attr"), nil).leaf = true
+  -- set leaf attr to true to pass argument throughe url (e.g. admin/nas/disk/partition/sda)
+  entry({"admin", "nas", "diskman"}, alias("admin", "nas", "diskman", "disks"), _("Disk Man"), 55)
+  entry({"admin", "nas", "diskman", "disks"}, form("diskman/disks"), nil).leaf = true
+  entry({"admin", "nas", "diskman", "partition"}, form("diskman/partition"), nil).leaf = true
+  entry({"admin", "nas", "diskman", "get_disk_info"}, call("get_disk_info"), nil).leaf = true
+  entry({"admin", "nas", "diskman", "mk_p_table"}, call("mk_p_table"), nil).leaf = true
+  entry({"admin", "nas", "diskman", "smartdetail"}, call("smart_detail"), nil).leaf = true
+  entry({"admin", "nas", "diskman", "smartattr"}, call("smart_attr"), nil).leaf = true
 end
 
 function get_disk_info(dev)

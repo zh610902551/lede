@@ -4,7 +4,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="<%=media%>/cascade.css" />
   <script type="text/javascript" src="<%=resource%>/xhr.js"></script>
   <script type="text/javascript">//<![CDATA[
-    XHR.get('<%=luci.dispatcher.build_url("admin", "system", "diskman", "smartattr", dev)%>', null,
+    XHR.get('<%=luci.dispatcher.build_url("admin", "nas", "diskman", "smartattr", dev)%>', null,
       function (x, st) {
         var tb = document.getElementById('smart_attr_table');
         if (st && tb) {
