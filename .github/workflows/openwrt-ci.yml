@@ -55,7 +55,16 @@ jobs:
         ./scripts/feeds install -a
 
     - name: 生成配置文件
-      run: make defconfig
+      env:
+        CONFIG_FILE: '.config'
+        # DIY_SH: 'diy.sh'
+      run: |
+        # [ -e files ] && mv files openwrt/files
+        # [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        # chmod +x $DIY_SH
+        # cd openwrt
+        # ../$DIY_SH
+        # make defconfig
 
     - name: 下载dl软件
       run: |
