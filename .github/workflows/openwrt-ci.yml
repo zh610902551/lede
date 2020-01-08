@@ -86,7 +86,7 @@ jobs:
       if: always()
       with:
         name: OpenWrt_bin
-        path: lede/bin
+        path: bin
 
     - name: 上传固件及ipk
       if: always()
