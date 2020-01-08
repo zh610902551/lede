@@ -99,5 +99,5 @@ jobs:
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: OpenWrt-newifi-d2
+        name: OpenWrt-x86_x64
         path: ${{ env.FIRMWARE }}
