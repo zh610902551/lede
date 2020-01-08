@@ -56,10 +56,10 @@ jobs:
 
     - name: 生成配置文件
       env:
-        CONFIG_FILE: '.config'
+     #   CONFIG_FILE: '.config'
       run: |
-        [ -e files ] && mv files lede/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE lede/.config
+     #   [ -e files ] && mv files lede/files
+     #   [ -e $CONFIG_FILE ] && mv $CONFIG_FILE lede/.config
         make defconfig
 
     - name: 下载dl软件
