@@ -9,6 +9,7 @@ PKG_LICENSE:=Apache-2.0
 
 include $(INCLUDE_DIR)/package.mk
 
+
 define Package/$(PKG_NAME)
 	SECTION:=luci
 	CATEGORY:=LuCI
