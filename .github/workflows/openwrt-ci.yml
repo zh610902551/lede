@@ -56,7 +56,7 @@ jobs:
 
     - name: 生成配置文件
       env:
-        CONFIG_FILE: '.config'
+        # CONFIG_FILE: '.config'
         # DIY_SH: 'diy.sh'
       run: |
         # [ -e files ] && mv files openwrt/files
@@ -64,7 +64,7 @@ jobs:
         # chmod +x $DIY_SH
         # cd openwrt
         # ../$DIY_SH
-        # make defconfig
+        make defconfig
 
     - name: 下载dl软件
       run: |
