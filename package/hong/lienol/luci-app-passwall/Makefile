@@ -71,7 +71,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_pdnsd
 endmenu
 endef
 
-define Package/$(PKG_NAME)
+define Package/luci-app-passwall
   CATEGORY:=LuCI
   SUBMENU:=3. Applications
   TITLE:=LuCI support for PassWall By Lienol
@@ -102,7 +102,7 @@ endef
 define Build/Compile
 endef
 
-define Package/$(PKG_NAME)/install
+define Package/luci-app-passwall/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
 	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
 	$(INSTALL_DIR) $(1)/
@@ -111,10 +111,13 @@ define Package/$(PKG_NAME)/install
 	po2lmo ./po/zh-cn/passwall.po $(1)/usr/lib/lua/luci/i18n/passwall.zh-cn.lmo
 endef
 
-define Package/$(PKG_NAME)/postinst
+define Package/luci-app-passwall/postinst
 #!/bin/sh
+if [ -z "$${IPKG_INSTROOT}" ]; then
+	( . /etc/uci-defaults/luci-passwall ) && rm -f /etc/uci-defaults/luci-passwall
+	rm -f /tmp/luci-indexcache
 chmod a+x $${IPKG_INSTROOT}/usr/share/passwall/* >/dev/null 2>&1
 exit 0
 endef
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+$(eval $(call BuildPackage,luci-app-passwall))
