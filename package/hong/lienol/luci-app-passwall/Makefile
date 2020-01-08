@@ -10,6 +10,7 @@ PKG_VERSION:=3.2
 PKG_RELEASE:=13-20200108
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+PO2LMO:=./po2lmo
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -71,7 +72,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_pdnsd
 endmenu
 endef
 
-define Package/luci-app-passwall
+define Package/$(PKG_NAME)
   CATEGORY:=LuCI
   SUBMENU:=3. Applications
   TITLE:=LuCI support for PassWall By Lienol
@@ -102,22 +103,35 @@ endef
 define Build/Compile
 endef
 
-define Package/luci-app-passwall/install
+define Package/$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_CONF) ./root/etc/config/passwall $(1)/etc/config/passwall
+	$(INSTALL_CONF) ./root/etc/config/passwall_show $(1)/etc/config/passwall_show
+	
+	$(INSTALL_DIR) $(1)/etc/config/passwall_rule
+	cp -pR ./root/etc/config/passwall_rule/* $(1)/etc/config/passwall_rule/
+	
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(INSTALL_CONF) ./root/etc/uci-defaults/* $(1)/etc/uci-defaults
+	
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./root/etc/init.d/passwall $(1)/etc/init.d/passwall
+	
+	$(INSTALL_DIR) $(1)/usr/share/passwall
+	cp -pR ./root/usr/share/passwall/* $(1)/usr/share/passwall
+	
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
-	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
-	$(INSTALL_DIR) $(1)/
-	cp -pR ./root/* $(1)/
+	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci/
+	
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	po2lmo ./po/zh-cn/passwall.po $(1)/usr/lib/lua/luci/i18n/passwall.zh-cn.lmo
+	chmod 755 $(PO2LMO)
+	$(PO2LMO) ./po/zh-cn/passwall.po $(1)/usr/lib/lua/luci/i18n/passwall.zh-cn.lmo
 endef
 
-define Package/luci-app-passwall/postinst
+define Package/$(PKG_NAME)/postinst
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	( . /etc/uci-defaults/luci-passwall ) && rm -f /etc/uci-defaults/luci-passwall
-	rm -f /tmp/luci-indexcache
 chmod a+x $${IPKG_INSTROOT}/usr/share/passwall/* >/dev/null 2>&1
 exit 0
 endef
 
-$(eval $(call BuildPackage,luci-app-passwall))
+$(eval $(call BuildPackage,$(PKG_NAME)))
