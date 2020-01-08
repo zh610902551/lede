@@ -1,6 +1,3 @@
-msgid "Rule-based Custom Proxy Client"
-msgstr "基于规则的自定义代理客户端。项目地址：https://github.com/frainzy1477/luci-app-clash"
-
 msgid "Do not edit Policy Group with Group Name Proxy or proxy and or 🔑Proxy and it's other policy group"
 msgstr "不要编辑策略组别名Proxy或proxy或🔑proxy和它的其他策略组"
 
@@ -165,6 +162,10 @@ msgstr "Clash模式"
 
 msgid "App Name"
 msgstr "应用程序名称"
+
+msgid "Rule-based Custom Proxy Client"
+msgstr "基于规则的自定义代理客户端。项目地址：https://github.com/frainzy1477/luci-app-clash"
+
 
 msgid "Error Occured | Return"
 msgstr "检查错误 | 返回"
