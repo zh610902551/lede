@@ -11,7 +11,7 @@ name: OpenWrt-编译
 
 on:
   schedule:
-    - cron: 0 20 * * *
+    - cron: 05 18 * * *
 
 
 jobs:
