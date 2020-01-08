@@ -81,14 +81,14 @@ jobs:
       run: |
         make -j1 V=s 
 
-    - name: 固件打包
+    - name: 固件及ipk打包
       uses: actions/upload-artifact@master
       if: always()
       with:
         name: OpenWrt_bin
         path: bin
 
-    - name: 上传固件及ipk
+    - name: 固件打包
       if: always()
       run: |
         cd bin/targets/*/*
@@ -99,5 +99,5 @@ jobs:
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: OpenWrt-x86_x64
+        name: OpenWrt-firmware
         path: ${{ env.FIRMWARE }}
