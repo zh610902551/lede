@@ -11,7 +11,7 @@ name: OpenWrt-CI
 
 on:
   schedule:
-    - cron: 42 13 * * *
+    - cron: 5 14 * * *
 
 
 jobs:
@@ -59,10 +59,9 @@ jobs:
       #   # CONFIG_FILE: '.config'
       #   # DIY_SH: 'diy.sh'
       run: |
-        # [ -e files ] && mv files openwrt/files
-        # [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        # [ -e files ] && mv files lede/files
+        # [ -e $CONFIG_FILE ] && mv $CONFIG_FILE lede/.config
         # chmod +x $DIY_SH
-        # cd openwrt
         # ../$DIY_SH
         make defconfig
 
@@ -74,14 +73,14 @@ jobs:
 
     - name: 固件编译
       run: |
-        cd openwrt
+        cd lede
         echo -e "$(nproc) thread compile"
         make -j$(nproc)
         
     - name: 固件校验
       if: failure()
       run: |
-        cd openwrt
+        cd lede
         make -j1 V=s 
 
     - name: 上传固件及软件包
