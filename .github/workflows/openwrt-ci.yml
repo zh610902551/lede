@@ -76,7 +76,7 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc)
         
-    - name: 固件校验
+    - name: 错误检查
       if: failure()
       run: |
         make -j1 V=s 
