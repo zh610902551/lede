@@ -11,7 +11,7 @@ name: OpenWrt-CI
 
 on:
   schedule:
-    - cron: 0 20 * * 5
+    - cron: 31 10 * * 5
 
 
 jobs:
@@ -55,7 +55,12 @@ jobs:
         ./scripts/feeds install -a
 
     - name: 生成配置文件
-      run: make defconfig
+      env:
+        CONFIG_FILE: '.config'
+      run: |
+        [ -e files ] && mv files lede/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE lede/.config
+        make defconfig
 
     - name: 下载dl软件
       run: |
@@ -86,5 +91,5 @@ jobs:
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: OpenWrt-x86_64
+        name: OpenWrt-newifi-d2
         path: ${{ env.FIRMWARE }}
