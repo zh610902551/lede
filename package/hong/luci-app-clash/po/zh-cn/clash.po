@@ -166,7 +166,6 @@ msgstr "应用程序名称"
 msgid "Rule-based Custom Proxy Client"
 msgstr "基于规则的自定义代理客户端。项目地址：https://github.com/frainzy1477/luci-app-clash"
 
-
 msgid "Error Occured | Return"
 msgstr "检查错误 | 返回"
 
