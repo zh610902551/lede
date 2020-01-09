@@ -10,8 +10,17 @@
 name: OpenWrt-编译
 
 on:
-  schedule:
-    - cron: 5 3 * * *
+#  release:
+#    types: [published]
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - '.config'
+#  schedule:
+#    - cron: 0 20 * * *
+  watch:
+    types: [started]
 
 
 jobs:
