@@ -39,6 +39,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
+        df -h
         docker rmi `docker images -q`
         sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
         sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
@@ -55,8 +56,6 @@ jobs:
         # ln -s /mnt/openwrt/dl ./dl
         # ln -s /mnt/openwrt/feeds ./feeds
         # ln -s /mnt/openwrt/staging_dir ./staging_dir
-
-        df -h
 
     - name: 下载feeds
       run: |
