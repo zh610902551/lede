@@ -11,7 +11,7 @@ name: OpenWrt-编译
 
 on:
   schedule:
-    - cron: 18 22 * * *
+    - cron: 5 3 * * *
 
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - name: 系统部署
+    - name: checkout
       uses: actions/checkout@master
       with:
         ref: master
