@@ -81,7 +81,7 @@ jobs:
       run: |
         make -j1 V=s 
 
-    - name: 固件及ipk打包
+    - name: 固件打包
       uses: actions/upload-artifact@master
       if: always()
       with:
