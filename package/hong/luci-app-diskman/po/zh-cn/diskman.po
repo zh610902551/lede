@@ -7,6 +7,21 @@ msgstr "磁盘管理"
 msgid "Manage Disks over LuCI."
 msgstr "通过LuCI管理磁盘。"
 
+msgid "Rescan Disks"
+msgstr "重新扫描磁盘"
+
+msgid "Disks"
+msgstr "磁盘"
+
+msgid "Path"
+msgstr "路径"
+
+msgid "Serial Number"
+msgstr "序列号"
+
+msgid "Temp"
+msgstr "温度"
+
 msgid "Partition Table"
 msgstr "分区表"
 
@@ -28,35 +43,23 @@ msgstr "挂载选项"
 msgid "Mount"
 msgstr "挂载"
 
-msgid "Raid"
-msgstr "磁盘阵列"
-
 msgid "Umount"
-msgstr "卸载"
+msgstr "卸载分区"
 
-msgid "auto"
-msgstr "自动"
+msgid "Eject"
+msgstr "弹出"
 
-msgid "Serial Number"
-msgstr "序列号"
+msgid "New"
+msgstr "创建分区"
 
-msgid "Temp"
-msgstr "温度"
+msgid "FORMAT"
+msgstr "格式化"
 
-msgid "S.M.A.R.T Info"
-msgstr "磁盘监控"
+msgid "Start Sector"
+msgstr "起始扇区"
 
-msgid "This widget allow you to monitor your storage devices which support S.M.A.R.T technology."
-msgstr "该工具帮助您通过S.M.A.R.T技术来监控您硬盘的健康状况."
-
-msgid "S.M.A.R.T Report Settings"
-msgstr "S.M.A.R.T 报告设置"
-
-msgid "Enabled"
-msgstr "启用"
-
-msgid "Check Interval"
-msgstr "检查间隔"
+msgid "End Sector"
+msgstr "中止扇区"
 
 msgid "Unit"
 msgstr "单位"
@@ -70,26 +73,8 @@ msgstr "小时"
 msgid "Days"
 msgstr "天"
 
-msgid "Weeks"
-msgstr "周"
-
-msgid "Log to file"
-msgstr "记录到文件"
-
-msgid "at"
-msgstr "位于"
-
-msgid "Touch a warning file when disk fail"
-msgstr "故障时生成示警文件"
-
-msgid "Devices to monitor"
-msgstr "监控这些设备"
-
-msgid "S.M.A.R.T Status"
-msgstr "S.M.A.R.T 状况"
-
-msgid "Device"
-msgstr "设备"
+msgid "Useage"
+msgstr "使用情况"
 
 msgid "Model"
 msgstr "型号"
@@ -98,67 +83,64 @@ msgid "Size"
 msgstr "大小"
 
 msgid "Status"
-msgstr "状况"
+msgstr "状态"
 
-msgid "Collecting data..."
-msgstr "正在收集数据"
+msgid "Mount Point"
+msgstr "挂载点"
 
-msgid "Detail"
-msgstr "详细"
+msgid "Sector Size"
+msgstr "扇区大小"
 
-msgid "Show"
-msgstr "查看"
+msgid "Rotation Rate"
+msgstr "转速"
 
-msgid "Global"
-msgstr "全局"
+msgid "RAID Devices"
+msgstr "RAID 设备"
 
-msgid "No Attrbute to display."
-msgstr "没有可显示的属性"
+msgid "RAID mode"
+msgstr "RAID 模式"
 
-msgid "S.M.A.R.T Attrbutes"
-msgstr "S.M.A.R.T 属性"
+msgid "Members"
+msgstr "成员"
 
-msgid "ID"
-msgstr "ID"
+msgid "Active"
+msgstr "活动"
 
-msgid "Attrbute"
-msgstr "属性名称"
+msgid "RAID Creation"
+msgstr "RAID 创建"
 
-msgid "Flag"
-msgstr "标记"
+msgid "Raid Name"
+msgstr "RAID 名称"
 
-msgid "Value"
-msgstr "值"
+msgid "Raid Level"
+msgstr "RAID 级别"
 
-msgid "Worst"
-msgstr "最坏"
+msgid "Raid Member"
+msgstr "磁盘阵列成员"
 
-msgid "Thresh"
-msgstr "临界值"
+msgid "Create Raid"
+msgstr "创建 RAID"
 
-msgid "Type"
-msgstr "类型"
+msgid "Partition Management"
+msgstr "分区管理"
 
-msgid "Updated"
-msgstr "更新"
+msgid "Partition Disk over LuCI."
+msgstr "通过LuCI分区磁盘。"
 
-msgid "Raw"
-msgstr "原始值"
+msgid "Device Info"
+msgstr "设备信息"
 
-msgid ""
-msgstr ""
+msgid "Disk Man"
+msgstr "磁盘管理"
 
-msgid ""
-msgstr ""
+msgid "Partitions Info"
+msgstr "分区信息"
 
-msgid ""
-msgstr ""
+msgid "Default 2048 sector alignment, support +size{b,k,m,g,t} in End Sector"
+msgstr "默认2048扇区对齐，支持+大小{b,k,m,g,t}在结束扇区 Default 2048 sector alignment, support +size{b,k,m,g,t} in End Sector"
 
-msgid ""
-msgstr ""
+msgid "Free Space"
+msgstr "可用空间"
 
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
+msgid "primary"
+msgstr "主分区"
