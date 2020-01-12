@@ -15,7 +15,7 @@ define Package/$(PKG_NAME)
 	SUBMENU:=3. Applications
 	TITLE:=Docker Manager interface for LuCI
 	PKGARCH:=all
-	DEPENDS:=+luci-lib-docker +luci-lib-json
+	DEPENDS:=+luci-lib-json
 endef
 
 define Package/$(PKG_NAME)/description
