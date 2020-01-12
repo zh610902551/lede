@@ -52,7 +52,10 @@ msgstr "弹出"
 msgid "New"
 msgstr "创建分区"
 
-msgid "FORMAT"
+msgid "Remove"
+msgstr "移除"
+
+msgid "Format"
 msgstr "格式化"
 
 msgid "Start Sector"
@@ -89,7 +92,7 @@ msgid "Mount Point"
 msgstr "挂载点"
 
 msgid "Sector Size"
-msgstr "扇区大小"
+msgstr "扇区/物理扇区大小"
 
 msgid "Rotation Rate"
 msgstr "转速"
@@ -137,7 +140,7 @@ msgid "Partitions Info"
 msgstr "分区信息"
 
 msgid "Default 2048 sector alignment, support +size{b,k,m,g,t} in End Sector"
-msgstr "默认2048扇区对齐，支持+大小{b,k,m,g,t}在结束扇区 Default 2048 sector alignment, support +size{b,k,m,g,t} in End Sector"
+msgstr "默认2048扇区对齐，【中止扇区】支持 +容量{b,k,m,g,t} 格式，例：+500m +10g +1t"
 
 msgid "Free Space"
 msgstr "可用空间"
