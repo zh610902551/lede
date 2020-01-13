@@ -9,8 +9,8 @@ include $(TOPDIR)/rules.mk
 ARCH:=i386
 BOARD:=x86
 BOARDNAME:=x86
-FEATURES:=squashfs vdi vmdk pcmcia targz fpu 
-SUBTARGETS:=64 generic core2 zen legacy geode 
+FEATURES:=squashfs ext4 vdi vmdk pcmcia targz fpu
+SUBTARGETS:=generic legacy geode 64
 MAINTAINER:=Felix Fietkau <nbd@nbd.name>
 
 KERNEL_PATCHVER:=4.19
@@ -25,7 +25,7 @@ htop lm-sensors autocore automount autosamba luci-app-zerotier luci-app-ipsec-vp
 ath10k-firmware-qca988x ath10k-firmware-qca9888 ath10k-firmware-qca9984 brcmfmac-firmware-43602a1-pcie kmod-crypto-misc luci-app-baidupcs-web \
 alsa-utils kmod-ac97 kmod-sound-hda-core kmod-sound-hda-codec-realtek kmod-sound-hda-codec-via kmod-sound-via82xx kmod-usb-audio luci-app-aria2 luci-app-transmission \
 kmod-usb-net kmod-usb-net-asix kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 kmod-rtl8187 kmod-rt2500-usb kmod-rt2x00-usb \
-luci-app-diskman luci-app-unblockneteasemusic
+luci-app-diskman luci-app-unblockmusic
 
 $(eval $(call BuildTarget))
 
