@@ -26,13 +26,10 @@ msgid "Partition Table"
 msgstr "分区表"
 
 msgid "SATA Version"
-msgstr "SATA模式"
+msgstr "SATA版本"
 
 msgid "Health"
-msgstr "状态"
-
-msgid "Rescan Disks"
-msgstr "添加磁盘"
+msgstr "健康"
 
 msgid "File System"
 msgstr "文件系统"
