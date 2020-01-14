@@ -8,7 +8,7 @@ LUCI_TITLE:=Open App Filter Module
 LUCI_PKGARCH:=all
 LUCI_DEPENDS:=+kmod-oaf +appfilter
 PKG_NAME:=luci-app-appfilter
-PKG_VERSION:=1.0
+PKG_VERSION:=3.0
 PKG_RELEASE:=1
 
 

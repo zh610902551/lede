@@ -1,4 +1,7 @@
 
+msgid "website"
+msgstr "常用网站"
+
 msgid "appfilter"
 msgstr "应用过滤"
 
