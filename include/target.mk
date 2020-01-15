@@ -17,7 +17,7 @@ DEFAULT_PACKAGES:=base-files libc libgcc busybox dropbear mtd uci opkg netifd fs
 kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw wget \
 default-settings luci luci-app-ddns luci-app-sqm luci-app-upnp luci-app-adbyby-plus luci-app-autoreboot \
 luci-app-filetransfer luci-app-vsftpd luci-app-guest-wifi luci-app-cpulimit luci-app-ttyd luci-app-smartinfo luci-app-zerotier luci-app-syncdial luci-app-wifischedule \
-luci-app-pptp-server luci-app-arpbind luci-app-vlmcsd luci-app-wol luci-app-ramfree luci-app-appfilter  luci-app-serverchan luci-app-softwarecenter \
+luci-app-pptp-server luci-app-arpbind luci-app-vlmcsd luci-app-wol luci-app-ramfree luci-app-oaf luci-app-serverchan luci-app-softwarecenter \
 luci-app-sfe luci-app-flowoffload luci-app-nlbwmon luci-app-accesscontrol luci-app-passwall luci-app-control-wobl
 # For nas targets
 DEFAULT_PACKAGES.nas:=fdisk lsblk mdadm automount autosamba luci-app-usb-printer 
