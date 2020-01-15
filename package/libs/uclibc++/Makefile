@@ -9,18 +9,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=uclibc++
-PKG_VERSION:=0.2.5
+PKG_VERSION:=0.2.4
 PKG_RELEASE:=3
 
-PKG_SOURCE:=uClibc++-$(PKG_VERSION).tar.xz
-PKG_SOURCE_URL:=https://cxx.uclibc.org/src/
-PKG_HASH:=596fb9ed7295564ce4c70ae6076a18f92e72f70310d70c98520bbca85c77895a
-PKG_BUILD_DIR:=$(BUILD_DIR)/uClibc++-$(PKG_VERSION)
+PKG_SOURCE:=uClibc++-$(PKG_VERSION).tar.bz2
+PKG_SOURCE_URL:=http://cxx.uclibc.org/src/
+PKG_HASH:=be16fc6a6eb2e59df420ee41e7042f38e27ebaf5c2762d90e75803364a7b00db
 
-PKG_LICENSE:=LGPL-2.1-or-later
-PKG_INSTALL:=1
+PKG_BUILD_DIR:=$(BUILD_DIR)/uClibc++-$(PKG_VERSION)
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
+PKG_LICENSE:=LGPL-2.1+
+
+PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -29,7 +30,7 @@ define Package/uclibcxx
   SECTION:=libs
   CATEGORY:=Libraries
   TITLE:=C++ library for embedded systems
-  URL:=https://cxx.uclibc.org/
+  URL:=http://cxx.uclibc.org/src/
 endef
 
 UCLIBC_TARGET_ARCH:=$(shell echo $(ARCH) | sed -e s'/-.*//' \
@@ -44,8 +45,7 @@ UCLIBC_TARGET_ARCH:=$(shell echo $(ARCH) | sed -e s'/-.*//' \
 	-e 's/mipsel.*/mips/' \
 )
 
-TARGET_CFLAGS += $(FPIC) -nostdinc++ -std=c++11
-TARGET_LDFLAGS += -Wl,--gc-sections
+TARGET_CFLAGS += $(FPIC)
 
 ifneq ($(CONFIG_CCACHE),)
 TARGET_CXX=$(TARGET_CXX_NOCACHE)
@@ -56,14 +56,23 @@ SSP_LIB=-lssp_nonshared
 endif
 
 MAKE_FLAGS:= \
+	TOPDIR="$(PKG_BUILD_DIR)/" \
 	$(TARGET_CONFIGURE_OPTS) \
 	CPU_CFLAGS="$(TARGET_CFLAGS)" \
-	CROSS_COMPILE="$(TARGET_CROSS)" \
-	LDFLAGS="$(TARGET_LDFLAGS)" \
+	CROSS="$(TARGET_CROSS)" \
+	LDFLAGS="-Wl,--warn-common -Wl,--warn-once -Wl,-z,combreloc -Wl,-z,defs $(TARGET_LDFLAGS)" \
+	CP="$(CP)" \
 	GEN_LIBS="-lc $(LIBGCC_S) $(SSP_LIB)" \
+	GEN_CFLAGS="-std=gnu++98 -nostdinc++" \
 	check_as_needed=
 
 # check_as_needed overrides dependency on libgcc_s
+
+define Build/Prepare
+	$(PKG_UNPACK)
+	$(SED) 's/\r$$$$//' $(PKG_BUILD_DIR)/include/unwind-cxx.h
+	$(Build/Patch)
+endef
 
 define Build/Configure
 	if [ -f ./files/config.$(UCLIBC_TARGET_ARCH) ]; then \

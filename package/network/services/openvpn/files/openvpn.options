@@ -191,7 +191,6 @@ username_as_common_name
 '
 
 OPENVPN_LIST='
-ncp_ciphers
 tls_cipher
-tls_ciphersuites
+ncp_ciphers
 '
