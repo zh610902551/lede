@@ -5,7 +5,7 @@ msgid "DiskMan"
 msgstr "磁盘管理"
 
 msgid "Manage Disks over LuCI."
-msgstr "通过LuCI管理磁盘。"
+msgstr "通过LuCI管理磁盘"
 
 msgid "Rescan Disks"
 msgstr "重新扫描磁盘"
@@ -80,7 +80,7 @@ msgid "Model"
 msgstr "型号"
 
 msgid "Size"
-msgstr "大小"
+msgstr "容量"
 
 msgid "Status"
 msgstr "状态"
