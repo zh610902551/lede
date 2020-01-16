@@ -61,18 +61,6 @@ msgstr "起始扇区"
 msgid "End Sector"
 msgstr "中止扇区"
 
-msgid "Unit"
-msgstr "单位"
-
-msgid "Minutes"
-msgstr "分"
-
-msgid "Hours"
-msgstr "小时"
-
-msgid "Days"
-msgstr "天"
-
 msgid "Useage"
 msgstr "使用情况"
 
@@ -138,9 +126,3 @@ msgstr "分区信息"
 
 msgid "Default 2048 sector alignment, support +size{b,k,m,g,t} in End Sector"
 msgstr "默认2048扇区对齐，【中止扇区】支持 +容量{b,k,m,g,t} 格式，例：+500m +10g +1t"
-
-msgid "Free Space"
-msgstr "可用空间"
-
-msgid "primary"
-msgstr "主分区"
