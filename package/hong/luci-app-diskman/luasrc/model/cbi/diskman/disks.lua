@@ -190,21 +190,21 @@ end
 v_fs.write = function(self, section, value)
   _mount_point.fs = value
 end
-local v_mount_option = table_mp:option(Value, "mount_options", translate("Mount Options"))
-v_mount_option.render = function(self, section, scope)
-  if mount_point[section].device == 0 then
-    self.template = "cbi/value"
-    self.placeholder = "rw,noauto"
-    self.forcewrite = true
-    Value.render(self, section, scope)
-  else
-    self.template = "cbi/dvalue"
-    DummyValue.render(self, section, scope)
-  end
-end
-v_mount_option.write = function(self, section, value)
-  _mount_point.mount_options = value
-end
+--local v_mount_option = table_mp:option(Value, "mount_options", translate("Mount Options"))
+--v_mount_option.render = function(self, section, scope)
+--  if mount_point[section].device == 0 then
+--    self.template = "cbi/value"
+--    self.placeholder = "rw,noauto"
+--    self.forcewrite = true
+--    Value.render(self, section, scope)
+--  else
+--    self.template = "cbi/dvalue"
+--    DummyValue.render(self, section, scope)
+--  end
+--end
+--v_mount_option.write = function(self, section, value)
+--  _mount_point.mount_options = value
+--end
 local v_mount_point = table_mp:option(Value, "mount_point", translate("Mount Point"))
 v_mount_point.render = function(self, section, scope)
   if mount_point[section].device == 0 then

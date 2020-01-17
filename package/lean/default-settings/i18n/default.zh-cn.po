@@ -67,13 +67,13 @@ msgid "Allow AP mode to disconnect STAs based on low ACK condition"
 msgstr "允许AP模式基于低ACK条件判断剔除弱信号的客户端"
 
 msgid "Disks"
-msgstr "磁盘信息"
+msgstr "硬盘信息"
 
 msgid "Disks Model"
-msgstr "磁盘型号"
+msgstr "硬盘型号"
 
 msgid "Serial Number"
-msgstr "磁盘序列号"
+msgstr "硬盘序列号"
 
 msgid "Firmware"
 msgstr "固件版本"
@@ -144,26 +144,26 @@ msgstr "服务"
 msgid "Control"
 msgstr "管控"
 
-msgid ""
+msgid "Raid arrays"
+msgstr "RAID 设备"
+
+msgid "Level"
+msgstr "RAID模式"
+
+msgid "# Disks"
+msgstr "硬盘个数"
+
+msgid "Capacity"
 msgstr ""
 
-msgid ""
+msgid "Metadata"
+msgstr "硬盘位置"
+
+msgid "Status"
 msgstr ""
 
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
+msgid "Serial number"
+msgstr "硬盘序列号"
 
 msgid ""
 msgstr ""
