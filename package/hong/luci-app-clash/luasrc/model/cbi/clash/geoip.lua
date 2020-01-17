@@ -8,7 +8,7 @@ local uci = require("luci.model.uci").cursor()
 local clash = "clash"
 local http = luci.http
 
-font_green = [[<font color="green">]]
+font_red = [[<font color="red">]]
 font_off = [[</font>]]
 bold_on  = [[<strong>]]
 bold_off = [[</strong>]]
@@ -29,7 +29,7 @@ o.description = translate("NB: Upload GEOIP Database file Country.mmdb")
 .."<br />"
 ..translate("https://geolite.clash.dev/Country.mmdb")
 
-o.title = translate("Update GEOIP Database")
+o.title = translate("  ")
 o.template = "clash/clash_upload"
 um = s:option(DummyValue, "", nil)
 um.template = "clash/clash_dvalue"
@@ -89,18 +89,19 @@ end
 o.default=0
 o.description = translate("GeoIP Update Time")
 
-o = s:option(ListValue, "geo_update_week", translate("Update Time (Day/Weeks of Month)"))
-o:value("1", translate("Every First Day"))
-o:value("7", translate("Every First Week"))
-o:value("14", translate("Every Second Weeks"))
-o:value("21", translate("Every Third Weeks"))
-o:value("28", translate("Every Fouth Weeks"))
+o = s:option(ListValue, "geo_update_week", translate("Update Day (Day of Month)"))
+o:value("1", translate("Every 1st Day"))
+o:value("7", translate("Every 7th Day"))
+o:value("14", translate("Every 14th Day"))
+o:value("21", translate("Every 21st Day"))
+o:value("28", translate("Every 28th Day"))
 o.default=1
-
+update_time = SYS.exec("ls -l --full-time /etc/clash/Country.mmdb|awk '{print $6,$7;}'")
+o.description = translate("Release Time")..'- ' ..font_red..bold_on..update_time..bold_off..font_off..' '
 
 o = s:option(Value, "license_key")
-o.title = translate("LICENSE KEY")
-o.description = translate("MaxMind LICENSE KEY")..translate(" https://www.maxmind.com/en/geolite2/signup")
+o.title = translate("License Key")
+o.description = translate("MaxMind License Key")..translate(" https://www.maxmind.com/en/geolite2/signup")
 o.rmempty = true
 
 o=s:option(Button,"update_geoip")
