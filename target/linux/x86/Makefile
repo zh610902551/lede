@@ -24,7 +24,7 @@ kmod-ath5k kmod-ath9k kmod-ath9k-htc kmod-ath10k kmod-rt2800-usb kmod-e1000e kmo
 htop lm-sensors autocore automount autosamba luci-app-zerotier luci-app-ipsec-vpnd luci-app-pptp-server luci-proto-bonding luci-app-unblockmusic luci-app-qbittorrent luci-app-v2ray-server luci-app-zerotier ddns-scripts_aliyun ddns-scripts_dnspod ca-certificates \
 ath10k-firmware-qca988x ath10k-firmware-qca9888 ath10k-firmware-qca9984 brcmfmac-firmware-43602a1-pcie luci-app-baidupcs-web\
 alsa-utils kmod-ac97 kmod-sound-hda-core kmod-sound-hda-codec-realtek kmod-sound-hda-codec-via kmod-sound-via82xx kmod-usb-audio luci-app-aria2 luci-app-transmission  luci-app-transmission\
-kmod-usb-net kmod-usb-net-asix kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 kmod-rtl8187 kmod-rt2500-usb kmod-rt2x00-usb luci-app-diskman luci-app-dockerman
+kmod-usb-net kmod-usb-net-asix kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 kmod-rtl8187 kmod-rt2500-usb kmod-rt2x00-usb luci-app-diskman luci-app-dockerman luci-app-passwall
 
 $(eval $(call BuildTarget))
 
