@@ -1,11 +1,7 @@
-msgid "Disks"
-msgstr "硬盘信息"
+
 
 msgid "Disks Model"
 msgstr "硬盘型号"
-
-msgid "Serial Number"
-msgstr "硬盘序列号"
 
 msgid "Firmware"
 msgstr "固件版本"
