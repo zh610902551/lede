@@ -266,16 +266,13 @@ msgstr "拉取镜像"
 msgid "Pull"
 msgstr "添加镜像"
 
-msgid "Docker Events"
-msgstr "Docker日志"
-
 msgid "Plese input <docker create/run> command line:"
 msgstr "请输入<docker create/run>命令行："
 
-msgid "Canceled"
-msgstr "取消"
+msgid "<font color='red'>Canceled</font>"
+msgstr "<font color='red'>取消</font>"
 
-msgid "command line"
+msgid "Command line"
 msgstr "命令行"
 
 msgid "Resolv CLI"
@@ -295,9 +292,6 @@ msgstr "失败时"
 
 msgid "Restart policy"
 msgstr "重新启动策略"
-
-msgid " CPU shares (relative weight, if 0 is set, the system will ignore the value and use the default of 1024."
-msgstr "CPU份额（相对权重，如果设置为0，则系统将忽略该值，并使用默认值1024。"
 
 msgid ""
 msgstr ""

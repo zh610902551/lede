@@ -122,11 +122,11 @@ msgstr ""
 msgid "Serial number"
 msgstr "硬盘序列号"
 
-msgid ""
-msgstr ""
+msgid "Weather"
+msgstr "天气"
 
-msgid ""
-msgstr ""
+msgid "Local Weather"
+msgstr "当地天气"
 
 msgid ""
 msgstr ""
