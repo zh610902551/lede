@@ -24,7 +24,6 @@ function index()
 	entry({"admin", "services", "shadowsocksr", "log"},form("shadowsocksr/log"),_("Log"), 80).leaf = true
 	entry({"admin", "services", "shadowsocksr","run"},call("act_status")).leaf=true
 	entry({"admin", "services", "shadowsocksr", "ping"}, call("act_ping")).leaf=true
-	entry({"admin", "services", "shadowsocksr", "myip"}, call("act_myip)).leaf=true
 end
 
 function subscribe()

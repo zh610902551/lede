@@ -38,22 +38,25 @@
 		local wan = ntm:get_wannet()
 		local wan6 = ntm:get_wan6net()
 
-		local conn_count = tonumber((
-			luci.sys.exec("wc -l /proc/net/nf_conntrack") or
-			luci.sys.exec("wc -l /proc/net/ip_conntrack") or
-			""):match("%d+")) or 0
+		local conn_count = tonumber(
+			fs.readfile("/proc/sys/net/netfilter/nf_conntrack_count") or "") or 0
 
-		local conn_max = tonumber((
-			luci.sys.exec("sysctl net.nf_conntrack_max") or
-			luci.sys.exec("sysctl net.ipv4.netfilter.ip_conntrack_max") or
-			""):match("%d+")) or 4096
+		local conn_max = tonumber(luci.sys.exec(
+			"sysctl -n -e net.nf_conntrack_max net.ipv4.netfilter.ip_conntrack_max"
+		):match("%d+")) or 4096
+
+		local cpu_info = luci.sys.exec("cpuinfo")
+		local eth_info = luci.sys.exec("ethinfo")
 
 		local rv = {
+			cpuinfo    = cpu_info,
+			ethinfo    = eth_info,
 			uptime     = sysinfo.uptime or 0,
 			localtime  = os.date("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X"),
 			cpuusage   = luci.sys.exec,
 			loadavg    = sysinfo.load or { 0, 0, 0 },
 			memory     = meminfo,
+			memcached  = mem_cached,
 			swap       = swapinfo,
 			connmax    = conn_max,
 			conncount  = conn_count,
@@ -109,7 +112,7 @@
 
 <%+header%>
 
-<script type="text/javascript" src="<%=resource%>/cbi.js?v=git-19.212.53722-3fe1240"></script>
+<script type="text/javascript" src="<%=resource%>/cbi.js?v=git-19.167.54478-71e2af4"></script>
 <script type="text/javascript">//<![CDATA[
 	function progressbar(v, m)
 	{
@@ -152,7 +155,7 @@
 			return duid.substr(16).replace(/(..)(?=..)/g, '$1:').toUpperCase();
 
 		// DUID-LL / Ethernet
-		if (duid.length === 24 && duid.substr(0, 8) === '00030001')
+		if (duid.length === 20 && duid.substr(0, 8) === '00030001')
 			return duid.substr(8).replace(/(..)(?=..)/g, '$1:').toUpperCase();
 
 		return null;
@@ -167,7 +170,7 @@
 		});
 	}
 
-	XHR.poll(5, '<%=REQUEST_URI%>', { status: 1 },
+	XHR.poll(1, '<%=REQUEST_URI%>', { status: 1 },
 		function(x, info)
 		{
 			if (!(npoll++ % 5))
@@ -343,7 +346,9 @@
 				{
 					var timestr;
 
-					if (info.leases[i].expires <= 0)
+					if (info.leases[i].expires === false)
+						timestr = '<em><%:unlimited%></em>';
+					else if (info.leases[i].expires <= 0)
 						timestr = '<em><%:expired%></em>';
 					else
 						timestr = String.format('%t', info.leases[i].expires);
@@ -596,11 +601,28 @@
 
 			var e;
 
+			if (e = document.getElementById('ethinfo'))			{
+				var ports = eval('(' + info.ethinfo + ')');
+				var tmp = "";
+				for (var i in ports)
+				{
+					tmp = tmp + String.format(
+							'<td style="text-align:center"><span style="line-height:25px">%s</span><br /><small><img src="<%=resource%>/icons/%s" /><br />%s<br />%s</small></td>',							ports[i].name,
+							ports[i].status ? 'port_up.png' : 'port_down.png',
+							ports[i].speed,
+							ports[i].duplex ? '<%:full-duplex%>' : '<%:half-duplex%>');
+				};
+				e.innerHTML = "<tr>" + tmp + "</tr>";
+			}
+
 			if (e = document.getElementById('localtime'))
 				e.innerHTML = info.localtime;
 
 			if (e = document.getElementById('uptime'))
 				e.innerHTML = String.format('%t', info.uptime);
+
+			if (e = document.getElementById('cpuinfo'))
+				e.innerHTML = info.cpuinfo;
 
 			if (e = document.getElementById('loadavg'))
 				e.innerHTML = String.format(
@@ -614,7 +636,7 @@
 
 			if (e = document.getElementById('memtotal'))
 				e.innerHTML = progressbar(
-					Math.floor((info.memory.free + info.memory.buffered) / 1048576) + " <%:MB%>",
+					Math.floor(((info.memory.free + info.memory.buffered) / 1048576) + " <%:MB%>",
 					Math.floor(info.memory.total / 1048576) + " <%:MB%>"
 				);
 
@@ -656,13 +678,12 @@
 
 	<table width="100%" cellspacing="10">
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
-		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or boardinfo.system or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
+		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
+		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>) 
 		</td></tr>
-		<tr><td width="33%"><%:CPU Model%></td><td><%=pcdata(boardinfo.system or "?")%> x <%=luci.sys.exec("cat /proc/cpuinfo | grep 'processor' | wc -l") or "1"%></td></tr>
-		<tr><td width="33%"><%:CPU Temperature%></td><td><%=luci.sys.exec("cat /etc/bench.log") or " "%> <%=luci.sys.exec("sensors | grep 'Core 0' | cut -c10-24")%></td></tr>
 		<tr><td width="33%"><%:Kernel Version%></td><td><%=unameinfo.release or "?"%></td></tr>
     <tr><td width="33%"><%:RAM Size%></td><td><%=luci.sys.exec("dmesg | awk -F 'Memory: |K/|K available' '/Memory:.*available/{print $3/1024}'") or "?"%>MB</td></tr>
 		<tr><td width="33%"><%:Local Time%></td><td id="localtime">-</td></tr>
@@ -677,7 +698,6 @@
 
 	<table width="100%" cellspacing="10">
 		<tr><td width="33%"><%:Total Available%></td><td id="memtotal">-</td></tr>
-		<tr><td width="33%"><%:Free%></td><td id="memfree">-</td></tr>
 		<tr><td width="33%"><%:Buffered%></td><td id="membuff">-</td></tr>
 	</table>
 </fieldset>
@@ -692,6 +712,13 @@
 	</table>
 </fieldset>
 <% end %>
+
+<fieldset class="cbi-section">
+	<legend><%:Interfaces%></legend>
+
+	<table width="100%" cellspacing="10" id="ethinfo">
+	</table>
+</fieldset>
 
 <fieldset class="cbi-section">
 	<legend><%:Network%></legend>
