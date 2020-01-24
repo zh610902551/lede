@@ -11,7 +11,6 @@ local sys = require "luci.sys"
 m = Map(shadowsocksr, translate("ShadowSocksR Plus+ Settings"))
 
 m:section(SimpleSection).template  = "shadowsocksr/status"
-m:section(SimpleSection).template  = "shadowsocksr/myip"
 
 local server_table = {}
 uci:foreach(shadowsocksr, "servers", function(s)
@@ -22,12 +21,12 @@ uci:foreach(shadowsocksr, "servers", function(s)
 	end
 end)
 
-local key_table = {}   
-for key,_ in pairs(server_table) do  
-    table.insert(key_table,key)  
-end 
+local key_table = {}
+for key,_ in pairs(server_table) do
+	table.insert(key_table,key)
+end
 
-table.sort(key_table)  
+table.sort(key_table)
 
 -- [[ Global Setting ]]--
 s = m:section(TypedSection, "global")
