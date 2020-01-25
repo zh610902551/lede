@@ -91,7 +91,7 @@ msgstr "RAID 模式"
 msgid "Members"
 msgstr "成员"
 
-msgid "ACTIVE"
+msgid "Active"
 msgstr "活动"
 
 msgid "RAID Creation"
