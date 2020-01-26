@@ -1,5 +1,5 @@
 #!/bin/sh /etc/rc.common
-# by wulishui 20200120
+# by wulishui 20200121 v2.0
 # Author: wulishui <wulishui@gmail.com>
 
 START=99
@@ -10,22 +10,46 @@ enabled=$(uci get PwdHackDeny.PwdHackDeny.enabled 2>/dev/null)
 port1=$(uci get dropbear.@dropbear[-1].Port)
 port2=$(cat /etc/config/uhttpd|sed '/'#'/d'|grep "list listen_http"|sed 's/[:.]/ /g'| awk '{print $(7)}'|sed '/^ *$/d')
 
-stop
+iptables -t filter -F PwdHackDenySSH 2>/dev/null
+iptables -t filter -X PwdHackDenySSH 2>/dev/null
+iptables -t filter -F PwdHackDenyWEB 2>/dev/null
+iptables -t filter -X PwdHackDenyWEB 2>/dev/null
+iptables -D INPUT -p tcp --dport "$port1" -j PwdHackDenySSH 2>/dev/null
+iptables -D INPUT -p tcp --dport "$port2" -j PwdHackDenyWEB 2>/dev/null
+ipset flush PwdHackDenySSH 2>/dev/null
+ipset flush PwdHackDenyWEB 2>/dev/null
+ipset flush PwdHackDenySSH_mac 2>/dev/null
+ipset flush PwdHackDenyWEB_mac 2>/dev/null
 
 if [ "$enabled" == 1 ]; then
 
-ipset create dropbearbadip hash:ip 2>/dev/null
-ipset create routerbadip hash:ip   2>/dev/null
 
-created=$(iptables -L INPUT|grep -n -i "dropbearbadip" 2>/dev/null)
-if [ -z "$created" ]; then
-iptables -I INPUT -m set --match-set dropbearbadip src -p tcp --dport "$port1" -j DROP 2>/dev/null
-fi
+mkdir /tmp/PwdHackDeny 2>/dev/null
 
-created2=$(iptables -L INPUT|grep -n -i "routerbadip" 2>/dev/null)
-if [ -z "$created2" ]; then
-iptables -I INPUT -m set --match-set routerbadip src -p tcp --dport "$port2" -j DROP 2>/dev/null
-fi
+ipset create PwdHackDenySSH hash:ip 2>/dev/null
+ipset create PwdHackDenyWEB hash:ip 2>/dev/null
+ipset create PwdHackDenySSH_mac hash:mac 2>/dev/null
+ipset create PwdHackDenyWEB_mac hash:mac 2>/dev/null
+
+cat /etc/SSHbadip.log 2>/dev/null|gawk '{match($0,"(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])",a)}{print a[0]}'|sed '/^'"$localIP"'/d'|sort -n| uniq -i |sed '/^ *$/d' |sed 's/^/add '"PwdHackDenySSH"' &/g' > /tmp/PwdHackDeny/pre.addip.ssh
+cat /etc/WEBbadip.log 2>/dev/null|gawk '{match($0,"(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])",a)}{print a[0]}'|sed '/^'"$localIP"'/d'|sort -n| uniq -i |sed '/^ *$/d' |sed 's/^/add '"PwdHackDenyWEB"' &/g' > /tmp/PwdHackDeny/pre.addip.web
+ipset restore -f /tmp/PwdHackDeny/pre.addip.ssh 2>/dev/null
+ipset restore -f /tmp/PwdHackDeny/pre.addip.web 2>/dev/null
+
+cat /etc/SSHbadip.log 2>/dev/null|gawk '{match($0,"([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}",a)}{print a[0]}'|sort -n| uniq -i |sed '/^ *$/d' |sed 's/^/add '"PwdHackDenySSH_mac"' &/g' > /tmp/PwdHackDeny/pre.addmac.ssh
+cat /etc/WEBbadip.log 2>/dev/null|gawk '{match($0,"([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}",a)}{print a[0]}'|sort -n| uniq -i |sed '/^ *$/d' |sed 's/^/add '"PwdHackDenyWEB_mac"' &/g' > /tmp/PwdHackDeny/pre.addmac.web
+ipset restore -f /tmp/PwdHackDeny/pre.addmac.ssh 2>/dev/null
+ipset restore -f /tmp/PwdHackDeny/pre.addmac.web 2>/dev/null
+
+iptables -t filter -N PwdHackDenySSH 2>/dev/null
+iptables -t filter -N PwdHackDenyWEB 2>/dev/null
+iptables -I INPUT -p tcp --dport "$port1" -j PwdHackDenySSH 2>/dev/null
+iptables -I INPUT -p tcp --dport "$port2" -j PwdHackDenyWEB 2>/dev/null
+
+iptables -t filter -A PwdHackDenySSH -m set --match-set PwdHackDenySSH src -j DROP 2>/dev/null
+iptables -t filter -A PwdHackDenyWEB -m set --match-set PwdHackDenyWEB src -j DROP 2>/dev/null
+iptables -t filter -A PwdHackDenySSH -m set --match-set PwdHackDenySSH_mac src -j DROP 2>/dev/null
+iptables -t filter -A PwdHackDenyWEB -m set --match-set PwdHackDenyWEB_mac src -j DROP 2>/dev/null
 
 /etc/PwdHackDeny.sh &
 
@@ -35,10 +59,17 @@ fi
 stop()
 {
 kill -9 `pgrep PwdHackDeny.sh` 2>/dev/null
-port1=$(uci get dropbear.@dropbear[-1].Port)
-port2=$(cat /etc/config/uhttpd|sed '/'#'/d'|grep "list listen_http"|sed 's/[:.]/ /g'| awk '{print $(7)}'|sed '/^ *$/d')
-iptables -D INPUT -m set --match-set dropbearbadip src -p tcp --dport "$port1" -j DROP 2>/dev/null
-iptables -D INPUT -m set --match-set routerbadip src -p tcp --dport "$port2" -j DROP 2>/dev/null
+iptables -t filter -F PwdHackDenySSH 2>/dev/null
+iptables -t filter -X PwdHackDenySSH 2>/dev/null
+iptables -t filter -F PwdHackDenyWEB 2>/dev/null
+iptables -t filter -X PwdHackDenyWEB 2>/dev/null
+iptables -D INPUT -p tcp --dport "$port1" -j PwdHackDenySSH 2>/dev/null
+iptables -D INPUT -p tcp --dport "$port2" -j PwdHackDenyWEB 2>/dev/null
+ipset flush PwdHackDenySSH 2>/dev/null
+ipset flush PwdHackDenyWEB 2>/dev/null
+ipset flush PwdHackDenySSH_mac 2>/dev/null
+ipset flush PwdHackDenyWEB_mac 2>/dev/null
+#rm -r /tmp/PwdHackDeny 2>/dev/null
 }
 
 restart()

@@ -6,10 +6,10 @@
 include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI support for password hack deny by wulishui
-LUCI_DEPENDS:=+libc +gawk +ipset
+LUCI_DEPENDS:=+gawk +ipset
 LUCI_PKGARCH:=all
-PKG_VERSION:=1.0
-PKG_RELEASE:=20200120
+PKG_VERSION:=v3.0
+PKG_RELEASE:=20200123
 
 include $(TOPDIR)/feeds/luci/luci.mk
 

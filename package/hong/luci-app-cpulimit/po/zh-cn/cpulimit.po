@@ -128,8 +128,8 @@ msgstr "天气"
 msgid "Local Weather"
 msgstr "当地天气"
 
-msgid ""
-msgstr ""
+msgid "Device is PowerOff..."
+msgstr "设备已关闭..."
 
 msgid ""
 msgstr ""
