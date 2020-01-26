@@ -31,7 +31,7 @@ rescan_button.write = function(self, section, value)
   if dm.command.mdadm then
     luci.util.exec(dm.command.mdadm .. " --assemble --scan")
   end
-  luci.http.redirect(luci.dispatcher.build_url("admin/system/diskman"))
+  luci.http.redirect(luci.dispatcher.build_url("admin/nas/diskman"))
 end
 
 -- disks
@@ -51,7 +51,7 @@ d:option(DummyValue, "sata_ver", translate("SATA Version"))
 d:option(DummyValue, "health", translate("Health"))
 d:option(DummyValue, "status", translate("Status"))
 
-d.extedit = luci.dispatcher.build_url("admin/system/diskman/partition/%s")
+d.extedit = luci.dispatcher.build_url("admin/nas/diskman/partition/%s")
 
 -- raid devices
 if dm.command.mdadm then
@@ -75,7 +75,7 @@ if dm.command.mdadm then
     --   url = url .. "/" .. raid_devices[section].path:match("/dev/(.+)")
     --   luci.http.redirect(url)
     -- end
-    r.extedit  = luci.dispatcher.build_url("admin/system/diskman/partition/%s")
+    r.extedit  = luci.dispatcher.build_url("admin/nas/diskman/partition/%s")
   end
 
 end
@@ -150,7 +150,7 @@ if dm.command.mdadm then
       return
     end
     dm.gen_mdadm_config()
-    luci.http.redirect(luci.dispatcher.build_url("admin/system/diskman"))
+    luci.http.redirect(luci.dispatcher.build_url("admin/nas/diskman"))
   end
 end
 
@@ -243,7 +243,7 @@ btn_umount.write = function(self, section, value)
   if res:match("^mount:") then
     m.errmessage = luci.util.pcdata(res)
   else
-    luci.http.redirect(luci.dispatcher.build_url("admin/system/diskman"))
+    luci.http.redirect(luci.dispatcher.build_url("admin/nas/diskman"))
   end
 end
 
