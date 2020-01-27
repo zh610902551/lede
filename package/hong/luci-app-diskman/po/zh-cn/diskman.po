@@ -1,8 +1,8 @@
-msgid "Disk Man"
-msgstr "磁盘管理"
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
 
 msgid "DiskMan"
-msgstr "磁盘管理"
+msgstr "DiskMan磁盘管理"
 
 msgid "Manage Disks over LuCI."
 msgstr "通过LuCI管理磁盘"
@@ -41,13 +41,13 @@ msgid "Mount"
 msgstr "挂载"
 
 msgid "Umount"
-msgstr "卸载分区"
+msgstr "卸载"
 
 msgid "Eject"
 msgstr "弹出"
 
 msgid "New"
-msgstr "创建分区"
+msgstr "创建"
 
 msgid "Remove"
 msgstr "移除"
@@ -65,7 +65,7 @@ msgid "Useage"
 msgstr "使用情况"
 
 msgid "Model"
-msgstr "型号"
+msgstr "主机型号"
 
 msgid "Size"
 msgstr "容量"
@@ -119,10 +119,60 @@ msgid "Device Info"
 msgstr "设备信息"
 
 msgid "Disk Man"
-msgstr "磁盘管理"
+msgstr "DiskMan磁盘管理"
 
 msgid "Partitions Info"
 msgstr "分区信息"
 
 msgid "Default 2048 sector alignment, support +size{b,k,m,g,t} in End Sector"
 msgstr "默认2048扇区对齐，【中止扇区】支持 +容量{b,k,m,g,t} 格式，例：+500m +10g +1t"
+
+msgid "ERR: Not enough members"
+msgstr "错误：磁盘不够"
+
+msgid "ERR: Cannot find proper md number"
+msgstr "错误：找不到正确的md号码"
+
+msgid "ERR: Invalid raid name"
+msgstr "错误：无效的raid名称"
+
+msgid "UNKNOWN"
+msgstr "未知"
+
+msgid "ACTIVE"
+msgstr "活动"
+
+msgid "CLEAN"
+msgstr "干净"
+
+msgid ""
+"Warnning !! \nTHIS WILL OVERWRITE EXISTING PARTITIONS!! \nModify the partition table?"
+msgstr ""
+"警告！!\这将覆盖现有的分区！!\确认修改分区表？"
+
+msgid "Solid State Device"
+msgstr "固态设备"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""

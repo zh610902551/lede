@@ -117,15 +117,15 @@ end
 local get_mount_point = function(partition)
   local mount_point, dk_root_dir
   -- if use luci-in-dokcer, exclude the docker overlay mounts
-  if ver.distname == "LuCI in Docker" then
+  -- if ver.distname == "LuCI in Docker" then
     local _o, dk = pcall(require,"luci.docker")
     if _o and dk then
       dk_root_dir = dk.new():info().body.DockerRootDir
     end
-  end
+  -- end
 
   for m in mounts:gmatch("/dev/"..partition.." ([^ ]*)") do
-    if dk_root_dir and m:match("/host" .. dk_root_dir) then
+    if dk_root_dir and m:match(dk_root_dir) then
     else
       mount_point = (mount_point and (mount_point .. " ")  or "") .. m
     end
@@ -257,17 +257,26 @@ end
 
 -- return {{device="", mount_points="", fs="", mount_options="", dump="", pass=""}..}
 d.get_mount_points = function()
-  local mount
+  local mount, dk_root_dir
   local res = {}
   local h ={"device", "mount_point", "fs", "mount_options", "dump", "pass"}
+  local _o, dk = pcall(require,"luci.docker")
+  if _o and dk then
+    dk_root_dir = dk.new():info().body.DockerRootDir
+  end
   for mount in mounts:gmatch("[^\n]+") do
     local device = mount:match("^([^%s]+)%s+.+")
-    if "overlay" ~= device and "cgroup" ~= device and "sysfs" ~= device and "proc" ~= device and "udev" ~= device and "devpts" ~= device  and "hugetlbfs" ~= device  and "mqueue" ~= device then
-      res[#res+1] = {}
-      local i = 0
-      for v in mount:gmatch("[^%s]+") do
-        i = i + 1
-        res[#res][h[i]] = v
+    -- only show /dev/xxx device
+    if device and device:match("/dev/") then
+      -- not show docker root dir mounts
+      if dk_root_dir and mount and mount:match(dk_root_dir) then
+      else
+        res[#res+1] = {}
+        local i = 0
+        for v in mount:gmatch("[^%s]+") do
+          i = i + 1
+          res[#res][h[i]] = v
+        end
       end
     end
   end
