@@ -172,7 +172,7 @@ v_device.render = function(self, section, scope)
   end
 end
 v_device.write = function(self, section, value)
-  _mount_point.device = value
+  _mount_point.device = value and value:gsub("%s+", "") or ""
 end
 local v_fs = table_mp:option(Value, "fs", translate("File System"))
 v_fs.render = function(self, section, scope)
@@ -188,23 +188,31 @@ v_fs.render = function(self, section, scope)
   end
 end
 v_fs.write = function(self, section, value)
-  _mount_point.fs = value
+  _mount_point.fs = value and value:gsub("%s+", "") or ""
 end
---local v_mount_option = table_mp:option(Value, "mount_options", translate("Mount Options"))
---v_mount_option.render = function(self, section, scope)
---  if mount_point[section].device == 0 then
---    self.template = "cbi/value"
---    self.placeholder = "rw,noauto"
---    self.forcewrite = true
---    Value.render(self, section, scope)
---  else
---    self.template = "cbi/dvalue"
---    DummyValue.render(self, section, scope)
---  end
---end
---v_mount_option.write = function(self, section, value)
---  _mount_point.mount_options = value
---end
+local v_mount_option = table_mp:option(Value, "mount_options", translate("Mount Options"))
+v_mount_option.render = function(self, section, scope)
+  if mount_point[section].device == 0 then
+    self.template = "cbi/value"
+    self.placeholder = "rw,noauto"
+    self.forcewrite = true
+    Value.render(self, section, scope)
+  else
+    self.template = "cbi/dvalue"
+    local mp = mount_point[section].mount_options
+    mount_point[section].mount_options = nil
+    for k in mp:gmatch("([^,]+)") do
+      mount_point[section].mount_options = mount_point[section].mount_options and mount_point[section].mount_options .. "," or ""
+      if #mount_point[section].mount_options > 50 then mount_point[section].mount_options = mount_point[section].mount_options.. " " end
+      mount_point[section].mount_options= mount_point[section].mount_options.. k
+    end
+    -- mount_point[section].mount_options = #mount_point[section].mount_options > 50 and mount_point[section].mount_options:sub(1,50) .. "..." or mount_point[section].mount_options
+    DummyValue.render(self, section, scope)
+  end
+end
+v_mount_option.write = function(self, section, value)
+  _mount_point.mount_options = value and value:gsub("%s+", "") or ""
+end
 local v_mount_point = table_mp:option(Value, "mount_point", translate("Mount Point"))
 v_mount_point.render = function(self, section, scope)
   if mount_point[section].device == 0 then
