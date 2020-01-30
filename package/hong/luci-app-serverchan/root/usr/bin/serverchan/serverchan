@@ -474,7 +474,7 @@ function send(){
 	send_content=""
 	serverchan_cron
 	send_title=`get_config send_title`
-	if [ -z "$send_title" ] ; then send_title="OpenWrt By tty228 路由状态：";fi
+	if [ -z "$send_title" ] ; then send_title="OpenWrt 路由状态：";fi
 	router_status=`get_config router_status`
 		if [ ! -z "$router_status" ] && [ "$router_status" -eq "1" ] ; then send_content=${send_content}"%0D%0A%0D%0A---%0D%0A%0D%0A#### 系统运行状态%0D%0A%0D%0A";fi
 		#if [ ! -z "$router_status" ] && [ "$router_status" -eq "1" ] ; then send_content=${send_content}"%0D%0A%0D%0A""     CPU占用：`top -n 1 |grep -i Cpu:| awk '{print $3":"$2" "$5":"$4}'`";fi
