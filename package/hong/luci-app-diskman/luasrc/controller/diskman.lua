@@ -1,11 +1,6 @@
 --[[
 LuCI - Lua Configuration Interface
 Copyright 2019 lisaac <https://github.com/lisaac/luci-app-diskman>
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-  http://www.apache.org/licenses/LICENSE-2.0
-$Id$
 ]]--
 
 require "luci.util"
@@ -25,10 +20,11 @@ function index()
 
   if not executables_all_existed then return end
   -- entry(path, target, title, order)
-  -- set leaf attr to true to pass argument throughe url (e.g. admin/system/disk/partition/sda)
+  -- set leaf attr to true to pass argument throughe url (e.g. admin/nas/disk/partition/sda)
   entry({"admin", "nas", "diskman"}, alias("admin", "nas", "diskman", "disks"), _("Disk Man"), 55)
   entry({"admin", "nas", "diskman", "disks"}, form("diskman/disks"), nil).leaf = true
   entry({"admin", "nas", "diskman", "partition"}, form("diskman/partition"), nil).leaf = true
+  entry({"admin", "nas", "diskman", "btrfs"}, form("diskman/btrfs"), nil).leaf = true
   entry({"admin", "nas", "diskman", "get_disk_info"}, call("get_disk_info"), nil).leaf = true
   entry({"admin", "nas", "diskman", "mk_p_table"}, call("mk_p_table"), nil).leaf = true
   entry({"admin", "nas", "diskman", "smartdetail"}, call("smart_detail"), nil).leaf = true

@@ -1,11 +1,6 @@
 --[[
 LuCI - Lua Configuration Interface
-Copyright 2019 lisaac <lisaac.cn@gmail.com>
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-	http://www.apache.org/licenses/LICENSE-2.0
-$Id$
+Copyright 2019 lisaac <https://github.com/lisaac/luci-app-dockerman>
 ]]--
 
 require "luci.util"
@@ -99,6 +94,7 @@ local get_config = function(old_config, old_host_config, old_network_setting, im
   config.Volumes = map_subtract(config.Volumes, image_config.Volumes)
   -- subtract ports exposed in image from container
   if old_host_config.PortBindings and next(old_host_config.PortBindings) ~= nil then
+    config.ExposedPorts = {}
     for p, v in pairs(old_host_config.PortBindings) do
       config.ExposedPorts[p] = { HostPort=v[1] and v[1].HostPort }
     end
