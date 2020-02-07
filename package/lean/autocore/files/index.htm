@@ -10,6 +10,7 @@
 	local stat = require "luci.tools.status"
 	local ver = require "luci.version"
 
+	local has_ipv6 = fs.access("/usr/sbin/ip6tables")
 	local has_dhcp = fs.access("/etc/config/dhcp")
 	local has_wifi = ((fs.stat("/etc/config/wireless", "size") or 0) > 0)
 
@@ -46,6 +47,7 @@
 		):match("%d+")) or 4096
 
 		local cpu_info = luci.sys.exec("cpuinfo")
+
 		local eth_info = luci.sys.exec("ethinfo")
 
 		local rv = {
@@ -53,7 +55,7 @@
 			ethinfo    = eth_info,
 			uptime     = sysinfo.uptime or 0,
 			localtime  = os.date("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X"),
-			cpuusage   = luci.sys.exec,
+			cpuusage   = luci.sys.exec("echo -e `expr 100 - $(top -n 1 | grep 'CPU:' | awk -F '%' '{ print $4 }' | awk -F ' ' '{ print $2 }')`%") or "0%",
 			loadavg    = sysinfo.load or { 0, 0, 0 },
 			memory     = meminfo,
 			memcached  = mem_cached,
@@ -170,7 +172,7 @@
 		});
 	}
 
-	XHR.poll(1, '<%=REQUEST_URI%>', { status: 1 },
+	XHR.poll(5, '<%=REQUEST_URI%>', { status: 1 },
 		function(x, info)
 		{
 			if (!(npoll++ % 5))
@@ -238,9 +240,34 @@
 			if (ifc6 && ifc6.ifname && ifc6.proto != 'none')
 			{
 				var s = String.format(
-					'<strong><%:Address%>: </strong>%s<br />' +
+					'<strong><%:Type%>: </strong>%s%s<br />',
+						ifc6.proto, (ifc6.ip6prefix) ? '-pd' : ''
+				);
+				
+				if (!ifc6.ip6prefix)
+				{
+					s += String.format(
+						'<strong><%:Address%>: </strong>%s<br />',
+						(ifc6.ip6addr) ? ifc6.ip6addr : '::'
+					);
+				}
+				else
+				{
+					s += String.format(
+						'<strong><%:Prefix Delegated%>: </strong>%s<br />',
+						ifc6.ip6prefix
+					);
+					if (ifc6.ip6addr)
+					{
+						s += String.format(
+							'<strong><%:Address%>: </strong>%s<br />',
+							ifc6.ip6addr
+						);
+					}
+				}
+
+				s += String.format(
 					'<strong><%:Gateway%>: </strong>%s<br />',
-						(ifc6.ip6addr) ? ifc6.ip6addr : '::',
 						(ifc6.gw6addr) ? ifc6.gw6addr : '::'
 				);
 
@@ -386,7 +413,9 @@
 				{
 					var timestr;
 
-					if (info.leases6[i].expires <= 0)
+					if (info.leases6[i].expires === false)
+						timestr = '<em><%:unlimited%></em>';
+					else if (info.leases6[i].expires <= 0)
 						timestr = '<em><%:expired%></em>';
 					else
 						timestr = String.format('%t', info.leases6[i].expires);
@@ -395,15 +424,16 @@
 						tr.className = 'cbi-section-table-row cbi-rowstyle-' + ((i % 2) + 1);
 
 					var host = hosts[duid2mac(info.leases6[i].duid)];
-					if (host)
-						tr.insertCell(-1).innerHTML = String.format(
-							'<div style="max-width:200px;overflow:hidden;text-overflow:ellipsis">%s</div>',
-							((host.name && (host.ipv4 || host.ipv6))
-								? '%h (%s)'.format(host.name, host.ipv4 || host.ipv6)
-								: '%h'.format(host.name || host.ipv4 || host.ipv6)).nobr()
-						);
+					if (!info.leases6[i].hostname)
+						tr.insertCell(-1).innerHTML =
+							(host && (host.name || host.ipv4 || host.ipv6))
+								? '<div style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap">? (%h)</div>'.format(host.name || host.ipv4 || host.ipv6)
+								: '?';
 					else
-						tr.insertCell(-1).innerHTML = info.leases6[i].hostname ? info.leases6[i].hostname : '?';
+						tr.insertCell(-1).innerHTML =
+							(host && host.name && info.leases6[i].hostname != host.name)
+								? '<div style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap">%h (%h)</div>'.format(info.leases6[i].hostname, host.name)
+								: info.leases6[i].hostname;
 
 					tr.insertCell(-1).innerHTML = info.leases6[i].ip6addr;
 					tr.insertCell(-1).innerHTML = info.leases6[i].duid;
@@ -600,7 +630,7 @@
 			<% end %>
 
 			var e;
-
+			
 			if (e = document.getElementById('ethinfo'))			{
 				var ports = eval('(' + info.ethinfo + ')');
 				var tmp = "";
@@ -620,9 +650,9 @@
 
 			if (e = document.getElementById('uptime'))
 				e.innerHTML = String.format('%t', info.uptime);
-
+				
 			if (e = document.getElementById('cpuinfo'))
-				e.innerHTML = info.cpuinfo;
+				e.innerHTML = info.cpuinfo;	
 
 			if (e = document.getElementById('loadavg'))
 				e.innerHTML = String.format(
@@ -632,11 +662,11 @@
 					info.loadavg[2] / 65535.0
 				);
 			if (e = document.getElementById('cpuusage'))
-				e.innerHTML = String.format('%.02f\%',info.cpuusage);
+				e.innerHTML = info.cpuusage;
 
 			if (e = document.getElementById('memtotal'))
 				e.innerHTML = progressbar(
-					Math.floor(((info.memory.free + info.memory.buffered) / 1048576) + " <%:MB%>",
+					Math.floor((info.memory.free + info.memory.buffered) / 1048576) + " <%:MB%>",
 					Math.floor(info.memory.total / 1048576) + " <%:MB%>"
 				);
 
@@ -679,17 +709,25 @@
 	<table width="100%" cellspacing="10">
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
-		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>) 
 		</td></tr>
+		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
 		<tr><td width="33%"><%:Kernel Version%></td><td><%=unameinfo.release or "?"%></td></tr>
     <tr><td width="33%"><%:RAM Size%></td><td><%=luci.sys.exec("dmesg | awk -F 'Memory: |K/|K available' '/Memory:.*available/{print $3/1024}'") or "?"%>MB</td></tr>
 		<tr><td width="33%"><%:Local Time%></td><td id="localtime">-</td></tr>
 		<tr><td width="33%"><%:Uptime%></td><td id="uptime">-</td></tr>
 		<tr><td width="33%"><%:Load Average%></td><td id="loadavg">-</td></tr>
 		<tr><td width="33%"><%:CPU usage%></td><td id="cpuusage">-</td></tr>
+</table>
+</fieldset>
+
+<fieldset class="cbi-section">
+	<legend><%:Weather%></legend>
+
+	<table width="100%" cellspacing="10">
+		<tr><td width="33%"><%:Local Weather%></td><td > <iframe width="800" scrolling="no" height="120" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=19&icon=3&py=xiaoshan&temp=1&num=5&site=12"></iframe>		
 	</table>
 </fieldset>
 
@@ -698,6 +736,7 @@
 
 	<table width="100%" cellspacing="10">
 		<tr><td width="33%"><%:Total Available%></td><td id="memtotal">-</td></tr>
+		<tr><td width="33%"><%:Free%></td><td id="memfree">-</td></tr>
 		<tr><td width="33%"><%:Buffered%></td><td id="membuff">-</td></tr>
 	</table>
 </fieldset>
@@ -987,17 +1026,18 @@
 
    if show_disc == 1 then %>
 <div class="cbi-section">
-	<h3><%:Disks%></h3>
+	<h4><%:Disks%></h4>
         <table class="cbi-section-table" style="white-space: nowrap">
+        
                 <tr>
-                        <th width="5%">&nbsp;</th>
+                        <th width="5%"><%:Path%></th>
                         <th width="30%"><%:Disks Model%></th>
-                        <th width="15%"><%:Serial number%></th>
+                        <th width="15%"><%:Serial Number%></th>
                         <th width="10%"><%:Firmware%></th>
                         <th width="10%"><%:Capacity%></th>
-                        <th width="5%"><%:Sector size%></th>
-                        <th width="5%"><%:Temperature%></th>
-                        <th width="20%"><%:Power state%></th>
+                        <th width="7%"><%:Sector size%></th>
+                        <th width="7%"><%:Temperature%></th>
+                        <th width="16%"><%:Power state%></th>
                 </tr>
 <%	local style=true
 	for d,dev in ipairs(devinfo) do %>
@@ -1029,10 +1069,10 @@
 <% end
    if show_raid == 1 and #raid > 0 then %>
 <div class="cbi-section">
-	<h3><%:Raid arrays%></h3>
+	<h4><%:Raid arrays%></h4>
 	<table class="cbi-section-table" style="white-space:nowrap">
 		<tr>
-			<th width="5%">&nbsp;</th>
+			<th width="5%"><%:Path%></th>
 			<th width="13%"><%:Level%></th>
 			<th width="13%"><%:# Disks%></th>
 			<th width="13%"><%:Capacity%></th>
