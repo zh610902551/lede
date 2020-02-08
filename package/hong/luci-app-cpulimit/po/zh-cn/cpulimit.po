@@ -131,5 +131,23 @@ msgstr "当地天气"
 msgid "Device is PowerOff..."
 msgstr "设备已关闭..."
 
+msgid "Bad Gateway"
+msgstr "错误的网关"
+
+msgid "The process did not produce any response"
+msgstr "这个过程没有任何反应"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
 msgid ""
 msgstr ""
