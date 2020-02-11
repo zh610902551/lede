@@ -137,11 +137,11 @@ msgstr "错误的网关"
 msgid "The process did not produce any response"
 msgstr "这个过程没有任何反应"
 
-msgid ""
-msgstr ""
+msgid "fail"
+msgstr "失败"
 
-msgid ""
-msgstr ""
+msgid "connecting"
+msgstr "连接中"
 
 msgid ""
 msgstr ""

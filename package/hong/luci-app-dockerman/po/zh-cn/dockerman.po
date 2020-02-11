@@ -330,3 +330,45 @@ msgstr "命令行错误"
 
 msgid "Canceled"
 msgstr "已取消"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Submit"
+msgstr "提交"
+
+msgid "Command line"
+msgstr "命令行"
+
+msgid "Docker actions done."
+msgstr "Docker下载完成。"
+
+msgid "Reveal/hide password"
+msgstr "显示/隐藏 密码"
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""

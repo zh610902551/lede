@@ -11,7 +11,6 @@ local sys = require "luci.sys"
 m = Map(shadowsocksr, translate("ShadowSocksR Plus+ Settings"))
 
 m:section(SimpleSection).template  = "shadowsocksr/status"
-m:section(SimpleSection).template  = "shadowsocksr/myip"
 
 local server_table = {}
 uci:foreach(shadowsocksr, "servers", function(s)
