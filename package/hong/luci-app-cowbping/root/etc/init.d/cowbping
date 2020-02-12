@@ -1,0 +1,30 @@
+#!/bin/sh /etc/rc.common
+# wulishui 2020207 v1.1
+# Author: wulishui <wulishui@gmail.com>
+
+START=90
+
+start()
+{
+running=`ps|grep 'cowbping.sh'|grep -v grep|awk '{print $1}'`
+if [ -n "$running" ]; then
+kill -9 "$running" 2>/dev/null
+fi
+enabled=$(uci get cowbping.cowbping.enabled 2>/dev/null)
+if [ "$enabled" == 1 ]; then
+/etc/cowbping.sh &
+fi
+}
+
+stop()
+{
+running=`ps|grep 'cowbping.sh'|grep -v grep|awk '{print $1}'`
+kill -9 "$running" 2>/dev/null
+}
+
+restart()
+{
+	stop
+	start
+}
+

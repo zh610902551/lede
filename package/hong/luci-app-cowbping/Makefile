@@ -5,13 +5,14 @@
 
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI support for serverchan
-LUCI_DEPENDS:=+iputils-arping +curl 
+LUCI_TITLE:=LuCI support for cow B ping by wulishui
+LUCI_DEPENDS:=+libc
 LUCI_PKGARCH:=all
-PKG_NAME:=luci-app-serverchan
-PKG_VERSION:=1.30
-PKG_RELEASE:=42
+PKG_VERSION:=v1.2
+PKG_RELEASE:=v1.2-20200210
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature
+
+
