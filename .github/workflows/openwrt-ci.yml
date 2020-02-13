@@ -64,8 +64,8 @@ jobs:
 
     - name: 生成配置
        env:
-         CONFIG_FILE: '.config'
-        # DIY_SH: 'diy.sh'
+        #  CONFIG_FILE: '.config'
+        #  DIY_SH: 'diy.sh'
       run: |
         [ -e files ] && mv files lede/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE lede/.config
