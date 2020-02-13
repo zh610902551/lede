@@ -10,13 +10,13 @@
 name: OpenWrt-编译
 
 on:
-#  release:
-#    types: [published]
-#  push:
-#    branches:
-#      - master
-#    paths:
-#      - '.config'
+  release:
+    types: [published]
+  push:
+    branches:
+      - master
+    paths:
+      - '.config'
 #  schedule:
 #    - cron: 0 20 * * *
   watch:
@@ -63,12 +63,12 @@ jobs:
         ./scripts/feeds install -a
 
     - name: 生成配置
-      # env:
-      #   CONFIG_FILE: '.config'
-      #   DIY_SH: 'diy.sh'
+       env:
+         CONFIG_FILE: '.config'
+         DIY_SH: 'diy.sh'
       run: |
-        # [ -e files ] && mv files lede/files
-        # [ -e $CONFIG_FILE ] && mv $CONFIG_FILE lede/.config
+        [ -e files ] && mv files lede/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE lede/.config
         # chmod +x $DIY_SH
         # ../$DIY_SH
         make defconfig
